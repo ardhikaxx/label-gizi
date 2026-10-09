@@ -23,9 +23,6 @@
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <a href="{{ route('admin.labels.preview', $label) }}" target="_blank" class="btn btn-outline-info btn-sm rounded-pill px-3">
-                <i class="fa-solid fa-magnifying-glass me-1"></i> Pratinjau
-            </a>
             <a href="{{ route('admin.labels.show', $label) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
                 <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Detail
             </a>

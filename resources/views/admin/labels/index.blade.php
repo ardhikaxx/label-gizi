@@ -188,11 +188,6 @@
                                                         <i class="fa-solid fa-pen-to-square me-2 text-primary"></i> Edit Label
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item small" href="{{ route('admin.labels.preview', $label) }}" target="_blank">
-                                                        <i class="fa-solid fa-magnifying-glass me-2 text-info"></i> Pratinjau Publik
-                                                    </a>
-                                                </li>
                                                 <li><hr class="dropdown-divider"></li>
 
                                                 <!-- Duplicate Action -->

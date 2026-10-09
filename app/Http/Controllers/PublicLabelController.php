@@ -6,7 +6,6 @@ use App\Models\ApplicationSetting;
 use App\Models\FoodLabel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class PublicLabelController extends Controller
@@ -36,27 +35,6 @@ class PublicLabelController extends Controller
 
         return view('public.index', [
             'todayLabel' => $todayLabel,
-            'settings' => $settings,
-        ]);
-    }
-
-    /**
-     * Printable view of the food label sticker.
-     */
-    public function print(string $slug): View
-    {
-        $query = FoodLabel::with(['menus', 'creator'])
-            ->where('slug', $slug);
-
-        if (! Auth::check()) {
-            $query->published();
-        }
-
-        $label = $query->firstOrFail();
-        $settings = ApplicationSetting::getAllSettings();
-
-        return view('public.print', [
-            'label' => $label,
             'settings' => $settings,
         ]);
     }

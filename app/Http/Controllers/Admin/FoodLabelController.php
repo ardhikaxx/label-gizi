@@ -248,18 +248,6 @@ class FoodLabelController extends Controller
     }
 
     /**
-     * Show preview of the food label as it appears to the public.
-     */
-    public function preview(FoodLabel $label): View
-    {
-        $label->load(['menus', 'creator']);
-
-        return view('admin.labels.preview', [
-            'label' => $label,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified food label.
      */
     public function edit(FoodLabel $label): View

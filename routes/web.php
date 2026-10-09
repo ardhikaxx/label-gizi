@@ -37,12 +37,12 @@ Route::get('/uploads/food-labels/{filename}', function (string $filename) {
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PublicLabelController::class, 'index'])->name('public.home');
-Route::get('/labels/{slug}/cetak', [PublicLabelController::class, 'print'])->name('public.labels.print');
 
 // Pengalihan halaman publik yang tidak dibutuhkan langsung ke beranda
 Route::redirect('/labels', '/')->name('public.labels');
 Route::redirect('/tentang-gizi', '/')->name('public.about');
 Route::get('/labels/{slug}', fn () => redirect()->route('public.home'))->name('public.labels.show');
+Route::get('/labels/{slug}/cetak', fn () => redirect()->route('public.home'))->name('public.labels.print');
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,6 @@ Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function
     Route::post('/labels/{label}/archive', [FoodLabelController::class, 'archive'])->name('labels.archive');
     Route::post('/labels/{label}/duplicate', [FoodLabelController::class, 'duplicate'])->name('labels.duplicate');
     Route::delete('/labels/{label}/image', [FoodLabelController::class, 'deleteImage'])->name('labels.delete-image');
-    Route::get('/labels/{label}/preview', [FoodLabelController::class, 'preview'])->name('labels.preview');
 
     // Food Labels Resource
     Route::resource('labels', FoodLabelController::class);

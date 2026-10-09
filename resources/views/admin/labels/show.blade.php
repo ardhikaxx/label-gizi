@@ -25,12 +25,6 @@
         </div>
 
         <div class="d-flex align-items-center gap-2 flex-wrap">
-            <a href="{{ route('admin.labels.preview', $label) }}" target="_blank" class="btn btn-outline-info btn-sm rounded-pill px-3">
-                <i class="fa-solid fa-magnifying-glass me-1"></i> Pratinjau Publik
-            </a>
-            <a href="{{ route('public.labels.print', $label->slug) }}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                <i class="fa-solid fa-print me-1"></i> Cetak Stiker
-            </a>
             <a href="{{ route('admin.labels.edit', $label) }}" class="btn btn-primary btn-sm rounded-pill px-3">
                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Label
             </a>

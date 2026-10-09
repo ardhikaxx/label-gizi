@@ -51,7 +51,7 @@ test('public visitors can view food photo when available', function () {
     $response->assertSee(url('uploads/food-labels/sample_foto.webp'));
 });
 
-test('legacy catalog and about routes redirect to homepage', function () {
+test('legacy routes redirect to homepage', function () {
     $resCatalog = $this->get(route('public.labels'));
     $resCatalog->assertRedirect(route('public.home'));
 
@@ -60,18 +60,7 @@ test('legacy catalog and about routes redirect to homepage', function () {
 
     $resShow = $this->get(route('public.labels.show', 'any-slug'));
     $resShow->assertRedirect(route('public.home'));
-});
 
-test('public visitors can view printable sticker view of published label', function () {
-    $label = FoodLabel::factory()->create([
-        'title' => 'Menu Siap Cetak',
-        'status' => 'published',
-    ]);
-    FoodLabelMenu::create(['food_label_id' => $label->id, 'name' => 'Menu Cetak 1', 'sort_order' => 1]);
-
-    $response = $this->get(route('public.labels.print', $label->slug));
-
-    $response->assertStatus(200);
-    $response->assertSee('Menu Siap Cetak');
-    $response->assertSee('INFORMASI NILAI GIZI');
+    $resPrint = $this->get(route('public.labels.print', 'any-slug'));
+    $resPrint->assertRedirect(route('public.home'));
 });
