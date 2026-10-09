@@ -30,18 +30,7 @@
                                 <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill fw-medium">
                                     <i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $todayLabel->menu_date->isoFormat('dddd, D MMMM Y') }}
                                 </span>
-                                @if($todayLabel->recipient_group)
-                                    <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill fw-medium">
-                                        <i class="fa-solid fa-users text-primary me-1"></i> {{ $todayLabel->recipient_group }}
-                                    </span>
-                                @endif
                             </div>
-
-                            @if($todayLabel->description)
-                                <p class="text-muted small mt-2 mb-0 mx-auto" style="max-width: 580px;">
-                                    {{ $todayLabel->description }}
-                                </p>
-                            @endif
                         </div>
 
                         <!-- Body Konten -->
