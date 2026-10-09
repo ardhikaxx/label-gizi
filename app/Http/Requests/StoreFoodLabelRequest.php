@@ -46,6 +46,7 @@ class StoreFoodLabelRequest extends FormRequest
             'menu_date' => ['required', 'date'],
             'recipient_group' => ['nullable', 'string', 'max:150'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
 
         if ($isPublishing) {
@@ -102,6 +103,9 @@ class StoreFoodLabelRequest extends FormRequest
             'menus.min' => 'Minimal sertakan 1 menu makanan sebelum memublikasikan label.',
             'menus.*.required' => 'Nama item menu makanan tidak boleh kosong.',
             'menus.*.filled' => 'Nama item menu makanan tidak boleh hanya berisi spasi.',
+            'image.image' => 'File foto makanan harus berupa berkas gambar.',
+            'image.mimes' => 'Format foto makanan harus berupa JPG, JPEG, PNG, atau WEBP.',
+            'image.max' => 'Ukuran file foto makanan maksimal 5 MB.',
         ];
     }
 }

@@ -96,6 +96,12 @@
 
                                 <!-- Bagian Rincian Menu Makanan & Batas Akhir Konsumsi (DI BAWAH PADA MOBILE: order-2) -->
                                 <div class="col-md-6 order-2 order-md-1">
+                                    @if($todayLabel->image)
+                                        <div class="mb-3 rounded-3 overflow-hidden border shadow-sm">
+                                            <img src="{{ $todayLabel->image_url }}" alt="{{ $todayLabel->title }}" class="img-fluid w-100 object-fit-cover" style="max-height: 220px;" loading="lazy" decoding="async">
+                                        </div>
+                                    @endif
+
                                     <div class="d-flex align-items-center gap-2 mb-3">
                                         <span class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle" style="width: 26px; height: 26px;">
                                             <i class="fa-solid fa-utensils small"></i>

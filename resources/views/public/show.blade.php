@@ -64,6 +64,12 @@
                 @endif
             </div>
 
+            @if($label->image)
+                <div class="mb-4 rounded-4 overflow-hidden border shadow-sm">
+                    <img src="{{ $label->image_url }}" alt="{{ $label->title }}" class="img-fluid w-100 object-fit-cover" style="max-height: 340px;" loading="lazy">
+                </div>
+            @endif
+
             <!-- Rincian Menu Makanan -->
             <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                 <div class="card-header bg-white border-bottom pt-4 px-4 pb-3">

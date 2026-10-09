@@ -24,6 +24,7 @@ class FoodLabel extends Model
         'menu_date',
         'recipient_group',
         'description',
+        'image',
         'energy',
         'protein',
         'fat',
@@ -278,5 +279,13 @@ class FoodLabel extends Model
         }
 
         return $slug;
+    }
+
+    /**
+     * Get the publicly accessible URL for the food label image without storage:link.
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? url('uploads/food-labels/'.$this->image) : null;
     }
 }

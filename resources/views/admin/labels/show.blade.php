@@ -228,6 +228,24 @@
         <!-- Sidebar Info: Consumption Limit & Audit Column -->
         <div class="col-lg-4">
 
+            @if($label->image)
+                <!-- Foto Makanan Bergizi Card -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2 d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold text-dark mb-0">Foto Makanan Bergizi</h6>
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small">WebP</span>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <a href="{{ $label->image_url }}" target="_blank" title="Buka foto dalam resolusi penuh">
+                            <img src="{{ $label->image_url }}" alt="{{ $label->title }}" class="img-fluid rounded-3 border shadow-sm object-fit-cover w-100" style="max-height: 240px;">
+                        </a>
+                        <small class="text-muted d-block mt-2">
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Klik untuk melihat ukuran penuh
+                        </small>
+                    </div>
+                </div>
+            @endif
+
             <!-- Batas Akhir Konsumsi Card -->
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-header bg-white border-0 pt-4 px-4 pb-2">

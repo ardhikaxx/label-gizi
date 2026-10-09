@@ -22,7 +22,7 @@
         </a>
     </div>
 
-    <form action="{{ route('admin.labels.store') }}" method="POST" id="foodLabelForm" novalidate>
+    <form action="{{ route('admin.labels.store') }}" method="POST" id="foodLabelForm" enctype="multipart/form-data" novalidate>
         @csrf
 
         <div class="row g-4">
@@ -96,6 +96,48 @@
                                 @error('description')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Foto Makanan Bergizi Gratis (Opsional) -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info rounded-circle" style="width: 32px; height: 32px;">
+                                <i class="fa-solid fa-camera"></i>
+                            </span>
+                            <h5 class="fw-bold text-dark mb-0">Foto Makanan Bergizi Gratis</h5>
+                            <span class="badge bg-light text-muted border small">Opsional</span>
+                        </div>
+                        <p class="text-muted small mt-1 mb-0">Unggah foto hidangan/paket makanan. Format gambar akan otomatis diubah menjadi <strong>WebP</strong> dan dikompresi agar cepat dimuat di halaman publik.</p>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="mb-2">
+                            <label for="image" class="form-label small fw-semibold">Pilih File Foto Makanan</label>
+                            <input type="file"
+                                   class="form-control @error('image') is-invalid @enderror"
+                                   id="image"
+                                   name="image"
+                                   accept="image/jpeg,image/png,image/webp,image/jpg">
+                            @error('image')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text small text-muted mt-1">
+                                Format yang didukung: JPG, JPEG, PNG, WEBP (Maksimal 5 MB).
+                            </div>
+                        </div>
+
+                        <!-- Live Preview Area -->
+                        <div id="imagePreviewContainer" class="d-none mt-3 p-3 bg-light rounded-3 border text-center">
+                            <div class="small fw-semibold text-muted mb-2">Pratinjau Foto (Otomatis Dikonversi ke WebP):</div>
+                            <div class="position-relative d-inline-block">
+                                <img id="imagePreview" src="#" alt="Pratinjau Foto" class="img-fluid rounded-3 shadow-sm border" style="max-height: 220px; object-fit: cover;">
+                                <button type="button" id="btnRemovePreview" class="btn btn-sm btn-danger rounded-circle position-absolute top-0 end-0 m-1 shadow-sm" title="Batalkan Pilihan Foto">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -424,6 +466,59 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('change', () => isFormDirty = true);
     form.addEventListener('input', () => isFormDirty = true);
     form.addEventListener('submit', () => isFormDirty = false);
+
+    // Live Image Preview Handling
+    const imageInput = document.getElementById('image');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const previewImg = document.getElementById('imagePreview');
+    const btnRemovePreview = document.getElementById('btnRemovePreview');
+
+    if (imageInput && previewContainer && previewImg) {
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Format Tidak Sesuai',
+                        text: 'Silakan pilih file gambar yang valid (JPG, JPEG, PNG, WEBP).',
+                        confirmButtonColor: '#198754'
+                    });
+                    this.value = '';
+                    previewContainer.classList.add('d-none');
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Ukuran Terlalu Besar',
+                        text: 'Ukuran file gambar maksimal 5 MB.',
+                        confirmButtonColor: '#198754'
+                    });
+                    this.value = '';
+                    previewContainer.classList.add('d-none');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    previewImg.src = evt.target.result;
+                    previewContainer.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.classList.add('d-none');
+            }
+        });
+
+        if (btnRemovePreview) {
+            btnRemovePreview.addEventListener('click', function() {
+                imageInput.value = '';
+                previewContainer.classList.add('d-none');
+                previewImg.src = '#';
+            });
+        }
+    }
 
     window.addEventListener('beforeunload', function(e) {
         if (isFormDirty) {

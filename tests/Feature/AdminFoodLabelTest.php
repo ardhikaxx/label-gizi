@@ -4,6 +4,8 @@ use App\Models\FoodLabel;
 use App\Models\FoodLabelMenu;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 
 beforeEach(function () {
     $this->admin = User::factory()->create(['is_active' => true]);
@@ -196,4 +198,132 @@ test('admin can export food labels to CSV safely', function () {
     // Verify formula injection sanitization: leading character should be escaped with single quote
     $content = $response->streamedContent();
     expect($content)->toContain("'=SUM(A1:A10)");
+});
+
+test('admin can upload food image converted to webp and stream it without storage link', function () {
+    $uploadedFile = UploadedFile::fake()->image('makanan-sehat.jpg', 1200, 900);
+
+    $data = [
+        'action' => 'publish',
+        'title' => 'Menu Bergizi Dengan Foto',
+        'menu_date' => Carbon::today()->format('Y-m-d'),
+        'energy' => 550,
+        'protein' => 20,
+        'fat' => 15,
+        'carbohydrate' => 70,
+        'fiber' => 5,
+        'consumption_limit_hours' => 4.0,
+        'menus' => ['Nasi Uduk Sehat', 'Ayam Panggang Suwir'],
+        'image' => $uploadedFile,
+    ];
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), $data);
+    $response->assertRedirect(route('admin.labels.index'));
+
+    $label = FoodLabel::where('title', 'Menu Bergizi Dengan Foto')->first();
+    expect($label)->not->toBeNull()
+        ->and($label->image)->not->toBeNull()
+        ->and($label->image)->toEndWith('.webp');
+
+    $savedFilePath = storage_path('uploads/food-labels/'.$label->image);
+    expect(File::exists($savedFilePath))->toBeTrue();
+
+    // Verify streaming route without storage:link
+    $streamResponse = $this->get('/uploads/food-labels/'.$label->image);
+    $streamResponse->assertStatus(200);
+    $streamResponse->assertHeader('Content-Type', 'image/webp');
+    expect($streamResponse->headers->get('Cache-Control'))->toContain('max-age=31536000')->toContain('immutable');
+
+    // Clean up file
+    if (File::exists($savedFilePath)) {
+        File::delete($savedFilePath);
+    }
+});
+
+test('admin can replace and delete uploaded food image', function () {
+    $fileA = UploadedFile::fake()->image('gambar_pertama.png', 800, 600);
+
+    $label = FoodLabel::factory()->create([
+        'title' => 'Menu Uji Ganti Foto',
+        'status' => 'published',
+    ]);
+    FoodLabelMenu::create(['food_label_id' => $label->id, 'name' => 'Menu 1', 'sort_order' => 1]);
+
+    // 1. Upload initial image
+    $updateData1 = [
+        'action' => 'publish',
+        'title' => 'Menu Uji Ganti Foto',
+        'menu_date' => $label->menu_date->format('Y-m-d'),
+        'energy' => 500,
+        'protein' => 20,
+        'fat' => 10,
+        'carbohydrate' => 60,
+        'fiber' => 4,
+        'consumption_limit_hours' => 3.0,
+        'menus' => ['Menu 1'],
+        'image' => $fileA,
+    ];
+
+    $this->actingAs($this->admin)->put(route('admin.labels.update', $label), $updateData1);
+    $label->refresh();
+    $fileAPath = storage_path('uploads/food-labels/'.$label->image);
+    expect(File::exists($fileAPath))->toBeTrue();
+    $firstImageName = $label->image;
+
+    // 2. Replace with second image
+    $fileB = UploadedFile::fake()->image('gambar_kedua.jpg', 600, 400);
+    $updateData2 = array_merge($updateData1, ['image' => $fileB]);
+
+    $this->actingAs($this->admin)->put(route('admin.labels.update', $label), $updateData2);
+    $label->refresh();
+
+    // Old image must be removed from disk
+    expect(File::exists($fileAPath))->toBeFalse()
+        ->and($label->image)->not->toBe($firstImageName);
+
+    $fileBPath = storage_path('uploads/food-labels/'.$label->image);
+    expect(File::exists($fileBPath))->toBeTrue();
+
+    // 3. Remove image using remove_image checkbox
+    $updateData3 = array_merge($updateData1, ['remove_image' => '1', 'image' => null]);
+    $this->actingAs($this->admin)->put(route('admin.labels.update', $label), $updateData3);
+    $label->refresh();
+
+    expect($label->image)->toBeNull()
+        ->and(File::exists($fileBPath))->toBeFalse();
+});
+
+test('admin can delete label image via deleteImage route', function () {
+    $file = UploadedFile::fake()->image('gambar.png', 500, 500);
+
+    $label = FoodLabel::factory()->create([
+        'title' => 'Menu Uji Delete Route',
+        'status' => 'published',
+    ]);
+    FoodLabelMenu::create(['food_label_id' => $label->id, 'name' => 'Menu 1', 'sort_order' => 1]);
+
+    $this->actingAs($this->admin)->put(route('admin.labels.update', $label), [
+        'action' => 'publish',
+        'title' => 'Menu Uji Delete Route',
+        'menu_date' => $label->menu_date->format('Y-m-d'),
+        'energy' => 500,
+        'protein' => 20,
+        'fat' => 10,
+        'carbohydrate' => 60,
+        'fiber' => 4,
+        'consumption_limit_hours' => 3.0,
+        'menus' => ['Menu 1'],
+        'image' => $file,
+    ]);
+
+    $label->refresh();
+    $filePath = storage_path('uploads/food-labels/'.$label->image);
+    expect(File::exists($filePath))->toBeTrue();
+
+    $response = $this->actingAs($this->admin)->delete(route('admin.labels.delete-image', $label));
+    $response->assertStatus(302);
+
+    $label->refresh();
+    expect($label->image)->toBeNull()
+        ->and(File::exists($filePath))->toBeFalse();
 });

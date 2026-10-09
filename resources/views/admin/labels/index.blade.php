@@ -124,14 +124,30 @@
                             @foreach($labels as $label)
                                 <tr>
                                     <td class="ps-4">
-                                        <a href="{{ route('admin.labels.show', $label) }}" class="fw-bold text-dark text-decoration-none d-block mb-1">
-                                            {{ $label->title }}
-                                        </a>
-                                        <div class="small text-muted d-flex align-items-center gap-2 flex-wrap">
-                                            <span><i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $label->menu_date->isoFormat('D MMMM Y') }}</span>
-                                            @if($label->recipient_group)
-                                                <span class="badge bg-light text-secondary border">{{ $label->recipient_group }}</span>
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($label->image)
+                                                <img src="{{ $label->image_url }}" alt="{{ $label->title }}" class="rounded-3 border object-fit-cover flex-shrink-0" style="width: 46px; height: 46px;">
+                                            @else
+                                                <div class="rounded-3 bg-light border d-flex align-items-center justify-content-center text-muted flex-shrink-0" style="width: 46px; height: 46px;">
+                                                    <i class="fa-solid fa-utensils opacity-50"></i>
+                                                </div>
                                             @endif
+                                            <div>
+                                                <a href="{{ route('admin.labels.show', $label) }}" class="fw-bold text-dark text-decoration-none d-block mb-1">
+                                                    {{ $label->title }}
+                                                </a>
+                                                <div class="small text-muted d-flex align-items-center gap-2 flex-wrap">
+                                                    <span><i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $label->menu_date->isoFormat('D MMMM Y') }}</span>
+                                                    @if($label->recipient_group)
+                                                        <span class="badge bg-light text-secondary border">{{ $label->recipient_group }}</span>
+                                                    @endif
+                                                    @if($label->image)
+                                                        <span class="badge bg-success bg-opacity-10 text-success border-0" style="font-size: 0.7rem;">
+                                                            <i class="fa-solid fa-camera me-1"></i>Foto WebP
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>

@@ -31,6 +31,26 @@ test('public visitors can view published labels on homepage', function () {
     $response->assertSee('650');
 });
 
+test('public visitors can view food photo when available', function () {
+    $label = FoodLabel::factory()->create([
+        'title' => 'Menu Dengan Foto Lengkap',
+        'status' => 'published',
+        'menu_date' => Carbon::today()->format('Y-m-d'),
+        'image' => 'sample_foto.webp',
+    ]);
+    FoodLabelMenu::create([
+        'food_label_id' => $label->id,
+        'name' => 'Menu 1',
+        'sort_order' => 1,
+    ]);
+
+    $response = $this->get(route('public.home'));
+
+    $response->assertStatus(200);
+    $response->assertSee('Menu Dengan Foto Lengkap');
+    $response->assertSee(url('uploads/food-labels/sample_foto.webp'));
+});
+
 test('public visitors can browse catalog and search by keyword', function () {
     $label1 = FoodLabel::factory()->create([
         'title' => 'Paket Semur Daging Gurih',

@@ -7,7 +7,29 @@ use App\Http\Controllers\Admin\FoodLabelController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublicLabelController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Static Image Upload Serving Route (Tanpa storage:link)
+|--------------------------------------------------------------------------
+*/
+Route::get('/uploads/food-labels/{filename}', function (string $filename) {
+    $path = storage_path('uploads/food-labels/'.$filename);
+    if (! File::exists($path)) {
+        abort(404);
+    }
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    $lastModified = File::lastModified($path);
+
+    return response($file, 200)
+        ->header('Content-Type', $type)
+        ->header('Cache-Control', 'public, max-age=31536000, immutable')
+        ->header('Last-Modified', gmdate('D, d M Y H:i:s', $lastModified).' GMT')
+        ->header('ETag', md5($file));
+})->name('uploads.food-labels');
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +73,7 @@ Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function
     Route::post('/labels/{label}/unpublish', [FoodLabelController::class, 'unpublish'])->name('labels.unpublish');
     Route::post('/labels/{label}/archive', [FoodLabelController::class, 'archive'])->name('labels.archive');
     Route::post('/labels/{label}/duplicate', [FoodLabelController::class, 'duplicate'])->name('labels.duplicate');
+    Route::delete('/labels/{label}/image', [FoodLabelController::class, 'deleteImage'])->name('labels.delete-image');
     Route::get('/labels/{label}/preview', [FoodLabelController::class, 'preview'])->name('labels.preview');
 
     // Food Labels Resource

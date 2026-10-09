@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -96,6 +97,75 @@ class FoodLabelController extends Controller
     }
 
     /**
+     * Process an uploaded image: convert to WebP and resize/compress using PHP GD without storage:link.
+     */
+    private function processImage($image, int $maxWidth = 1000, int $quality = 82): string
+    {
+        $imageInfo = @getimagesize($image->getPathname());
+        $mime = $imageInfo ? $imageInfo['mime'] : $image->getClientMimeType();
+
+        $source = match ($mime) {
+            'image/jpeg' => @imagecreatefromjpeg($image->getPathname()),
+            'image/png' => @imagecreatefrompng($image->getPathname()),
+            'image/webp' => @imagecreatefromwebp($image->getPathname()),
+            default => null,
+        };
+
+        $uploadDir = storage_path('uploads/food-labels');
+        if (! File::isDirectory($uploadDir)) {
+            File::makeDirectory($uploadDir, 0755, true, true);
+        }
+
+        if (! $source || ! $imageInfo) {
+            $imageName = 'label_'.time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move($uploadDir, $imageName);
+
+            return $imageName;
+        }
+
+        [$origWidth, $origHeight] = $imageInfo;
+
+        if ($origWidth <= $maxWidth) {
+            $newWidth = $origWidth;
+            $newHeight = $origHeight;
+        } else {
+            $ratio = $maxWidth / $origWidth;
+            $newWidth = $maxWidth;
+            $newHeight = (int) ($origHeight * $ratio);
+        }
+
+        $resized = imagecreatetruecolor($newWidth, $newHeight);
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
+        imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+        $imageName = 'label_'.time().'_'.uniqid().'.webp';
+        $destPath = $uploadDir.'/'.$imageName;
+
+        imagewebp($resized, $destPath, $quality);
+
+        imagedestroy($source);
+        imagedestroy($resized);
+
+        return $imageName;
+    }
+
+    /**
+     * Delete an image file from storage if it exists.
+     */
+    private function deleteImageFile(?string $filename): void
+    {
+        if (! $filename) {
+            return;
+        }
+
+        $path = storage_path('uploads/food-labels/'.$filename);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
+    }
+
+    /**
      * Store a newly created food label in storage.
      */
     public function store(StoreFoodLabelRequest $request): RedirectResponse
@@ -108,12 +178,18 @@ class FoodLabelController extends Controller
         try {
             $slug = FoodLabel::generateUniqueSlug($validated['title'], $validated['menu_date']);
 
+            $imageName = null;
+            if ($request->hasFile('image')) {
+                $imageName = $this->processImage($request->file('image'));
+            }
+
             $label = FoodLabel::create([
                 'title' => $validated['title'],
                 'slug' => $slug,
                 'menu_date' => $validated['menu_date'],
                 'recipient_group' => $validated['recipient_group'] ?? null,
                 'description' => $validated['description'] ?? null,
+                'image' => $imageName,
                 'energy' => (float) ($validated['energy'] ?? 0),
                 'protein' => (float) ($validated['protein'] ?? 0),
                 'fat' => (float) ($validated['fat'] ?? 0),
@@ -213,12 +289,25 @@ class FoodLabelController extends Controller
                 $slug = FoodLabel::generateUniqueSlug($validated['title'], $validated['menu_date'], $label->id);
             }
 
+            $imageName = $label->image;
+
+            if ($request->boolean('remove_image')) {
+                $this->deleteImageFile($label->image);
+                $imageName = null;
+            }
+
+            if ($request->hasFile('image')) {
+                $this->deleteImageFile($label->image);
+                $imageName = $this->processImage($request->file('image'));
+            }
+
             $label->update([
                 'title' => $validated['title'],
                 'slug' => $slug,
                 'menu_date' => $validated['menu_date'],
                 'recipient_group' => $validated['recipient_group'] ?? null,
                 'description' => $validated['description'] ?? null,
+                'image' => $imageName,
                 'energy' => (float) ($validated['energy'] ?? $label->energy),
                 'protein' => (float) ($validated['protein'] ?? $label->protein),
                 'fat' => (float) ($validated['fat'] ?? $label->fat),
@@ -346,12 +435,22 @@ class FoodLabelController extends Controller
             $newDate = Carbon::today()->format('Y-m-d');
             $newSlug = FoodLabel::generateUniqueSlug($newTitle, $newDate);
 
+            $copiedImage = null;
+            if ($label->image) {
+                $src = storage_path('uploads/food-labels/'.$label->image);
+                if (File::exists($src)) {
+                    $copiedImage = 'label_'.time().'_'.uniqid().'.webp';
+                    File::copy($src, storage_path('uploads/food-labels/'.$copiedImage));
+                }
+            }
+
             $newLabel = FoodLabel::create([
                 'title' => $newTitle,
                 'slug' => $newSlug,
                 'menu_date' => $newDate,
                 'recipient_group' => $label->recipient_group,
                 'description' => $label->description,
+                'image' => $copiedImage,
                 'energy' => $label->energy,
                 'protein' => $label->protein,
                 'fat' => $label->fat,
@@ -405,6 +504,23 @@ class FoodLabelController extends Controller
 
         return redirect()->route('admin.labels.index')
             ->with('success', "Label makanan '{$title}' berhasil dihapus.");
+    }
+
+    /**
+     * Delete only the image of a food label.
+     */
+    public function deleteImage(FoodLabel $label): RedirectResponse
+    {
+        $this->deleteImageFile($label->image);
+        $label->update(['image' => null]);
+
+        ActivityLog::record(
+            'delete_label_image',
+            "Foto label makanan '{$label->title}' dihapus.",
+            $label
+        );
+
+        return back()->with('success', 'Foto makanan berhasil dihapus.');
     }
 
     /**

@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.labels.update', $label) }}" method="POST" id="foodLabelForm" novalidate>
+    <form action="{{ route('admin.labels.update', $label) }}" method="POST" id="foodLabelForm" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PUT')
 
@@ -107,6 +107,75 @@
                                 @error('description')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Foto Makanan Bergizi Gratis -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info rounded-circle" style="width: 32px; height: 32px;">
+                                <i class="fa-solid fa-camera"></i>
+                            </span>
+                            <h5 class="fw-bold text-dark mb-0">Foto Makanan Bergizi Gratis</h5>
+                        </div>
+                        <p class="text-muted small mt-1 mb-0">Format gambar otomatis dikonversi ke <strong>WebP</strong> dan dikompresi agar cepat dimuat di halaman publik.</p>
+                    </div>
+
+                    <div class="card-body p-4">
+                        @if($label->image)
+                            <div class="mb-4 p-3 bg-light rounded-3 border">
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <img src="{{ $label->image_url }}" alt="{{ $label->title }}" class="rounded-3 border shadow-sm object-fit-cover" style="width: 100px; height: 75px;">
+                                        <div>
+                                            <div class="fw-semibold text-dark small mb-1">Foto Saat Ini:</div>
+                                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small">
+                                                <i class="fa-solid fa-check me-1"></i> Format WebP
+                                            </span>
+                                            <div class="text-muted small mt-1" style="font-size: 0.75rem;">{{ $label->image }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-column gap-2 text-sm-end">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remove_image" id="remove_image" value="1">
+                                            <label class="form-check-label text-danger small fw-semibold" for="remove_image">
+                                                Hapus foto saat simpan
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="mb-2">
+                            <label for="image" class="form-label small fw-semibold">
+                                {{ $label->image ? 'Ganti Foto (Opsional)' : 'Pilih File Foto Makanan (Opsional)' }}
+                            </label>
+                            <input type="file"
+                                   class="form-control @error('image') is-invalid @enderror"
+                                   id="image"
+                                   name="image"
+                                   accept="image/jpeg,image/png,image/webp,image/jpg">
+                            @error('image')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text small text-muted mt-1">
+                                Format: JPG, JPEG, PNG, WEBP (Maksimal 5 MB). Mengunggah foto baru akan mengganti foto yang lama.
+                            </div>
+                        </div>
+
+                        <!-- Live Preview Area -->
+                        <div id="imagePreviewContainer" class="d-none mt-3 p-3 bg-light rounded-3 border text-center">
+                            <div class="small fw-semibold text-muted mb-2">Pratinjau Foto Baru (Otomatis Dikonversi ke WebP):</div>
+                            <div class="position-relative d-inline-block">
+                                <img id="imagePreview" src="#" alt="Pratinjau Foto Baru" class="img-fluid rounded-3 shadow-sm border" style="max-height: 220px; object-fit: cover;">
+                                <button type="button" id="btnRemovePreview" class="btn btn-sm btn-danger rounded-circle position-absolute top-0 end-0 m-1 shadow-sm" title="Batalkan Pilihan Foto">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -431,11 +500,65 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Form dirty state checker
     let isFormDirty = false;
     const form = document.getElementById('foodLabelForm');
     form.addEventListener('change', () => isFormDirty = true);
     form.addEventListener('input', () => isFormDirty = true);
     form.addEventListener('submit', () => isFormDirty = false);
+
+    // Live Image Preview Handling
+    const imageInput = document.getElementById('image');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const previewImg = document.getElementById('imagePreview');
+    const btnRemovePreview = document.getElementById('btnRemovePreview');
+
+    if (imageInput && previewContainer && previewImg) {
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Format Tidak Sesuai',
+                        text: 'Silakan pilih file gambar yang valid (JPG, JPEG, PNG, WEBP).',
+                        confirmButtonColor: '#198754'
+                    });
+                    this.value = '';
+                    previewContainer.classList.add('d-none');
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Ukuran Terlalu Besar',
+                        text: 'Ukuran file gambar maksimal 5 MB.',
+                        confirmButtonColor: '#198754'
+                    });
+                    this.value = '';
+                    previewContainer.classList.add('d-none');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    previewImg.src = evt.target.result;
+                    previewContainer.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.classList.add('d-none');
+            }
+        });
+
+        if (btnRemovePreview) {
+            btnRemovePreview.addEventListener('click', function() {
+                imageInput.value = '';
+                previewContainer.classList.add('d-none');
+                previewImg.src = '#';
+            });
+        }
+    }
 
     window.addEventListener('beforeunload', function(e) {
         if (isFormDirty) {
