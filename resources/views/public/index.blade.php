@@ -3,9 +3,6 @@
 @section('title', 'Sajian Menu Hari Ini')
 @section('meta_description', 'Informasi resmi Sajian Menu Makanan Bergizi Hari Ini, rincian hidangan, analisis nilai zat gizi makro, dan petunjuk batas akhir konsumsi.')
 
-@section('hide_navbar', 'true')
-@section('hide_footer', 'true')
-
 @section('content')
 <div class="min-vh-100 d-flex flex-column justify-content-center align-items-center py-4 px-3 bg-light">
     <div class="container my-auto" style="max-width: 840px;">

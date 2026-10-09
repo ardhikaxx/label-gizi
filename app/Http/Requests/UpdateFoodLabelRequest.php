@@ -42,7 +42,6 @@ class UpdateFoodLabelRequest extends FormRequest
             'action' => ['required', 'in:draft,publish'],
             'title' => ['required', 'string', 'max:255'],
             'menu_date' => ['required', 'date'],
-            'recipient_group' => ['nullable', 'string', 'max:150'],
             'description' => ['nullable', 'string', 'max:2000'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'remove_image' => ['nullable', 'boolean'],

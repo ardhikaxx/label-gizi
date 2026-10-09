@@ -25,7 +25,6 @@ class FoodLabelFactory extends Factory
             'title' => $title,
             'slug' => FoodLabel::generateUniqueSlug($title, $date),
             'menu_date' => $date,
-            'recipient_group' => fake()->randomElement(['Siswa SD', 'Balita & Ibu Hamil', 'Umum']),
             'description' => fake()->sentence(),
             'energy' => fake()->randomFloat(2, 450, 750),
             'protein' => fake()->randomFloat(2, 15, 30),

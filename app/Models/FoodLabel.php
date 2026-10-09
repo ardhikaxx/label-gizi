@@ -22,7 +22,6 @@ class FoodLabel extends Model
         'title',
         'slug',
         'menu_date',
-        'recipient_group',
         'description',
         'image',
         'energy',
@@ -127,7 +126,7 @@ class FoodLabel extends Model
     }
 
     /**
-     * Search scope across title, recipient_group, and menu item names.
+     * Search scope across title, description, and menu item names.
      *
      * @param  Builder<FoodLabel>  $query
      */
@@ -140,7 +139,6 @@ class FoodLabel extends Model
         $term = trim($term);
         $query->where(function (Builder $subQuery) use ($term) {
             $subQuery->where('title', 'like', "%{$term}%")
-                ->orWhere('recipient_group', 'like', "%{$term}%")
                 ->orWhere('description', 'like', "%{$term}%")
                 ->orWhereHas('menus', function (Builder $menuQuery) use ($term) {
                     $menuQuery->where('name', 'like', "%{$term}%");

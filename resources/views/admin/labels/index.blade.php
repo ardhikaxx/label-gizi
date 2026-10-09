@@ -138,9 +138,6 @@
                                                 </a>
                                                 <div class="small text-muted d-flex align-items-center gap-2 flex-wrap">
                                                     <span><i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $label->menu_date->isoFormat('D MMMM Y') }}</span>
-                                                    @if($label->recipient_group)
-                                                        <span class="badge bg-light text-secondary border">{{ $label->recipient_group }}</span>
-                                                    @endif
                                                     @if($label->image)
                                                         <span class="badge bg-success bg-opacity-10 text-success border-0" style="font-size: 0.7rem;">
                                                             <i class="fa-solid fa-camera me-1"></i>Foto WebP

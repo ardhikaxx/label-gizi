@@ -46,11 +46,8 @@
                 <!-- Package & Date Info -->
                 <div class="py-2 border-bottom border-dark">
                     <div class="fw-bold text-dark fs-6">{{ $label->title }}</div>
-                    <div class="small text-muted d-flex justify-content-between align-items-center mt-1">
+                    <div class="small text-muted mt-1">
                         <span>Tanggal: <strong>{{ $label->menu_date->isoFormat('D MMMM Y') }}</strong></span>
-                        @if($label->recipient_group)
-                            <span>Sasaran: <strong>{{ $label->recipient_group }}</strong></span>
-                        @endif
                     </div>
                 </div>
 

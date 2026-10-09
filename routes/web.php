@@ -37,10 +37,12 @@ Route::get('/uploads/food-labels/{filename}', function (string $filename) {
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PublicLabelController::class, 'index'])->name('public.home');
-Route::get('/labels', [PublicLabelController::class, 'catalog'])->name('public.labels');
-Route::get('/labels/{slug}', [PublicLabelController::class, 'show'])->name('public.labels.show');
 Route::get('/labels/{slug}/cetak', [PublicLabelController::class, 'print'])->name('public.labels.print');
-Route::get('/tentang-gizi', [PublicLabelController::class, 'about'])->name('public.about');
+
+// Pengalihan halaman publik yang tidak dibutuhkan langsung ke beranda
+Route::redirect('/labels', '/')->name('public.labels');
+Route::redirect('/tentang-gizi', '/')->name('public.about');
+Route::get('/labels/{slug}', fn () => redirect()->route('public.home'))->name('public.labels.show');
 
 /*
 |--------------------------------------------------------------------------

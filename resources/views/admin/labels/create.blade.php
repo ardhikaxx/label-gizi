@@ -43,7 +43,7 @@
 
                     <div class="card-body p-4">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <label for="menu_date" class="form-label small fw-semibold">Tanggal Menu <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-calendar"></i></span>
@@ -55,19 +55,6 @@
                                            required>
                                 </div>
                                 @error('menu_date')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="recipient_group" class="form-label small fw-semibold">Kelompok Sasaran / Penerima</label>
-                                <input type="text"
-                                       class="form-control @error('recipient_group') is-invalid @enderror"
-                                       id="recipient_group"
-                                       name="recipient_group"
-                                       value="{{ old('recipient_group') }}"
-                                       placeholder="Contoh: Siswa SD / Balita & Ibu Hamil">
-                                @error('recipient_group')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
                             </div>

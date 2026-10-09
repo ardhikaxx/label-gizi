@@ -123,18 +123,11 @@
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-body p-4">
                     <div class="row g-3 mb-3">
-                        <div class="col-sm-6">
+                        <div class="col-12">
                             <small class="text-muted d-block">Tanggal Penyajian Menu:</small>
                             <span class="fs-6 fw-bold text-dark">
                                 <i class="fa-regular fa-calendar-check text-success me-1"></i>
                                 {{ $label->menu_date->isoFormat('dddd, D MMMM Y') }}
-                            </span>
-                        </div>
-                        <div class="col-sm-6">
-                            <small class="text-muted d-block">Kelompok Sasaran / Penerima:</small>
-                            <span class="fs-6 fw-bold text-dark">
-                                <i class="fa-solid fa-users text-primary me-1"></i>
-                                {{ $label->recipient_group ?? 'Umum / Semua Sasaran' }}
                             </span>
                         </div>
                     </div>

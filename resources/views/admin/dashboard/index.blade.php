@@ -204,9 +204,6 @@
                                                 </a>
                                                 <small class="text-muted">
                                                     <i class="fa-regular fa-calendar me-1"></i> {{ $lbl->menu_date->isoFormat('D MMMM Y') }}
-                                                    @if($lbl->recipient_group)
-                                                        &bull; <span class="badge bg-light text-secondary border">{{ $lbl->recipient_group }}</span>
-                                                    @endif
                                                 </small>
                                             </td>
                                             <td>
