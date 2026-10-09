@@ -7,10 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'username', 'password', 'is_active', 'last_login_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -26,7 +27,37 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Activity logs authored by this user.
+     *
+     * @return HasMany<ActivityLog, $this>
+     */
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    /**
+     * Food labels created by this user.
+     *
+     * @return HasMany<FoodLabel, $this>
+     */
+    public function createdFoodLabels(): HasMany
+    {
+        return $this->hasMany(FoodLabel::class, 'created_by');
+    }
+
+    /**
+     * Determine if this user is an active administrator.
+     */
+    public function isActive(): bool
+    {
+        return (bool) $this->is_active;
     }
 }
