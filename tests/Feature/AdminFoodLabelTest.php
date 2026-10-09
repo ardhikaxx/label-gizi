@@ -22,6 +22,15 @@ test('admin can access dashboard and view statistics', function () {
     $response->assertSee('Total Label');
 });
 
+test('create label form starts with blank menu item input and no pre-filled items', function () {
+    $response = $this->actingAs($this->admin)->get(route('admin.labels.create'));
+
+    $response->assertStatus(200);
+    $response->assertDontSee('Nasi Putih Organik');
+    $response->assertDontSee('value="Ayam Fillet Bakar Madu"', false);
+    $response->assertDontSee('Tumis Sayur Buncis Jagung Manis');
+});
+
 test('admin can store a new food label as draft with partial data', function () {
     $data = [
         'action' => 'draft',

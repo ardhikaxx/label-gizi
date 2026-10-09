@@ -65,7 +65,7 @@
                                        class="form-control @error('recipient_group') is-invalid @enderror"
                                        id="recipient_group"
                                        name="recipient_group"
-                                       value="{{ old('recipient_group', 'Siswa Sekolah Dasar (SD)') }}"
+                                       value="{{ old('recipient_group') }}"
                                        placeholder="Contoh: Siswa SD / Balita & Ibu Hamil">
                                 @error('recipient_group')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
@@ -169,7 +169,10 @@
 
                         <div id="menuContainer" class="d-flex flex-column gap-2">
                             @php
-                                $oldMenus = old('menus', ['Nasi Putih Organik', 'Ayam Fillet Bakar Madu', 'Tumis Sayur Buncis Jagung Manis']);
+                                $oldMenus = old('menus', ['']);
+                                if (empty($oldMenus)) {
+                                    $oldMenus = [''];
+                                }
                             @endphp
 
                             @foreach($oldMenus as $idx => $menuVal)
