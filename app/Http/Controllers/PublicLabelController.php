@@ -18,26 +18,24 @@ class PublicLabelController extends Controller
     {
         $today = Carbon::today()->format('Y-m-d');
 
-        // Today's published label (if any)
+        // Today's published label, fallback to latest published label
         $todayLabel = FoodLabel::with('menus')
             ->published()
             ->whereDate('menu_date', $today)
             ->latest('published_at')
             ->first();
 
-        // Recent published labels (excluding today's if already featured)
-        $recentLabels = FoodLabel::with('menus')
-            ->published()
-            ->when($todayLabel, fn ($q) => $q->where('id', '!=', $todayLabel->id))
-            ->orderBy('menu_date', 'desc')
-            ->take(6)
-            ->get();
+        if (! $todayLabel) {
+            $todayLabel = FoodLabel::with('menus')
+                ->published()
+                ->orderBy('menu_date', 'desc')
+                ->first();
+        }
 
         $settings = ApplicationSetting::getAllSettings();
 
         return view('public.index', [
             'todayLabel' => $todayLabel,
-            'recentLabels' => $recentLabels,
             'settings' => $settings,
         ]);
     }

@@ -8,7 +8,7 @@ test('public visitors can view landing page', function () {
     $response = $this->get(route('public.home'));
 
     $response->assertStatus(200);
-    $response->assertSee('Informasi Label Makanan Bergizi');
+    $response->assertSee('Sajian Menu Hari Ini');
 });
 
 test('public visitors can view published labels on homepage', function () {
