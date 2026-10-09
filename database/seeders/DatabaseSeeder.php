@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // 1. Initial Admin User (idempotent, supports environment configuration)
         $adminEmail = env('ADMIN_EMAIL', 'admin@labelgizi.test');
         $adminUsername = env('ADMIN_USERNAME', 'admin');
-        $adminPassword = env('ADMIN_PASSWORD', 'AdminGizi2026!');
+        $adminPassword = env('ADMIN_PASSWORD', 'password');
 
         $admin = User::firstOrCreate(
             ['email' => $adminEmail],
