@@ -50,13 +50,22 @@ class DashboardController extends Controller
         $months = [];
         $monthlyCounts = [];
         for ($i = 5; $i >= 0; $i--) {
-            $monthDate = Carbon::now()->subMonths($i);
-            $monthKey = $monthDate->format('M Y');
+            $monthDate = Carbon::now()->startOfMonth()->subMonths($i);
+            $monthKey = $monthDate->isoFormat('MMM Y');
             $months[] = $monthKey;
 
             $count = FoodLabel::published()
-                ->whereYear('published_at', $monthDate->year)
-                ->whereMonth('published_at', $monthDate->month)
+                ->where(function ($q) use ($monthDate) {
+                    $q->where(function ($sub) use ($monthDate) {
+                        $sub->whereNotNull('published_at')
+                            ->whereYear('published_at', $monthDate->year)
+                            ->whereMonth('published_at', $monthDate->month);
+                    })->orWhere(function ($sub) use ($monthDate) {
+                        $sub->whereNull('published_at')
+                            ->whereYear('menu_date', $monthDate->year)
+                            ->whereMonth('menu_date', $monthDate->month);
+                    });
+                })
                 ->count();
             $monthlyCounts[] = $count;
         }

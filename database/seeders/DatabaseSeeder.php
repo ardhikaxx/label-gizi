@@ -220,5 +220,49 @@ class DatabaseSeeder extends Seeder
                 $admin->id
             );
         }
+
+        // 5. Historical sample published labels for trend chart visualization (past 5 months)
+        if (FoodLabel::where('menu_date', '<', Carbon::now()->startOfMonth())->count() === 0) {
+            $historyMonths = [
+                ['sub_months' => 5, 'count' => 2, 'title' => 'Menu Bergizi Sehat Periode Mei'],
+                ['sub_months' => 4, 'count' => 3, 'title' => 'Menu Bergizi Sehat Periode Juni'],
+                ['sub_months' => 3, 'count' => 4, 'title' => 'Menu Bergizi Sehat Periode Juli'],
+                ['sub_months' => 2, 'count' => 5, 'title' => 'Menu Bergizi Sehat Periode Agustus'],
+                ['sub_months' => 1, 'count' => 6, 'title' => 'Menu Bergizi Sehat Periode September'],
+            ];
+
+            foreach ($historyMonths as $hist) {
+                for ($h = 1; $h <= $hist['count']; $h++) {
+                    $histDate = Carbon::now()->startOfMonth()->subMonths($hist['sub_months'])->addDays($h * 4);
+                    $histLabel = FoodLabel::create([
+                        'title' => "{$hist['title']} #{$h}",
+                        'slug' => FoodLabel::generateUniqueSlug("{$hist['title']} #{$h}", $histDate),
+                        'menu_date' => $histDate->format('Y-m-d'),
+                        'recipient_group' => 'Siswa Sekolah Dasar (SD)',
+                        'description' => 'Menu makanan bergizi seimbang historis untuk pemenuhan zat gizi penerima.',
+                        'energy' => 600.00 + ($h * 12),
+                        'protein' => 22.00 + $h,
+                        'fat' => 16.00 + ($h * 0.4),
+                        'carbohydrate' => 74.00 + $h,
+                        'fiber' => 5.50 + ($h * 0.2),
+                        'consumption_limit_hours' => 4.0,
+                        'status' => 'published',
+                        'published_at' => $histDate->copy()->setHour(8),
+                        'created_by' => $admin->id,
+                    ]);
+
+                    FoodLabelMenu::create([
+                        'food_label_id' => $histLabel->id,
+                        'name' => 'Nasi Pulen & Lauk Bergizi Lengkap',
+                        'sort_order' => 1,
+                    ]);
+                    FoodLabelMenu::create([
+                        'food_label_id' => $histLabel->id,
+                        'name' => 'Sayuran Segar & Buah Musiman',
+                        'sort_order' => 2,
+                    ]);
+                }
+            }
+        }
     }
 }

@@ -284,70 +284,114 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Publications Bar Chart
-    const ctxBar = document.getElementById('publicationsChart');
-    if (ctxBar) {
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: @json($chartMonths),
-                datasets: [{
-                    label: 'Label Dipublikasikan',
-                    data: @json($chartMonthlyCounts),
-                    backgroundColor: 'rgba(25, 135, 84, 0.75)',
-                    borderColor: '#198754',
-                    borderWidth: 1.5,
-                    borderRadius: 6,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { stepSize: 1, precision: 0 }
-                    }
+(function() {
+    function initDashboardCharts() {
+        if (typeof Chart === 'undefined') {
+            setTimeout(initDashboardCharts, 80);
+            return;
+        }
+
+        // Publications Trend Chart (Smooth Area Line Chart)
+        const ctxBar = document.getElementById('publicationsChart');
+        if (ctxBar && !ctxBar.dataset.rendered) {
+            ctxBar.dataset.rendered = 'true';
+            const counts = @json($chartMonthlyCounts);
+            const maxVal = Math.max.apply(null, counts);
+
+            new Chart(ctxBar, {
+                type: 'line',
+                data: {
+                    labels: @json($chartMonths),
+                    datasets: [{
+                        label: 'Label Dipublikasikan',
+                        data: counts,
+                        backgroundColor: 'rgba(25, 135, 84, 0.12)',
+                        borderColor: '#198754',
+                        borderWidth: 2.5,
+                        fill: true,
+                        tension: 0.35,
+                        pointBackgroundColor: '#198754',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                    }]
                 },
-                plugins: {
-                    legend: { display: false }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: Math.max(maxVal + 1, 5),
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.parsed.y + ' label dipublikasikan';
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // Status Doughnut Chart
+        const ctxDoughnut = document.getElementById('statusChart');
+        if (ctxDoughnut && !ctxDoughnut.dataset.rendered) {
+            ctxDoughnut.dataset.rendered = 'true';
+            new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: @json($statusDistribution['labels']),
+                    datasets: [{
+                        data: @json($statusDistribution['data']),
+                        backgroundColor: [
+                            '#198754', // Published (Green)
+                            '#ffc107', // Draft (Warning/Yellow)
+                            '#0dcaf0', // Scheduled (Cyan)
+                            '#6c757d'  // Archived (Gray)
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 12, font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
     }
 
-    // Status Doughnut Chart
-    const ctxDoughnut = document.getElementById('statusChart');
-    if (ctxDoughnut) {
-        new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: @json($statusDistribution['labels']),
-                datasets: [{
-                    data: @json($statusDistribution['data']),
-                    backgroundColor: [
-                        '#198754', // Published (Green)
-                        '#ffc107', // Draft (Warning/Yellow)
-                        '#0dcaf0', // Scheduled (Cyan)
-                        '#6c757d'  // Archived (Gray)
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { boxWidth: 12, font: { size: 11 } }
-                    }
-                }
-            }
-        });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDashboardCharts);
+    } else {
+        initDashboardCharts();
     }
-});
+})();
 </script>
 @endpush
