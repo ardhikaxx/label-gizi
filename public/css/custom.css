@@ -368,3 +368,58 @@ body {
         padding: 1rem;
     }
 }
+
+/* ----------------- SweetAlert2 BGN Branding Customization ----------------- */
+.swal2-popup {
+    border-radius: 1.25rem !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
+    padding: 1.75rem 1.5rem !important;
+    box-shadow: 0 20px 45px rgba(11, 40, 83, 0.16) !important;
+    border: 1px solid rgba(11, 40, 83, 0.08) !important;
+}
+
+.swal2-title {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: #0b2853 !important;
+    letter-spacing: -0.01em !important;
+    padding-top: 0.5rem !important;
+}
+
+.swal2-html-container {
+    font-size: 0.925rem !important;
+    color: #4b5563 !important;
+    line-height: 1.55 !important;
+}
+
+.swal2-actions {
+    gap: 0.5rem !important;
+    margin-top: 1.5rem !important;
+}
+
+.swal2-confirm {
+    border-radius: 50rem !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    padding: 0.6rem 1.6rem !important;
+    box-shadow: 0 4px 12px rgba(11, 40, 83, 0.18) !important;
+}
+
+.swal2-cancel {
+    border-radius: 50rem !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    padding: 0.6rem 1.6rem !important;
+    background-color: #f3f4f6 !important;
+    color: #4b5563 !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.swal2-cancel:hover {
+    background-color: #e5e7eb !important;
+    color: #1f2937 !important;
+}
+
+.swal2-timer-progress-bar {
+    background: #0b2853 !important;
+}
