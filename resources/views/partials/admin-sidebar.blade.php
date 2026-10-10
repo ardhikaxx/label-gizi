@@ -2,13 +2,11 @@
     $appName = \App\Models\ApplicationSetting::get('app_name', 'Label Gizi');
 @endphp
 <aside class="admin-sidebar no-print">
-    <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
-        <span class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle" style="width: 34px; height: 34px;">
-            <i class="fa-solid fa-apple-whole"></i>
-        </span>
+    <a href="{{ route('admin.dashboard') }}" class="sidebar-brand py-3">
+        <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="height: 38px; width: auto; object-fit: contain;" class="me-1">
         <div class="d-flex flex-column">
-            <span class="fs-6 fw-bold lh-1 text-white">{{ $appName }}</span>
-            <span class="text-success-emphasis small lh-1 mt-1" style="font-size: 0.7rem; color: #a7f3d0 !important;">Panel Administrator</span>
+            <span class="fs-6 fw-bold lh-1 text-white" style="letter-spacing: 0.02em;">BADAN GIZI NASIONAL</span>
+            <span class="small lh-1 mt-1 text-uppercase" style="font-size: 0.65rem; color: #d4a34b; font-weight: 600; letter-spacing: 0.06em;">Republik Indonesia</span>
         </div>
     </a>
 
@@ -57,8 +55,8 @@
 
         <li class="sidebar-menu-header">Akses Cepat</li>
         <li>
-            <a href="{{ route('public.home') }}" target="_blank" class="sidebar-link text-info">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <a href="{{ route('public.home') }}" target="_blank" class="sidebar-link" style="color: #87c3e3;">
+                <i class="fa-solid fa-arrow-up-right-from-square" style="color: #87c3e3;"></i>
                 <span>Lihat Website Publik</span>
             </a>
         </li>
@@ -67,12 +65,12 @@
     <div class="p-3 border-top border-secondary border-opacity-25 mt-auto">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
-                <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; flex-shrink: 0;">
+                <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 34px; height: 34px; flex-shrink: 0; background-color: #d4a34b; color: #071c3b;">
                     {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
                 </div>
                 <div class="text-truncate">
                     <div class="text-white small fw-bold text-truncate">{{ Auth::user()->name ?? 'Admin' }}</div>
-                    <div class="text-success-emphasis text-truncate" style="font-size: 0.72rem; color: #a7f3d0 !important;">{{ Auth::user()->email ?? '' }}</div>
+                    <div class="text-truncate" style="font-size: 0.72rem; color: #87c3e3 !important;">{{ Auth::user()->email ?? '' }}</div>
                 </div>
             </div>
             <button type="button" class="btn btn-outline-danger btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center btn-logout-trigger" style="width: 32px; height: 32px; flex-shrink: 0;" title="Keluar">
