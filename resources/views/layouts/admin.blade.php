@@ -72,61 +72,6 @@
 
     @include('partials.sweetalert')
 
-    <script>
-        // Global SweetAlert Logout Confirmation
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.btn-logout-trigger').forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'Konfirmasi Keluar',
-                        text: 'Apakah Anda yakin ingin keluar dari sesi administrator?',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#dc3545',
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'Ya, Keluar',
-                        cancelButtonText: 'Batal'
-                    }).then(function(result) {
-                        if (result.isConfirmed) {
-                            document.getElementById('logout-form').submit();
-                        }
-                    });
-                });
-            });
-
-            // Global SweetAlert Form Submitter with Confirmation
-            document.querySelectorAll('form[data-confirm]').forEach(function(form) {
-                form.addEventListener('submit', function(e) {
-                    if (form.dataset.confirmed === 'true') {
-                        return true;
-                    }
-                    e.preventDefault();
-                    const message = form.getAttribute('data-confirm') || 'Apakah Anda yakin ingin melanjutkan tindakan ini?';
-                    const icon = form.getAttribute('data-confirm-icon') || 'warning';
-                    const confirmBtnText = form.getAttribute('data-confirm-btn') || 'Ya, Lanjutkan';
-                    const confirmBtnColor = form.getAttribute('data-confirm-color') || '#198754';
-
-                    Swal.fire({
-                        title: 'Konfirmasi Tindakan',
-                        text: message,
-                        icon: icon,
-                        showCancelButton: true,
-                        confirmButtonColor: confirmBtnColor,
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: confirmBtnText,
-                        cancelButtonText: 'Batal'
-                    }).then(function(result) {
-                        if (result.isConfirmed) {
-                            form.dataset.confirmed = 'true';
-                            form.submit();
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-
     @stack('scripts')
 </body>
 </html>
