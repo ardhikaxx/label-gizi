@@ -11,7 +11,7 @@
             <h4 class="fw-bold text-dark mb-1">Daftar Akun Administrator</h4>
             <p class="text-muted small mb-0">Kelola akun pengelola sistem, kredensial login, dan status keaktifan akun.</p>
         </div>
-        <button type="button" class="btn btn-success rounded-pill px-3 shadow-sm btn-sm fw-medium" data-bs-toggle="modal" data-bs-target="#modalAddUser">
+        <button type="button" class="btn btn-bgn-primary rounded-pill px-3 shadow-sm btn-sm fw-medium" data-bs-toggle="modal" data-bs-target="#modalAddUser">
             <i class="fa-solid fa-user-plus me-1"></i> Tambah Administrator Baru
         </button>
     </div>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-sm btn-success rounded-pill flex-grow-1">Cari</button>
+                    <button type="submit" class="btn btn-sm btn-bgn-primary rounded-pill flex-grow-1">Cari</button>
                     @if(!empty($search))
                         <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-light border rounded-pill" title="Reset Pencarian">
                             <i class="fa-solid fa-rotate-left"></i>
