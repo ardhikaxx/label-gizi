@@ -244,6 +244,12 @@
                             <i class="fa-solid fa-clock-rotate-left fs-4 text-warning"></i>
                             <span class="limit-badge fs-5">{{ $label->formatted_consumption_limit }}</span>
                         </div>
+                        <div class="mt-2 pt-2 border-top border-warning border-opacity-25">
+                            <div class="small text-muted fw-semibold">Tampilan Jam pada Halaman Depan:</div>
+                            <div class="fw-bold text-dark fs-6 mt-1">
+                                <i class="fa-regular fa-clock me-1 text-primary"></i> {{ $label->formatted_consumption_time_range }}
+                            </div>
+                        </div>
                         <p class="small mb-0 text-muted mt-2">
                             * Durasi keamanan pangan dihitung secara relatif sejak waktu makanan tiba/diantarkan ke penerima.
                         </p>
