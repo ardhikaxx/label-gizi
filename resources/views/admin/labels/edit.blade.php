@@ -570,8 +570,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             const row = removeBtn.closest('.menu-row');
             if (row) {
-                row.remove();
-                renumberMenuRows();
+                const inputVal = row.querySelector('.menu-input')?.value.trim();
+                if (inputVal) {
+                    Swal.fire({
+                        title: 'Hapus Menu?',
+                        text: `Apakah Anda yakin ingin menghapus "${inputVal}" dari daftar menu?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Hapus',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            row.remove();
+                            renumberMenuRows();
+                        }
+                    });
+                } else {
+                    row.remove();
+                    renumberMenuRows();
+                }
             }
         }
     });
