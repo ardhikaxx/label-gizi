@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'key' => 'institution_name',
-                'value' => 'Pusat Distribusi Makanan Bergizi Sehat',
+                'value' => 'Badan Gizi Nasional Republik Indonesia',
                 'type' => 'string',
                 'group' => 'general',
                 'label' => 'Nama Instansi / Pengelola',
