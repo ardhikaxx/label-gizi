@@ -30,6 +30,9 @@ class FoodLabel extends Model
         'carbohydrate',
         'fiber',
         'consumption_limit_hours',
+        'consumption_time_start',
+        'consumption_time_end',
+        'consumption_time_range',
         'status',
         'scheduled_at',
         'published_at',
@@ -242,6 +245,28 @@ class FoodLabel extends Model
             : number_format((float) $hours, 1, ',', '.');
 
         return "Maksimal {$formattedHours} jam setelah pengantaran";
+    }
+
+    /**
+     * Formatted consumption time range (e.g., "Pukul : 08.00 – 12.00 WIB").
+     */
+    public function getFormattedConsumptionTimeRangeAttribute(): string
+    {
+        if (! empty($this->consumption_time_range)) {
+            return $this->consumption_time_range;
+        }
+
+        if (! empty($this->consumption_time_start) && ! empty($this->consumption_time_end)) {
+            $start = str_replace(':', '.', substr($this->consumption_time_start, 0, 5));
+            $end = str_replace(':', '.', substr($this->consumption_time_end, 0, 5));
+
+            return "Pukul : {$start} – {$end} WIB";
+        }
+
+        $limitHours = (int) ($this->consumption_limit_hours ?: 4);
+        $endHour = min(24, 8 + $limitHours);
+
+        return sprintf('Pukul : %02d.00 – %02d.00 WIB', 8, $endHour);
     }
 
     /**
