@@ -333,3 +333,50 @@ test('admin can delete label image via deleteImage route', function () {
     expect($label->image)->toBeNull()
         ->and(File::exists($filePath))->toBeFalse();
 });
+
+test('admin can input custom consumption hours and see them reflected on public page', function () {
+    $today = Carbon::today()->format('Y-m-d');
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), [
+        'action' => 'publish',
+        'title' => 'Menu Sarapan Bergizi Khusus',
+        'menu_date' => $today,
+        'energy' => 520,
+        'protein' => 22.5,
+        'fat' => 12.0,
+        'carbohydrate' => 65.0,
+        'fiber' => 5.5,
+        'consumption_limit_hours' => 3.5,
+        'consumption_time_start' => '07:30',
+        'consumption_time_end' => '11:00',
+        'menus' => ['Nasi Uduk', 'Ayam Suwir'],
+    ]);
+
+    $response->assertRedirect(route('admin.labels.index'));
+
+    $label = FoodLabel::where('title', 'Menu Sarapan Bergizi Khusus')->first();
+    expect($label)->not->toBeNull()
+        ->and($label->consumption_time_start)->toBe('07:30')
+        ->and($label->consumption_time_end)->toBe('11:00')
+        ->and($label->formatted_consumption_time_range)->toBe('Pukul : 07.30 – 11.00 WIB');
+
+    // Verify on public landing page
+    $publicResponse = $this->get(route('public.home'));
+    $publicResponse->assertStatus(200);
+    $publicResponse->assertSee('Pukul : 07.30 – 11.00 WIB');
+    $publicResponse->assertSee('images/logo-bgn.png');
+});
+
+test('pages have logo-bgn.png favicon in browser tabs', function () {
+    $publicResponse = $this->get(route('public.home'));
+    $publicResponse->assertStatus(200);
+    $publicResponse->assertSee('images/logo-bgn.png');
+
+    $loginResponse = $this->get(route('admin.login'));
+    $loginResponse->assertStatus(200);
+    $loginResponse->assertSee('images/logo-bgn.png');
+
+    $adminResponse = $this->actingAs($this->admin)->get(route('admin.dashboard'));
+    $adminResponse->assertStatus(200);
+    $adminResponse->assertSee('images/logo-bgn.png');
+});
