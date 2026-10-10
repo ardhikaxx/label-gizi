@@ -67,6 +67,10 @@ class UpdateFoodLabelRequest extends FormRequest
             $rules['menus.*'] = ['nullable', 'string', 'max:255'];
         }
 
+        $rules['consumption_time_start'] = ['nullable', 'string', 'max:10'];
+        $rules['consumption_time_end'] = ['nullable', 'string', 'max:10'];
+        $rules['consumption_time_range'] = ['nullable', 'string', 'max:100'];
+
         return $rules;
     }
 
