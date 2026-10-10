@@ -1,163 +1,592 @@
 @extends('layouts.public')
 
-@section('title', 'Sajian Menu Hari Ini')
-@section('meta_description', 'Informasi resmi Sajian Menu Makanan Bergizi Hari Ini, rincian hidangan, analisis nilai zat gizi makro, dan petunjuk batas akhir konsumsi.')
+@section('title', ($todayLabel ? $todayLabel->title.' — ' : '').'Sajian Menu Hari Ini')
+@section('meta_description', 'Informasi resmi Sajian Menu Makanan Bergizi Gratis Hari Ini, rincian menu hidangan, kandungan gizi lengkap, dan petunjuk batas akhir konsumsi.')
 
 @section('content')
-<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center py-4 px-3 bg-light">
-    <div class="container my-auto" style="max-width: 840px;">
-        <div class="row justify-content-center">
-            <div class="col-12">
+<div class="public-label-page" id="publicLabelPage">
 
-                @if($todayLabel)
-                    <!-- Card Utama Sajian Menu Hari Ini (Simple & Bersih) -->
-                    <div class="card border shadow-sm rounded-4 overflow-hidden bg-white">
-                        <!-- Header Menu -->
-                        <div class="p-3 p-md-4 text-center border-bottom bg-white">
-                            <div class="d-inline-flex align-items-center gap-1 px-3 py-1 bg-success bg-opacity-10 text-success rounded-pill fw-semibold small mb-2">
-                                <i class="fa-solid fa-leaf"></i>
-                                <span>Sajian Menu Hari Ini</span>
-                            </div>
+    <!-- Accessibility & SEO Heading (Hidden Visually, Readable by Screen Readers & Tests) -->
+    <h1 class="visually-hidden">Sajian Menu Hari Ini — {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi Gratis SPPG Ponorogo' }}</h1>
 
-                            <h1 class="h3 fw-bold text-dark mb-2">
-                                {{ $todayLabel->title }}
-                            </h1>
+    <!-- ========================================== -->
+    <!-- DESKTOP FRAME (16:9 - 2880x1620 Template)   -->
+    <!-- ========================================== -->
+    <div class="frame-container frame-desktop">
+        <div class="label-template template-desktop" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Desktop)">
 
-                            <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap text-muted small">
-                                <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill fw-medium">
-                                    <i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $todayLabel->menu_date->isoFormat('dddd, D MMMM Y') }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Body Konten -->
-                        <div class="card-body p-3 p-md-4">
-                            <div class="row g-4 align-items-start">
-
-                                <!-- Bagian Analisis Zat Gizi Per Porsi (DI ATAS PADA MOBILE: order-1) -->
-                                <div class="col-md-6 order-1 order-md-2">
-                                    <div class="d-flex align-items-center gap-2 mb-3">
-                                        <span class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle" style="width: 26px; height: 26px;">
-                                            <i class="fa-solid fa-chart-pie small"></i>
-                                        </span>
-                                        <h6 class="fw-bold text-dark mb-0 text-uppercase tracking-wider" style="font-size: 0.82rem;">
-                                            Analisis Zat Gizi Per Porsi
-                                        </h6>
-                                    </div>
-
-                                    <!-- Energi Total -->
-                                    <div class="p-3 bg-success bg-opacity-10 rounded-3 text-center mb-3 border border-success border-opacity-25">
-                                        <span class="text-muted small fw-semibold text-uppercase tracking-wider">Energi Total</span>
-                                        <div class="display-6 fw-bold text-success my-1">
-                                            {{ number_format($todayLabel->energy, 0, ',', '.') }}
-                                        </div>
-                                        <span class="badge bg-success text-white rounded-pill px-2.5 py-1 small">kkal / porsi</span>
-                                    </div>
-
-                                    <!-- 4 Nutrisi Makro Grid -->
-                                    <div class="row g-2 text-center">
-                                        <div class="col-6">
-                                            <div class="p-2.5 bg-light rounded-3 border">
-                                                <span class="text-muted small d-block mb-1">Protein</span>
-                                                <span class="fs-5 fw-bold text-dark">{{ number_format($todayLabel->protein, 1, ',', '.') }}</span>
-                                                <span class="text-muted small">g</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2.5 bg-light rounded-3 border">
-                                                <span class="text-muted small d-block mb-1">Lemak</span>
-                                                <span class="fs-5 fw-bold text-dark">{{ number_format($todayLabel->fat, 1, ',', '.') }}</span>
-                                                <span class="text-muted small">g</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2.5 bg-light rounded-3 border">
-                                                <span class="text-muted small d-block mb-1">Karbohidrat</span>
-                                                <span class="fs-5 fw-bold text-dark">{{ number_format($todayLabel->carbohydrate, 1, ',', '.') }}</span>
-                                                <span class="text-muted small">g</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2.5 bg-light rounded-3 border">
-                                                <span class="text-muted small d-block mb-1">Serat Pangan</span>
-                                                <span class="fs-5 fw-bold text-dark">{{ number_format($todayLabel->fiber, 1, ',', '.') }}</span>
-                                                <span class="text-muted small">g</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-3 text-center text-muted" style="font-size: 0.72rem;">
-                                        <i class="fa-solid fa-shield-halved text-success me-1"></i> Standar Gizi Terpenuhi & Transparan
-                                    </div>
-                                </div>
-
-                                <!-- Bagian Rincian Menu Makanan & Batas Akhir Konsumsi (DI BAWAH PADA MOBILE: order-2) -->
-                                <div class="col-md-6 order-2 order-md-1">
-                                    @if($todayLabel->image)
-                                        <div class="mb-3 rounded-3 overflow-hidden border shadow-sm">
-                                            <img src="{{ $todayLabel->image_url }}" alt="{{ $todayLabel->title }}" class="img-fluid w-100 object-fit-cover" style="max-height: 220px;" loading="lazy" decoding="async">
-                                        </div>
-                                    @endif
-
-                                    <div class="d-flex align-items-center gap-2 mb-3">
-                                        <span class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle" style="width: 26px; height: 26px;">
-                                            <i class="fa-solid fa-utensils small"></i>
-                                        </span>
-                                        <h6 class="fw-bold text-dark mb-0 text-uppercase tracking-wider" style="font-size: 0.82rem;">
-                                            Rincian Menu Makanan
-                                        </h6>
-                                    </div>
-
-                                    <!-- Daftar Item Menu -->
-                                    <div class="list-group list-group-flush border rounded-3 mb-3">
-                                        @foreach($todayLabel->menus as $item)
-                                            <div class="list-group-item d-flex align-items-center gap-2.5 py-2 px-3 border-bottom">
-                                                <span class="badge bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center fw-bold" style="width: 22px; height: 22px; font-size: 0.72rem; flex-shrink: 0;">
-                                                    {{ $item->sort_order }}
-                                                </span>
-                                                <span class="fw-medium text-dark small">{{ $item->name }}</span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Batas Akhir Konsumsi -->
-                                    <div class="consumption-limit-alert rounded-3 p-3">
-                                        <div class="d-flex align-items-start gap-2.5">
-                                            <i class="fa-solid fa-clock-rotate-left fs-5 mt-0.5"></i>
-                                            <div>
-                                                <div class="small fw-bold text-uppercase" style="font-size: 0.75rem;">Batas Akhir Konsumsi:</div>
-                                                <div class="limit-badge fs-6 my-0.5">
-                                                    {{ $todayLabel->formatted_consumption_limit }}
-                                                </div>
-                                                <small class="d-block opacity-75" style="font-size: 0.72rem;">
-                                                    * Dihitung relatif sejak makanan diantarkan.
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <!-- Empty State jika belum ada label menu hari ini -->
-                    <div class="card border shadow-sm rounded-4 p-4 p-md-5 text-center bg-white">
-                        <i class="fa-solid fa-utensils fs-2 text-muted mb-3 opacity-50"></i>
-                        <h5 class="fw-bold text-dark mb-1">Belum Ada Sajian Menu Hari Ini</h5>
-                        <p class="text-muted small mb-0">Informasi menu makanan bergizi hari ini belum dipublikasikan oleh pengelola.</p>
-                    </div>
-                @endif
-
-                <!-- Tautan Akses Administrator Diskrit -->
-                <div class="text-center mt-3">
-                    <a href="{{ route('admin.login') }}" class="text-decoration-none text-muted small opacity-50 hover-opacity-100" style="font-size: 0.75rem;" title="Akses Administrator">
-                        <i class="fa-solid fa-lock me-1"></i> Akses Pengelola
-                    </a>
+            <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
+            <div class="desktop-menu-box" title="{{ $menuDateFormatted }}: {{ $menuItemsFormatted }}">
+                <div class="desktop-menu-title">
+                    {{ $menuDateFormatted }}
                 </div>
+                <div class="desktop-menu-items">
+                    {{ $menuItemsFormatted }}
+                </div>
+            </div>
 
+            <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
+            <div class="desktop-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
+                <div class="desktop-gizi-row">
+                    <span class="desktop-gizi-name">Energi</span>
+                    <span class="desktop-gizi-colon">:</span>
+                    <span class="desktop-gizi-val">{{ $nutrition['energy'] }} kkal</span>
+                </div>
+                <div class="desktop-gizi-row">
+                    <span class="desktop-gizi-name">Protein</span>
+                    <span class="desktop-gizi-colon">:</span>
+                    <span class="desktop-gizi-val">{{ $nutrition['protein'] }} gr</span>
+                </div>
+                <div class="desktop-gizi-row">
+                    <span class="desktop-gizi-name">Lemak</span>
+                    <span class="desktop-gizi-colon">:</span>
+                    <span class="desktop-gizi-val">{{ $nutrition['fat'] }} gr</span>
+                </div>
+                <div class="desktop-gizi-row">
+                    <span class="desktop-gizi-name">Karbohidrat</span>
+                    <span class="desktop-gizi-colon">:</span>
+                    <span class="desktop-gizi-val">{{ $nutrition['carbohydrate'] }} gr</span>
+                </div>
+                <div class="desktop-gizi-row">
+                    <span class="desktop-gizi-name">Serat</span>
+                    <span class="desktop-gizi-colon">:</span>
+                    <span class="desktop-gizi-val">{{ $nutrition['fiber'] }} gr</span>
+                </div>
+            </div>
+
+            <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
+            <div class="desktop-batas-box">
+                <div class="desktop-batas-desc">
+                    {{ $consumptionNotice }}
+                </div>
+                <div class="desktop-batas-time">
+                    {{ $consumptionTimeRange }}
+                </div>
+            </div>
+
+            <!-- 4. Overlay: Circular Dish Photo (Inside the Navy Ring) -->
+            <div class="desktop-circle-box" data-bs-toggle="modal" data-bs-target="#photoModal" title="Klik untuk memperbesar foto hidangan">
+                <img src="{{ $dishImageUrl }}" alt="Foto Sajian Menu {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi' }}" class="desktop-circle-img" loading="eager" decoding="async">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MOBILE FRAME (9:16 - 1620x2880 Template)    -->
+    <!-- ========================================== -->
+    <div class="frame-container frame-mobile">
+        <div class="label-template template-mobile" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Mobile)">
+
+            <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
+            <div class="mobile-menu-box" title="{{ $menuDateFormatted }}: {{ $menuItemsFormatted }}">
+                <div class="mobile-menu-title">
+                    {{ $menuDateFormatted }}
+                </div>
+                <div class="mobile-menu-items">
+                    {{ $menuItemsFormatted }}
+                </div>
+            </div>
+
+            <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
+            <div class="mobile-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
+                <div class="mobile-gizi-row">
+                    <span class="mobile-gizi-name">Energi</span>
+                    <span class="mobile-gizi-colon">:</span>
+                    <span class="mobile-gizi-val">{{ $nutrition['energy'] }} kkal</span>
+                </div>
+                <div class="mobile-gizi-row">
+                    <span class="mobile-gizi-name">Protein</span>
+                    <span class="mobile-gizi-colon">:</span>
+                    <span class="mobile-gizi-val">{{ $nutrition['protein'] }} gr</span>
+                </div>
+                <div class="mobile-gizi-row">
+                    <span class="mobile-gizi-name">Lemak</span>
+                    <span class="mobile-gizi-colon">:</span>
+                    <span class="mobile-gizi-val">{{ $nutrition['fat'] }} gr</span>
+                </div>
+                <div class="mobile-gizi-row">
+                    <span class="mobile-gizi-name">Karbohidrat</span>
+                    <span class="mobile-gizi-colon">:</span>
+                    <span class="mobile-gizi-val">{{ $nutrition['carbohydrate'] }} gr</span>
+                </div>
+                <div class="mobile-gizi-row">
+                    <span class="mobile-gizi-name">Serat</span>
+                    <span class="mobile-gizi-colon">:</span>
+                    <span class="mobile-gizi-val">{{ $nutrition['fiber'] }} gr</span>
+                </div>
+            </div>
+
+            <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
+            <div class="mobile-batas-box">
+                <div class="mobile-batas-desc">
+                    {{ $consumptionNotice }}
+                </div>
+                <div class="mobile-batas-time">
+                    {{ $consumptionTimeRange }}
+                </div>
+            </div>
+
+            <!-- 4. Overlay: Circular Dish Photo (Inside the Navy Ring) -->
+            <div class="mobile-circle-box" data-bs-toggle="modal" data-bs-target="#photoModal" title="Klik untuk memperbesar foto hidangan">
+                <img src="{{ $dishImageUrl }}" alt="Foto Sajian Menu {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi' }}" class="mobile-circle-img" loading="eager" decoding="async">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ======================================================= -->
+<!-- MODAL LIGHTBOX FOTO SAJIAN MENU (OPTIONAL ZOOM)         -->
+<!-- ======================================================= -->
+<div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content rounded-4 border-0 shadow overflow-hidden">
+            <div class="modal-header border-0 pb-0 position-absolute end-0 top-0 z-3 p-3">
+                <button type="button" class="btn btn-sm btn-light rounded-circle shadow-sm" data-bs-dismiss="modal" aria-label="Tutup">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0 text-center bg-dark">
+                <img src="{{ $dishImageUrl }}" alt="Foto Sajian Menu Makanan" class="img-fluid w-100 object-fit-contain" style="max-height: 80vh;">
+            </div>
+            <div class="modal-footer bg-white border-0 py-2.5 px-3 d-flex justify-content-between">
+                <small class="text-dark fw-bold mb-0">{{ $menuDateFormatted }}</small>
+                <small class="text-muted">{{ $todayLabel ? $todayLabel->title : 'Sajian Menu Bergizi' }}</small>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+/* -------------------------------------------------------------
+   Page & Full Frame Viewport Styling
+------------------------------------------------------------- */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    background-color: #92d1ee !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body > main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.public-label-page {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at 50% 50%, #b2e2f8 0%, #90ceee 100%);
+}
+
+/* -------------------------------------------------------------
+   DESKTOP FRAME (Aspect Ratio: 16 / 9 => 2880 x 1620)
+------------------------------------------------------------- */
+.frame-desktop {
+    width: min(100vw, calc(100dvh * (2880 / 1620)));
+    height: min(100dvh, calc(100vw * (1620 / 2880)));
+    aspect-ratio: 2880 / 1620;
+    margin: auto;
+}
+
+.template-desktop {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 2880 / 1620;
+    background-image: url('{{ asset('images/page-desktop.png') }}');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    container-type: inline-size;
+    container-name: frame-desktop;
+    overflow: hidden;
+    user-select: text;
+}
+
+/* Desktop 1: Menu Box */
+.desktop-menu-box {
+    position: absolute;
+    left: 10.4%;
+    top: 20.8%;
+    width: 25.1%;
+    height: 10.3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 0.6cqw;
+    padding-right: 0.8cqw;
+    overflow: hidden;
+}
+
+.desktop-menu-title {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(13px, 1.38cqw, 24px);
+    line-height: 1.25;
+    color: #0b2754;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.desktop-menu-items {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(10px, 1.05cqw, 18px);
+    line-height: 1.32;
+    color: #0b2754;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.25cqw;
+}
+
+/* Desktop 2: Kandungan Gizi Box */
+.desktop-gizi-box {
+    position: absolute;
+    left: 4.6%;
+    top: 37.8%;
+    width: 30.2%;
+    height: 16.8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.2cqw 0.4cqw;
+}
+
+.desktop-gizi-row {
+    background-color: #fff9ea;
+    border-radius: 0.4cqw;
+    display: flex;
+    align-items: center;
+    padding: 0.2cqw 0.8cqw;
+    height: 17.5%;
+    box-sizing: border-box;
+}
+
+.desktop-gizi-name {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(10px, 1.12cqw, 20px);
+    color: #0b2754;
+    width: 44%;
+}
+
+.desktop-gizi-colon {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(10px, 1.12cqw, 20px);
+    color: #0b2754;
+    width: 8%;
+    text-align: center;
+}
+
+.desktop-gizi-val {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(10px, 1.12cqw, 20px);
+    color: #0b2754;
+    width: 48%;
+    text-align: left;
+    padding-left: 0.4cqw;
+}
+
+/* Desktop 3: Batas Akhir Konsumsi Box */
+.desktop-batas-box {
+    position: absolute;
+    left: 10.4%;
+    top: 64.0%;
+    width: 25.1%;
+    height: 11.8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 0.6cqw;
+    padding-right: 0.8cqw;
+}
+
+.desktop-batas-desc {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(10px, 1.05cqw, 18px);
+    line-height: 1.3;
+    color: #0b2754;
+}
+
+.desktop-batas-time {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(12px, 1.3cqw, 22px);
+    line-height: 1.2;
+    color: #0b2754;
+    margin-top: 0.3cqw;
+}
+
+/* Desktop 4: Circular Food Dish Photo */
+.desktop-circle-box {
+    position: absolute;
+    left: 69.43%;
+    top: 45.43%;
+    width: 28.82%;
+    height: 51.23%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.desktop-circle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.desktop-circle-box:hover .desktop-circle-img {
+    transform: scale(1.05);
+}
+
+/* -------------------------------------------------------------
+   MOBILE FRAME (Aspect Ratio: 9 / 16 => 1620 x 2880)
+------------------------------------------------------------- */
+.frame-mobile {
+    width: min(100vw, calc(100dvh * (1620 / 2880)));
+    height: min(100dvh, calc(100vw * (2880 / 1620)));
+    aspect-ratio: 1620 / 2880;
+    margin: auto;
+}
+
+.template-mobile {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1620 / 2880;
+    background-image: url('{{ asset('images/page-mobile.png') }}');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    container-type: inline-size;
+    container-name: frame-mobile;
+    overflow: hidden;
+    user-select: text;
+}
+
+/* Mobile 1: Menu Box */
+.mobile-menu-box {
+    position: absolute;
+    left: 28.5%;
+    top: 17.8%;
+    width: 53.5%;
+    height: 6.0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 1.2cqw;
+    padding-right: 1.2cqw;
+    overflow: hidden;
+}
+
+.mobile-menu-title {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(11px, 2.55cqw, 20px);
+    line-height: 1.25;
+    color: #0b2754;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0;
+}
+
+.mobile-menu-items {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(9px, 1.95cqw, 16px);
+    line-height: 1.35;
+    color: #0b2754;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.2cqw;
+}
+
+/* Mobile 2: Kandungan Gizi Box */
+.mobile-gizi-box {
+    position: absolute;
+    left: 17.5%;
+    top: 28.2%;
+    width: 63.8%;
+    height: 8.2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.mobile-gizi-row {
+    background-color: #fff9ea;
+    border-radius: 0.6cqw;
+    display: flex;
+    align-items: center;
+    padding: 0.15cqw 1.2cqw;
+    height: 18.0%;
+    box-sizing: border-box;
+}
+
+.mobile-gizi-name {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(8px, 1.9cqw, 16px);
+    color: #0b2754;
+    width: 44%;
+}
+
+.mobile-gizi-colon {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(8px, 1.9cqw, 16px);
+    color: #0b2754;
+    width: 8%;
+    text-align: center;
+}
+
+.mobile-gizi-val {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(8px, 1.9cqw, 16px);
+    color: #0b2754;
+    width: 48%;
+    text-align: left;
+    padding-left: 0.4cqw;
+}
+
+/* Mobile 3: Batas Akhir Konsumsi Box */
+.mobile-batas-box {
+    position: absolute;
+    left: 28.5%;
+    top: 41.8%;
+    width: 53.5%;
+    height: 6.8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 1.2cqw;
+    padding-right: 1.2cqw;
+}
+
+.mobile-batas-desc {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(9px, 1.9cqw, 16px);
+    line-height: 1.3;
+    color: #0b2754;
+}
+
+.mobile-batas-time {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(11px, 2.4cqw, 20px);
+    line-height: 1.2;
+    color: #0b2754;
+    margin-top: 0.3cqw;
+}
+
+/* Mobile 4: Circular Food Dish Photo */
+.mobile-circle-box {
+    position: absolute;
+    left: 26.79%;
+    top: 71.67%;
+    width: 46.30%;
+    height: 26.04%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mobile-circle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.mobile-circle-box:hover .mobile-circle-img {
+    transform: scale(1.05);
+}
+
+/* -------------------------------------------------------------
+   AUTOMATIC RESPONSIVE DISPLAY SWITCHING
+------------------------------------------------------------- */
+@media (min-width: 768px) {
+    .frame-desktop {
+        display: block !important;
+    }
+    .frame-mobile {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .frame-desktop {
+        display: none !important;
+    }
+    .frame-mobile {
+        display: block !important;
+    }
+}
+
+/* -------------------------------------------------------------
+   PRINT STYLESHEET
+------------------------------------------------------------- */
+@media print {
+    html, body {
+        background: white !important;
+        overflow: visible !important;
+    }
+    .modal {
+        display: none !important;
+    }
+    .public-label-page {
+        width: 100% !important;
+        height: auto !important;
+        background: none !important;
+    }
+    .frame-desktop,
+    .frame-mobile {
+        width: 100% !important;
+        height: auto !important;
+        page-break-inside: avoid;
+    }
+}
+</style>
+@endpush
