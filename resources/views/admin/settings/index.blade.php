@@ -13,7 +13,11 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.settings.update') }}" method="POST">
+    <form action="{{ route('admin.settings.update') }}" method="POST"
+          data-confirm="Simpan semua perubahan pengaturan sistem dan batas waktu konsumsi?"
+          data-confirm-icon="question"
+          data-confirm-btn="Ya, Simpan Pengaturan"
+          data-confirm-color="#0b2853">
         @csrf
         @method('PUT')
 
