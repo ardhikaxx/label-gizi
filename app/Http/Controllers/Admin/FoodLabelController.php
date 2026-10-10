@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFoodLabelRequest;
 use App\Http\Requests\UpdateFoodLabelRequest;
 use App\Models\ActivityLog;
+use App\Models\ApplicationSetting;
 use App\Models\FoodLabel;
 use App\Models\FoodLabelMenu;
 use Carbon\Carbon;
@@ -93,6 +94,8 @@ class FoodLabelController extends Controller
     {
         return view('admin.labels.create', [
             'defaultDate' => Carbon::today()->format('Y-m-d'),
+            'defaultTimeStart' => ApplicationSetting::get('default_consumption_time_start', '08:00'),
+            'defaultTimeEnd' => ApplicationSetting::get('default_consumption_time_end', '12:00'),
         ]);
     }
 
@@ -195,6 +198,9 @@ class FoodLabelController extends Controller
                 'carbohydrate' => (float) ($validated['carbohydrate'] ?? 0),
                 'fiber' => (float) ($validated['fiber'] ?? 0),
                 'consumption_limit_hours' => (float) ($validated['consumption_limit_hours'] ?? 4.0),
+                'consumption_time_start' => $validated['consumption_time_start'] ?? null,
+                'consumption_time_end' => $validated['consumption_time_end'] ?? null,
+                'consumption_time_range' => $validated['consumption_time_range'] ?? null,
                 'status' => $status,
                 'published_at' => $isPublishing ? now() : null,
                 'created_by' => Auth::id(),
@@ -300,6 +306,9 @@ class FoodLabelController extends Controller
                 'carbohydrate' => (float) ($validated['carbohydrate'] ?? $label->carbohydrate),
                 'fiber' => (float) ($validated['fiber'] ?? $label->fiber),
                 'consumption_limit_hours' => (float) ($validated['consumption_limit_hours'] ?? $label->consumption_limit_hours),
+                'consumption_time_start' => array_key_exists('consumption_time_start', $validated) ? $validated['consumption_time_start'] : $label->consumption_time_start,
+                'consumption_time_end' => array_key_exists('consumption_time_end', $validated) ? $validated['consumption_time_end'] : $label->consumption_time_end,
+                'consumption_time_range' => array_key_exists('consumption_time_range', $validated) ? $validated['consumption_time_range'] : $label->consumption_time_range,
                 'status' => $newStatus,
                 'published_at' => $isPublishing ? ($label->published_at ?? now()) : null,
                 'updated_by' => Auth::id(),
@@ -442,6 +451,9 @@ class FoodLabelController extends Controller
                 'carbohydrate' => $label->carbohydrate,
                 'fiber' => $label->fiber,
                 'consumption_limit_hours' => $label->consumption_limit_hours,
+                'consumption_time_start' => $label->consumption_time_start,
+                'consumption_time_end' => $label->consumption_time_end,
+                'consumption_time_range' => $label->consumption_time_range,
                 'status' => 'draft',
                 'published_at' => null,
                 'created_by' => Auth::id(),
