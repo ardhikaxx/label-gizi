@@ -16,7 +16,7 @@
             <a href="{{ route('admin.labels.export', request()->query()) }}" class="btn btn-outline-secondary rounded-pill px-3 shadow-sm btn-sm">
                 <i class="fa-solid fa-file-csv me-1 text-success"></i> Ekspor CSV
             </a>
-            <a href="{{ route('admin.labels.create') }}" class="btn btn-success rounded-pill px-3 shadow-sm btn-sm fw-medium">
+            <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-3 shadow-sm btn-sm fw-medium">
                 <i class="fa-solid fa-plus-circle me-1"></i> Tambah Label Baru
             </a>
         </div>
@@ -28,12 +28,12 @@
             <!-- Status Tabs -->
             <ul class="nav nav-pills mb-3 gap-2 flex-wrap">
                 <li class="nav-item">
-                    <a class="nav-link rounded-pill px-3 py-1 small {{ $currentStatus === 'all' ? 'active bg-success' : 'text-muted' }}" href="{{ route('admin.labels.index', array_merge(request()->except('status', 'page'), ['status' => 'all'])) }}">
+                    <a class="nav-link rounded-pill px-3 py-1 small {{ $currentStatus === 'all' ? 'active bg-bgn-navy' : 'text-muted' }}" href="{{ route('admin.labels.index', array_merge(request()->except('status', 'page'), ['status' => 'all'])) }}">
                         Semua ({{ $counts['all'] }})
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link rounded-pill px-3 py-1 small {{ $currentStatus === 'published' ? 'active bg-success' : 'text-muted' }}" href="{{ route('admin.labels.index', array_merge(request()->except('status', 'page'), ['status' => 'published'])) }}">
+                    <a class="nav-link rounded-pill px-3 py-1 small {{ $currentStatus === 'published' ? 'active bg-bgn-navy' : 'text-muted' }}" href="{{ route('admin.labels.index', array_merge(request()->except('status', 'page'), ['status' => 'published'])) }}">
                         Dipublikasikan ({{ $counts['published'] }})
                     </a>
                 </li>
