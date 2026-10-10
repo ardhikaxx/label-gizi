@@ -32,6 +32,8 @@ class FoodLabelFactory extends Factory
             'carbohydrate' => fake()->randomFloat(2, 60, 95),
             'fiber' => fake()->randomFloat(2, 4, 10),
             'consumption_limit_hours' => fake()->randomElement([3.0, 3.5, 4.0, 4.5]),
+            'consumption_time_start' => '08:00',
+            'consumption_time_end' => '12:00',
             'status' => 'published',
             'published_at' => now(),
             'created_by' => User::factory(),
