@@ -351,38 +351,98 @@
                     <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
                         <div class="d-flex align-items-center gap-2">
                             <span class="d-inline-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning rounded-circle" style="width: 32px; height: 32px;">
-                                <i class="fa-solid fa-hourglass-half"></i>
+                                <i class="fa-solid fa-clock"></i>
                             </span>
-                            <h5 class="fw-bold text-dark mb-0">Batas Akhir Konsumsi</h5>
+                            <h5 class="fw-bold text-dark mb-0">Waktu & Batas Akhir Konsumsi</h5>
                         </div>
-                        <p class="text-muted small mt-1 mb-0">Ketentuan batas aman konsumsi relatif setelah makanan diantarkan.</p>
+                        <p class="text-muted small mt-1 mb-0">Ketentuan batas aman konsumsi serta jam konsumsi yang tampil pada halaman depan publik.</p>
                     </div>
 
                     <div class="card-body p-4">
-                        <label for="consumption_limit_hours" class="form-label small fw-semibold">Maksimal Durasi Aman <span class="text-danger">*</span></label>
-                        <div class="input-group mb-2">
-                            <input type="number"
-                                   step="0.5"
-                                   min="0.5"
-                                   max="24"
-                                   class="form-control @error('consumption_limit_hours') is-invalid @enderror"
-                                   id="consumption_limit_hours"
-                                   name="consumption_limit_hours"
-                                   value="{{ old('consumption_limit_hours', $label->consumption_limit_hours) }}"
-                                   required>
-                            <span class="input-group-text bg-light text-dark fw-bold">jam</span>
-                            <span class="input-group-text bg-light text-muted">setelah pengantaran</span>
+                        <!-- Durasi Jam Relatif -->
+                        <div class="mb-3">
+                            <label for="consumption_limit_hours" class="form-label small fw-semibold">Maksimal Durasi Aman <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number"
+                                       step="0.5"
+                                       min="0.5"
+                                       max="24"
+                                       class="form-control @error('consumption_limit_hours') is-invalid @enderror"
+                                       id="consumption_limit_hours"
+                                       name="consumption_limit_hours"
+                                       value="{{ old('consumption_limit_hours', $label->consumption_limit_hours) }}"
+                                       required>
+                                <span class="input-group-text bg-light text-dark fw-bold">jam</span>
+                                <span class="input-group-text bg-light text-muted">setelah diterima</span>
+                            </div>
+                            @error('consumption_limit_hours')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('consumption_limit_hours')
-                            <div class="text-danger small mt-1">{{ $message }}</div>
-                        @enderror
 
-                        <div class="consumption-limit-alert mt-3 p-3">
+                        <!-- Rentang Jam (Jam Berapa Sampai Jam Berapa) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-sm-6">
+                                <label for="consumption_time_start" class="form-label small fw-semibold">Jam Mulai Konsumsi</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                    <input type="time"
+                                           class="form-control @error('consumption_time_start') is-invalid @enderror"
+                                           id="consumption_time_start"
+                                           name="consumption_time_start"
+                                           value="{{ old('consumption_time_start', $label->consumption_time_start ?? '08:00') }}">
+                                </div>
+                                <div class="form-text small text-muted">Contoh: 08:00 WIB</div>
+                                @error('consumption_time_start')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="consumption_time_end" class="form-label small fw-semibold">Jam Batas Akhir</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                    <input type="time"
+                                           class="form-control @error('consumption_time_end') is-invalid @enderror"
+                                           id="consumption_time_end"
+                                           name="consumption_time_end"
+                                           value="{{ old('consumption_time_end', $label->consumption_time_end ?? '12:00') }}">
+                                </div>
+                                <div class="form-text small text-muted">Contoh: 12:00 WIB</div>
+                                @error('consumption_time_end')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Kustom Teks Rentang Jam (Opsional) -->
+                        <div class="mb-3">
+                            <label for="consumption_time_range" class="form-label small fw-semibold">Kustom Teks Rentang Jam (Opsional)</label>
+                            <input type="text"
+                                   class="form-control form-control-sm @error('consumption_time_range') is-invalid @enderror"
+                                   id="consumption_time_range"
+                                   name="consumption_time_range"
+                                   value="{{ old('consumption_time_range', $label->consumption_time_range) }}"
+                                   placeholder="Contoh: Pukul : 08.00 – 12.00 WIB">
+                            <div class="form-text small text-muted">Kosongkan untuk otomatis menggunakan format dari jam mulai & selesai di atas.</div>
+                            @error('consumption_time_range')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Real-time Live Preview Callout -->
+                        <div class="consumption-limit-alert p-3">
                             <div class="d-flex align-items-start gap-2">
-                                <i class="fa-solid fa-circle-exclamation mt-1"></i>
-                                <div class="small">
-                                    <strong>Tampilan pada Label Publik:</strong><br>
-                                    "Batas akhir konsumsi: maksimal <span id="previewLimitHours">{{ $label->consumption_limit_hours }}</span> jam setelah pengantaran."
+                                <i class="fa-solid fa-circle-exclamation mt-1 text-warning"></i>
+                                <div class="small w-100">
+                                    <strong class="d-block mb-1 text-dark">Tampilan pada Halaman Publik (Tampilan Awal):</strong>
+                                    <div class="p-2 rounded bg-white border small">
+                                        <div class="text-muted fw-semibold">
+                                            Makanan harap dikonsumsi maksimal <span id="previewLimitHours">{{ $label->consumption_limit_hours }}</span> jam setelah diterima
+                                        </div>
+                                        <div class="fw-bold text-dark fs-6 mt-1" id="previewTimeRange">
+                                            {{ $label->formatted_consumption_time_range }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -393,7 +453,7 @@
                 <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-4">
                         <div class="d-flex flex-column gap-2">
-                            <button type="submit" name="action" value="publish" class="btn btn-success py-2 fw-semibold rounded-pill shadow-sm">
+                            <button type="submit" name="action" value="publish" class="btn btn-bgn-primary py-2 fw-semibold rounded-pill shadow-sm">
                                 <i class="fa-solid fa-circle-check me-1"></i> Simpan & Publikasikan
                             </button>
                             <button type="submit" name="action" value="draft" class="btn btn-outline-secondary py-2 fw-semibold rounded-pill">
@@ -422,11 +482,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const hoursInput = document.getElementById('consumption_limit_hours');
     const previewHours = document.getElementById('previewLimitHours');
 
-    if (hoursInput && previewHours) {
+    const timeStartInput = document.getElementById('consumption_time_start');
+    const timeEndInput = document.getElementById('consumption_time_end');
+    const timeRangeInput = document.getElementById('consumption_time_range');
+    const previewTimeRange = document.getElementById('previewTimeRange');
+
+    function updateTimePreview() {
+        if (!previewTimeRange) return;
+        const custom = timeRangeInput ? timeRangeInput.value.trim() : '';
+        if (custom) {
+            previewTimeRange.textContent = custom;
+            return;
+        }
+
+        const start = timeStartInput ? timeStartInput.value : '';
+        const end = timeEndInput ? timeEndInput.value : '';
+        if (start && end) {
+            const startFmt = start.replace(':', '.');
+            const endFmt = end.replace(':', '.');
+            previewTimeRange.textContent = `Pukul : ${startFmt} – ${endFmt} WIB`;
+        } else {
+            const h = parseFloat(hoursInput ? hoursInput.value : 4) || 4;
+            const endH = Math.min(24, Math.round(8 + h));
+            const endStr = endH < 10 ? `0${endH}.00` : `${endH}.00`;
+            previewTimeRange.textContent = `Pukul : 08.00 – ${endStr} WIB`;
+        }
+    }
+
+    if (hoursInput) {
         hoursInput.addEventListener('input', function() {
-            previewHours.textContent = this.value || '0';
+            if (previewHours) previewHours.textContent = this.value || '0';
+            updateTimePreview();
         });
     }
+    if (timeStartInput) timeStartInput.addEventListener('input', updateTimePreview);
+    if (timeEndInput) timeEndInput.addEventListener('input', updateTimePreview);
+    if (timeRangeInput) timeRangeInput.addEventListener('input', updateTimePreview);
+    updateTimePreview();
 
     function renumberMenuRows() {
         const rows = container.querySelectorAll('.menu-row');
