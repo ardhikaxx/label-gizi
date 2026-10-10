@@ -1,19 +1,24 @@
 @php
     $appName = \App\Models\ApplicationSetting::get('app_name', 'Label Gizi');
-    $institution = \App\Models\ApplicationSetting::get('institution_name', 'Pusat Distribusi Makanan Bergizi Sehat');
+    $institution = \App\Models\ApplicationSetting::get('institution_name', 'Badan Gizi Nasional Republik Indonesia');
 @endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk Administrator — {{ $appName }}</title>
+    <title>Masuk Administrator — Badan Gizi Nasional RI</title>
     <meta name="robots" content="noindex, nofollow">
 
-    <!-- Google Fonts: Inter -->
+    <!-- Favicon (Badan Gizi Nasional) -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-bgn.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-bgn.png') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo-bgn.png') }}">
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -27,29 +32,41 @@
     <!-- Custom Brand CSS -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
-<body class="bg-light d-flex align-items-center min-vh-100 py-5">
+<body class="bgn-login-body d-flex align-items-center min-vh-100 py-5">
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5 col-xl-4">
+                <!-- Brand Header -->
                 <div class="text-center mb-4">
-                    <a href="{{ route('public.home') }}" class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle shadow-sm mb-3" style="width: 54px; height: 54px; text-decoration: none;">
-                        <i class="fa-solid fa-apple-whole fs-3"></i>
-                    </a>
-                    <h4 class="fw-bold text-dark mb-1">{{ $appName }}</h4>
-                    <p class="text-muted small">Panel Masuk Khusus Administrator</p>
+                    <div class="d-inline-flex align-items-center justify-content-center p-2 mb-3 rounded-circle bg-white shadow-lg" style="width: 88px; height: 88px;">
+                        <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="width: 72px; height: 72px; object-fit: contain;">
+                    </div>
+                    <h4 class="fw-bold text-white mb-1" style="letter-spacing: 0.03em;">BADAN GIZI NASIONAL</h4>
+                    <div class="d-inline-block px-3 py-1 rounded-pill small fw-semibold text-uppercase" style="background: rgba(212, 163, 75, 0.18); color: #d4a34b; border: 1px solid rgba(212, 163, 75, 0.4); letter-spacing: 0.08em; font-size: 0.72rem;">
+                        REPUBLIK INDONESIA
+                    </div>
+                    <p class="text-white-50 small mt-2 mb-0">Panel Masuk Administrator</p>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <!-- Login Card -->
+                <div class="card bgn-login-card border-0 rounded-4 overflow-hidden">
                     <div class="card-body p-4 p-md-5">
-                        <h5 class="fw-bold text-dark mb-2">Selamat Datang</h5>
-                        <p class="text-muted small mb-4">Masukkan kredensial akun administrator Anda untuk melanjutkan.</p>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Masuk Administrator</h5>
+                                <p class="text-muted small mb-0">Gunakan akun kredensial terdaftar.</p>
+                            </div>
+                            <span class="badge badge-bgn-gold rounded-pill px-3 py-2 small fw-semibold">
+                                <i class="fa-solid fa-shield-halved me-1"></i> Akses Resmi
+                            </span>
+                        </div>
 
-                        <form action="{{ route('admin.login.submit') }}" method="POST" novalidate>
+                        <form action="{{ route('admin.login.submit') }}" method="POST" novalidate class="mt-3">
                             @csrf
 
                             <div class="mb-3">
-                                <label for="login" class="form-label small fw-semibold">Email atau Username</label>
+                                <label for="login" class="form-label small fw-semibold text-secondary">Email atau Username</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0 text-muted">
                                         <i class="fa-solid fa-user"></i>
@@ -69,7 +86,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="password" class="form-label small fw-semibold">Kata Sandi</label>
+                                <label for="password" class="form-label small fw-semibold text-secondary">Kata Sandi</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0 text-muted">
                                         <i class="fa-solid fa-key"></i>
@@ -99,21 +116,22 @@
                                 <span class="badge bg-light text-secondary border">Akses Terlindungi</span>
                             </div>
 
-                            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold rounded-3 shadow-sm">
-                                <i class="fa-solid fa-right-to-bracket me-2"></i> Masuk ke Dashboard
+                            <button type="submit" class="btn btn-bgn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span>Masuk ke Dashboard</span>
                             </button>
                         </form>
                     </div>
 
                     <div class="card-footer bg-light border-0 py-3 text-center">
-                        <a href="{{ route('public.home') }}" class="text-decoration-none small text-muted">
+                        <a href="{{ route('public.home') }}" class="text-decoration-none small text-muted hover-navy">
                             <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Halaman Utama Publik
                         </a>
                     </div>
                 </div>
 
                 <div class="text-center mt-4">
-                    <small class="text-muted d-block">&copy; {{ date('Y') }} {{ $appName }} &bull; {{ $institution }}</small>
+                    <small class="text-white-50 d-block">&copy; {{ date('Y') }} Badan Gizi Nasional Republik Indonesia</small>
                 </div>
             </div>
         </div>
