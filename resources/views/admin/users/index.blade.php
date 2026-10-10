@@ -148,7 +148,11 @@
                             <div class="modal fade" id="modalEditUser{{ $user->id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content rounded-4 border-0 shadow">
-                                        <form action="{{ route('admin.users.update', $user) }}" method="POST">
+                                        <form action="{{ route('admin.users.update', $user) }}" method="POST"
+                                              data-confirm="Simpan pembaruan data administrator '{{ $user->name }}'?"
+                                              data-confirm-icon="question"
+                                              data-confirm-btn="Ya, Simpan Perubahan"
+                                              data-confirm-color="#0b2853">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-header border-0 pb-0">
@@ -182,7 +186,11 @@
                             <div class="modal fade" id="modalPasswordUser{{ $user->id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content rounded-4 border-0 shadow">
-                                        <form action="{{ route('admin.users.password', $user) }}" method="POST">
+                                        <form action="{{ route('admin.users.password', $user) }}" method="POST"
+                                              data-confirm="Perbarui kata sandi untuk administrator '{{ $user->name }}'?"
+                                              data-confirm-icon="warning"
+                                              data-confirm-btn="Ya, Perbarui Kata Sandi"
+                                              data-confirm-color="#c48b0f">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-header border-0 pb-0">
@@ -233,7 +241,11 @@
 <div class="modal fade" id="modalAddUser" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 border-0 shadow">
-            <form action="{{ route('admin.users.store') }}" method="POST" novalidate>
+            <form action="{{ route('admin.users.store') }}" method="POST" novalidate
+                  data-confirm="Daftarkan administrator baru ini ke dalam sistem?"
+                  data-confirm-icon="question"
+                  data-confirm-btn="Ya, Daftarkan Admin"
+                  data-confirm-color="#0b2853">
                 @csrf
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title fw-bold">Tambah Administrator Baru</h5>
