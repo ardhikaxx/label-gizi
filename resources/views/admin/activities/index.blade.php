@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-md-3 d-flex gap-2">
-                    <button type="submit" class="btn btn-sm btn-success rounded-pill flex-grow-1">Filter</button>
+                    <button type="submit" class="btn btn-sm btn-bgn-primary rounded-pill flex-grow-1">Filter</button>
                     @if(!empty($search) || !empty($currentAction))
                         <a href="{{ route('admin.activities.index') }}" class="btn btn-sm btn-light border rounded-pill" title="Reset Filter">
                             <i class="fa-solid fa-rotate-left"></i>
