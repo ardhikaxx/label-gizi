@@ -31,6 +31,9 @@ class SettingController extends Controller
         $validated = $request->validate([
             'app_name' => ['required', 'string', 'max:100'],
             'institution_name' => ['required', 'string', 'max:200'],
+            'default_consumption_time_start' => ['nullable', 'string', 'max:10'],
+            'default_consumption_time_end' => ['nullable', 'string', 'max:10'],
+            'default_consumption_time_range' => ['nullable', 'string', 'max:100'],
             'contact_email' => ['nullable', 'email', 'max:150'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
             'footer_text' => ['nullable', 'string', 'max:500'],
