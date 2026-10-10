@@ -1,84 +1,126 @@
 /* ==========================================================================
-   Sistem Informasi Label Makanan Bergizi - Custom Brand CSS
-   Warna Utama: Hijau Sehat & Nutrisi (#198754, #157347, #0f5132, #e8f5e9)
-   Font: Inter, system-ui, -apple-system, sans-serif
+   Sistem Informasi Label Makanan Bergizi
+   Tema Warna Resmi: Badan Gizi Nasional Republik Indonesia
+   Warna Utama:
+   - Biru Navy BGN   : #0b2853 (rgb 11, 40, 83)
+   - Biru Navy Gelap : #071c3b (rgb 7, 28, 59)
+   - Kuning Emas BGN : #d4a34b (rgb 212, 163, 75)
+   - Biru Langit BGN : #87c3e3 (rgb 135, 195, 227)
+   - Hijau Daun Gizi : #48993f (rgb 72, 153, 63)
    ========================================================================== */
 
 :root {
-    --brand-primary: #198754;
-    --brand-primary-dark: #146c43;
-    --brand-primary-light: #20c997;
-    --brand-bg-soft: #f4fbf7;
-    --brand-accent: #ffc107;
-    --brand-dark: #1e293b;
-    --brand-muted: #64748b;
-    --brand-border: #e2e8f0;
+    --brand-primary: #0b2853;
+    --brand-primary-dark: #071c3b;
+    --brand-primary-light: #153c72;
+    --brand-gold: #d4a34b;
+    --brand-gold-dark: #b8862d;
+    --brand-gold-soft: #fbf5e8;
+    --brand-sky: #87c3e3;
+    --brand-green: #48993f;
+    --brand-bg-soft: #f1f6fb;
+    --brand-accent: #d4a34b;
+    --brand-dark: #081d38;
+    --brand-muted: #5b7391;
+    --brand-border: #dbe6f2;
     --brand-card-bg: #ffffff;
-    --admin-sidebar-bg: #0f291e;
-    --admin-sidebar-active: #198754;
-    --admin-sidebar-text: #d1e7dd;
+    --admin-sidebar-bg: #071c38;
+    --admin-sidebar-active: #143c72;
+    --admin-sidebar-text: #c7dbf0;
+    --admin-sidebar-header: #d4a34b;
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--brand-dark);
-    background-color: #f8fafc;
+    background-color: #f4f8fc;
     -webkit-font-smoothing: antialiased;
 }
 
 /* ----------------- Typography & Helpers ----------------- */
 .fw-semibold { font-weight: 600; }
 .text-brand { color: var(--brand-primary) !important; }
+.text-bgn-navy { color: #0b2853 !important; }
+.text-bgn-gold { color: #d4a34b !important; }
 .bg-brand { background-color: var(--brand-primary) !important; color: #fff; }
+.bg-bgn-navy { background-color: #0b2853 !important; color: #fff; }
+.bg-bgn-gold { background-color: #d4a34b !important; color: #071c3b; }
 .bg-brand-soft { background-color: var(--brand-bg-soft) !important; }
 
-/* ----------------- Navbar Publik ----------------- */
-.navbar-public {
-    background-color: #ffffff;
-    border-bottom: 1px solid var(--brand-border);
-    transition: all 0.3s ease;
+/* ----------------- BGN Button Variants ----------------- */
+.btn-bgn-primary {
+    background-color: #0b2853;
+    border-color: #0b2853;
+    color: #ffffff;
+    transition: all 0.2s ease;
 }
 
-.navbar-public .navbar-brand {
-    font-weight: 700;
-    color: var(--brand-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.btn-bgn-primary:hover,
+.btn-bgn-primary:focus {
+    background-color: #071c3b;
+    border-color: #071c3b;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(11, 40, 83, 0.25);
 }
 
-.navbar-public .nav-link {
-    font-weight: 500;
-    color: #475569;
-    padding: 0.5rem 0.9rem;
-    border-radius: 0.375rem;
-    transition: color 0.2s, background-color 0.2s;
-}
-
-.navbar-public .nav-link:hover,
-.navbar-public .nav-link.active {
-    color: var(--brand-primary);
-    background-color: rgba(25, 135, 84, 0.08);
-}
-
-/* ----------------- Hero Section ----------------- */
-.hero-section {
-    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #f7fee7 100%);
-    border-bottom: 1px solid var(--brand-border);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.85rem;
-    background-color: #dcfce7;
-    color: #166534;
-    border-radius: 9999px;
-    font-size: 0.875rem;
+.btn-bgn-gold {
+    background-color: #d4a34b;
+    border-color: #d4a34b;
+    color: #071c3b;
     font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-bgn-gold:hover,
+.btn-bgn-gold:focus {
+    background-color: #b8862d;
+    border-color: #b8862d;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(212, 163, 75, 0.3);
+}
+
+.btn-bgn-outline {
+    background-color: transparent;
+    border-color: #0b2853;
+    color: #0b2853;
+}
+
+.btn-bgn-outline:hover {
+    background-color: #0b2853;
+    color: #ffffff;
+}
+
+/* Override default Bootstrap primary button to BGN Navy */
+.btn-primary {
+    background-color: #0b2853;
+    border-color: #0b2853;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #071c3b !important;
+    border-color: #071c3b !important;
+}
+
+/* ----------------- BGN Badges ----------------- */
+.badge-bgn-gold {
+    background-color: #fbf5e8;
+    color: #9c6e1a;
+    border: 1px solid #ebd4a8;
+}
+
+.badge-bgn-navy {
+    background-color: #eaf2fb;
+    color: #0b2853;
+    border: 1px solid #c8def4;
+}
+
+/* ----------------- Form Inputs Focus ----------------- */
+.form-control:focus,
+.form-select:focus {
+    border-color: #87c3e3;
+    box-shadow: 0 0 0 0.25rem rgba(11, 40, 83, 0.15);
 }
 
 /* ----------------- Nutrition Label Card ----------------- */
@@ -92,11 +134,11 @@ body {
 
 .nutrition-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 15px -3px rgba(11, 40, 83, 0.08), 0 4px 6px -4px rgba(11, 40, 83, 0.04);
 }
 
 .nutrition-pill {
-    background: #f1f5f9;
+    background: #f1f6fc;
     border-radius: 0.5rem;
     padding: 0.45rem 0.75rem;
     text-align: center;
@@ -106,70 +148,32 @@ body {
 .nutrition-pill-val {
     font-size: 1.05rem;
     font-weight: 700;
-    color: #0f172a;
+    color: #081d38;
     line-height: 1.1;
 }
 
 .nutrition-pill-label {
     font-size: 0.72rem;
     font-weight: 600;
-    color: #64748b;
+    color: #5b7391;
     text-transform: uppercase;
     letter-spacing: 0.025em;
 }
 
-/* Nutrition Sticker / Facts Table */
-.nutrition-facts-box {
-    border: 2px solid #0f172a;
-    border-radius: 0.5rem;
-    padding: 1.25rem;
-    background: #ffffff;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.nutrition-facts-box .header-title {
-    font-size: 1.75rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    border-bottom: 8px solid #0f172a;
-    padding-bottom: 0.35rem;
-    margin-bottom: 0.75rem;
-}
-
-.nutrition-facts-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid #cbd5e1;
-    font-size: 0.95rem;
-}
-
-.nutrition-facts-row.thick-border {
-    border-bottom: 4px solid #0f172a;
-}
-
-.nutrition-facts-row.highlight {
-    background-color: #f8fafc;
-    font-weight: 600;
-}
-
 /* ----------------- Consumption Limit Callout ----------------- */
 .consumption-limit-alert {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-left: 5px solid #f59e0b;
+    background: #fbf5e8;
+    border: 1px solid #ebd4a8;
+    border-left: 5px solid #d4a34b;
     border-radius: 0.5rem;
     padding: 1rem 1.25rem;
-    color: #92400e;
+    color: #785311;
 }
 
 .consumption-limit-alert .limit-badge {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #b45309;
+    color: #9c6e1a;
 }
 
 /* ----------------- Admin Layout ----------------- */
@@ -180,24 +184,26 @@ body {
 
 .admin-sidebar {
     width: 260px;
-    background-color: var(--admin-sidebar-bg);
+    background: linear-gradient(180deg, #071c38 0%, #0a254a 100%);
     color: var(--admin-sidebar-text);
     flex-shrink: 0;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
 }
 
 .admin-sidebar .sidebar-brand {
-    padding: 1.25rem 1.5rem;
-    font-size: 1.2rem;
+    padding: 1.25rem 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #ffffff;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(212, 163, 75, 0.2);
     text-decoration: none;
+    background: rgba(0, 0, 0, 0.12);
 }
 
 .admin-sidebar .sidebar-menu {
@@ -211,9 +217,9 @@ body {
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6ee7b7;
-    padding: 0.75rem 0.75rem 0.25rem;
+    letter-spacing: 0.06em;
+    color: #d4a34b !important;
+    padding: 0.85rem 0.75rem 0.25rem;
 }
 
 .admin-sidebar .sidebar-link {
@@ -231,14 +237,20 @@ body {
 }
 
 .admin-sidebar .sidebar-link:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(212, 163, 75, 0.12);
     color: #ffffff;
 }
 
 .admin-sidebar .sidebar-link.active {
-    background-color: var(--admin-sidebar-active);
+    background: linear-gradient(90deg, #143c72 0%, #0d2a52 100%);
     color: #ffffff;
     font-weight: 600;
+    border-left: 3.5px solid #d4a34b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-sidebar .sidebar-link.active i {
+    color: #d4a34b;
 }
 
 .admin-sidebar .sidebar-link i {
@@ -252,16 +264,17 @@ body {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    background-color: #f8fafc;
+    background-color: #f4f8fc;
 }
 
 .admin-topbar {
     background-color: #ffffff;
-    border-bottom: 1px solid var(--brand-border);
+    border-bottom: 2px solid #e1edf8;
     padding: 0.75rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(11, 40, 83, 0.04);
 }
 
 .admin-content {
@@ -275,8 +288,8 @@ body {
     border: 1px solid var(--brand-border);
     border-radius: 0.75rem;
     padding: 1.25rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 4px rgba(11, 40, 83, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     height: 100%;
     text-decoration: none;
     color: inherit;
@@ -285,7 +298,8 @@ body {
 
 .stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px -2px rgba(11, 40, 83, 0.1);
+    border-color: #87c3e3;
     color: inherit;
 }
 
@@ -297,6 +311,23 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
+}
+
+/* ----------------- BGN Login Page Styling ----------------- */
+.bgn-login-body {
+    background: radial-gradient(circle at 50% 25%, #0e2f5b 0%, #071c38 100%);
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+.bgn-login-card {
+    border-top: 5px solid #d4a34b !important;
+    background: #ffffff;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45) !important;
+}
+
+.hover-navy:hover {
+    color: #0b2853 !important;
+    font-weight: 600;
 }
 
 /* ----------------- Print Stylesheet ----------------- */
@@ -321,13 +352,6 @@ body {
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-    }
-
-    .nutrition-facts-box {
-        border: 2px solid #000 !important;
-        box-shadow: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
     }
 }
 
