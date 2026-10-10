@@ -7,19 +7,19 @@
 <div class="container-fluid p-0">
 
     <!-- Welcome & Quick Action Banner -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-brand-soft overflow-hidden">
+    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-brand-soft overflow-hidden" style="border-left: 5px solid #d4a34b !important;">
         <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
             <div>
-                <h4 class="fw-bold text-success mb-1">Halo, {{ Auth::user()->name }}! 👋</h4>
+                <h4 class="fw-bold text-bgn-navy mb-1">Halo, {{ Auth::user()->name }}! 👋</h4>
                 <p class="text-muted mb-0 small">
-                    Selamat datang di panel kelola sistem informasi label makanan bergizi. Pantau status menu, zat gizi, dan transparansi informasi publik.
+                    Selamat datang di panel kelola sistem informasi label makanan bergizi resmi Badan Gizi Nasional.
                 </p>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('admin.labels.create') }}" class="btn btn-success rounded-pill px-4 shadow-sm fw-medium">
+                <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-4 shadow-sm fw-medium">
                     <i class="fa-solid fa-plus-circle me-1"></i> Tambah Label Baru
                 </a>
-                <a href="{{ route('admin.labels.index') }}" class="btn btn-outline-success rounded-pill px-3 fw-medium">
+                <a href="{{ route('admin.labels.index') }}" class="btn btn-bgn-outline rounded-pill px-3 fw-medium">
                     <i class="fa-solid fa-tags me-1"></i> Kelola Label
                 </a>
             </div>
@@ -171,7 +171,7 @@
                         <h6 class="fw-bold mb-0 text-dark">Label Makanan Terbaru</h6>
                         <small class="text-muted">Daftar label yang baru dibuat atau dimutakhirkan</small>
                     </div>
-                    <a href="{{ route('admin.labels.index') }}" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                    <a href="{{ route('admin.labels.index') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                         Lihat Semua
                     </a>
                 </div>
@@ -180,7 +180,7 @@
                         <div class="p-5 text-center text-muted">
                             <i class="fa-solid fa-folder-open fs-1 mb-2 opacity-50"></i>
                             <p class="mb-2">Belum ada label makanan yang terdaftar.</p>
-                            <a href="{{ route('admin.labels.create') }}" class="btn btn-sm btn-success rounded-pill">
+                            <a href="{{ route('admin.labels.create') }}" class="btn btn-sm btn-bgn-primary rounded-pill">
                                 Tambah Label Pertama
                             </a>
                         </div>
@@ -302,12 +302,12 @@
                     datasets: [{
                         label: 'Label Dipublikasikan',
                         data: counts,
-                        backgroundColor: 'rgba(25, 135, 84, 0.12)',
-                        borderColor: '#198754',
+                        backgroundColor: 'rgba(11, 40, 83, 0.1)',
+                        borderColor: '#0b2853',
                         borderWidth: 2.5,
                         fill: true,
                         tension: 0.35,
-                        pointBackgroundColor: '#198754',
+                        pointBackgroundColor: '#d4a34b',
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
                         pointRadius: 5,
@@ -360,10 +360,10 @@
                     datasets: [{
                         data: @json($statusDistribution['data']),
                         backgroundColor: [
-                            '#198754', // Published (Green)
-                            '#ffc107', // Draft (Warning/Yellow)
-                            '#0dcaf0', // Scheduled (Cyan)
-                            '#6c757d'  // Archived (Gray)
+                            '#0b2853', // Published (BGN Navy)
+                            '#d4a34b', // Draft (BGN Gold)
+                            '#87c3e3', // Scheduled (BGN Sky Blue)
+                            '#94a3b8'  // Archived (Muted Slate)
                         ],
                         borderWidth: 2,
                         borderColor: '#ffffff'
