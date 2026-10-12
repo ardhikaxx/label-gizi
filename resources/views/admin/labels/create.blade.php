@@ -598,7 +598,85 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('foodLabelForm');
     form.addEventListener('change', () => isFormDirty = true);
     form.addEventListener('input', () => isFormDirty = true);
-    form.addEventListener('submit', () => isFormDirty = false);
+
+    // Intercept submit button click to preserve chosen action
+    let lastSubmitAction = 'publish';
+    document.querySelectorAll('#foodLabelForm button[type="submit"]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            lastSubmitAction = this.value || 'publish';
+        });
+    });
+
+    // Form submit confirmation via SweetAlert2
+    form.addEventListener('submit', function(e) {
+        if (form.dataset.confirmed === 'true') {
+            return;
+        }
+        e.preventDefault();
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const hiddenDate = document.querySelector('input[name="menu_date"][type="hidden"]') || menuDateEl;
+        const dateVal = (hiddenDate ? hiddenDate.value : (menuDateEl ? menuDateEl.value : '')).trim();
+        const todayStr = '{{ \Carbon\Carbon::today()->format('Y-m-d') }}';
+        const isFuture = dateVal > todayStr;
+
+        let title = 'Konfirmasi Simpan Label';
+        let text = 'Apakah Anda yakin ingin menyimpan label makanan baru ini?';
+        let icon = 'question';
+        let confirmText = 'Ya, Simpan';
+        let confirmColor = '#0b2853';
+
+        if (lastSubmitAction === 'draft') {
+            title = 'Simpan sebagai Draft?';
+            text = 'Label makanan ini akan disimpan sebagai draft dan belum dapat diakses oleh masyarakat umum.';
+            confirmText = 'Ya, Simpan Draft';
+            confirmColor = '#6c757d';
+            icon = 'info';
+        } else if (isFuture) {
+            title = 'Simpan & Jadwalkan Label?';
+            text = 'Label makanan ini akan disimpan dengan status Terjadwal dan otomatis diterbitkan pada tanggal menu (' + dateVal + ').';
+            confirmText = 'Ya, Jadwalkan';
+            confirmColor = '#0b2853';
+            icon = 'question';
+        } else {
+            title = 'Simpan & Publikasikan Label?';
+            text = 'Label makanan ini akan langsung dipublikasikan dan dapat diakses oleh masyarakat umum.';
+            confirmText = 'Ya, Publikasikan';
+            confirmColor = '#198754';
+            icon = 'question';
+        }
+
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            showCancelButton: true,
+            confirmButtonColor: confirmColor,
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: confirmText,
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                let hiddenAction = form.querySelector('input[type="hidden"][name="action"]');
+                if (!hiddenAction) {
+                    hiddenAction = document.createElement('input');
+                    hiddenAction.type = 'hidden';
+                    hiddenAction.name = 'action';
+                    form.appendChild(hiddenAction);
+                }
+                hiddenAction.value = lastSubmitAction;
+
+                form.dataset.confirmed = 'true';
+                isFormDirty = false;
+                form.submit();
+            }
+        });
+    });
 
     // Live Image Preview Handling
     const imageInput = document.getElementById('image');
@@ -615,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         icon: 'error',
                         title: 'Format Tidak Sesuai',
                         text: 'Silakan pilih file gambar yang valid (JPG, JPEG, PNG, WEBP).',
-                        confirmButtonColor: '#198754'
+                        confirmButtonColor: '#0b2853'
                     });
                     this.value = '';
                     previewContainer.classList.add('d-none');
@@ -626,7 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         icon: 'warning',
                         title: 'Ukuran Terlalu Besar',
                         text: 'Ukuran file gambar maksimal 5 MB.',
-                        confirmButtonColor: '#198754'
+                        confirmButtonColor: '#c48b0f'
                     });
                     this.value = '';
                     previewContainer.classList.add('d-none');
@@ -646,9 +724,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (btnRemovePreview) {
             btnRemovePreview.addEventListener('click', function() {
-                imageInput.value = '';
-                previewContainer.classList.add('d-none');
-                previewImg.src = '#';
+                Swal.fire({
+                    title: 'Batalkan Foto?',
+                    text: 'Apakah Anda yakin ingin membatalkan pilihan foto makanan ini?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Batalkan',
+                    cancelButtonText: 'Kembali',
+                    reverseButtons: true
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        imageInput.value = '';
+                        previewContainer.classList.add('d-none');
+                        previewImg.src = '#';
+                    }
+                });
             });
         }
     }
