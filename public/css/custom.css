@@ -243,7 +243,7 @@ body {
 
 /* Disabled State */
 .bgn-field-input:disabled,
-.bgn-field-input[readonly] {
+.bgn-field-input[readonly]:not(.flatpickr-input) {
     background-color: #f8fafc;
     border-color: #e2e8f0;
     color: #94a3b8;
@@ -251,9 +251,27 @@ body {
 }
 
 .bgn-field-input:disabled ~ .bgn-field-label,
-.bgn-field-input[readonly] ~ .bgn-field-label {
+.bgn-field-input[readonly]:not(.flatpickr-input) ~ .bgn-field-label {
     color: #94a3b8;
     background-color: transparent;
+}
+
+/* Flatpickr Input Interactivity */
+.bgn-field-input.flatpickr-input {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.bgn-field-input.flatpickr-input:hover:not(:disabled) {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.bgn-field-input.flatpickr-input:focus,
+.bgn-field-input.flatpickr-input.active {
+    border-color: #0b2853;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px #0b2853;
 }
 
 /* Error State */
@@ -297,6 +315,9 @@ body {
 .bgn-field-input:focus ~ .bgn-field-label,
 .bgn-field-input:not(:placeholder-shown) ~ .bgn-field-label,
 .bgn-field-input.has-value ~ .bgn-field-label,
+.bgn-field-input.flatpickr-input.active ~ .bgn-field-label,
+.bgn-field.has-value .bgn-field-label,
+.bgn-field:focus-within .bgn-field-label,
 .bgn-field.active-label .bgn-field-label,
 .bgn-field-input[type="date"] ~ .bgn-field-label,
 .bgn-field-input[type="time"] ~ .bgn-field-label,
@@ -365,6 +386,19 @@ body {
 .bgn-field-suffix-btn:hover {
     color: #0b2853;
     background-color: #f1f5f9;
+}
+
+.bgn-field-suffix {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    color: #64748b;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .bgn-field-suffix-text {
