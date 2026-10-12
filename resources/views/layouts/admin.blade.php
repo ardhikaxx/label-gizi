@@ -79,21 +79,42 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             function syncFieldValues() {
-                document.querySelectorAll('.bgn-field-input').forEach(function (input) {
-                    if (input.value && input.value.toString().trim() !== '') {
-                        input.classList.add('has-value');
+                document.querySelectorAll('.bgn-field').forEach(function (field) {
+                    const inputs = field.querySelectorAll('.bgn-field-input, input:not([type="hidden"]), select, textarea');
+                    let hasVal = false;
+                    inputs.forEach(function (inp) {
+                        const val = (inp.value || '').toString().trim();
+                        if (val !== '') {
+                            hasVal = true;
+                            inp.classList.add('has-value');
+                        } else {
+                            inp.classList.remove('has-value');
+                        }
+                    });
+                    if (!hasVal) {
+                        const anyInput = field.querySelector('input, select, textarea');
+                        if (anyInput && (anyInput.value || '').toString().trim() !== '') {
+                            hasVal = true;
+                        }
+                    }
+                    if (hasVal) {
+                        field.classList.add('has-value');
                     } else {
-                        input.classList.remove('has-value');
+                        field.classList.remove('has-value');
                     }
                 });
             }
+            window.bgnSyncFieldValues = syncFieldValues;
             syncFieldValues();
+
             document.addEventListener('input', function (e) {
                 if (e.target && e.target.classList.contains('bgn-field-input')) {
                     if (e.target.value && e.target.value.toString().trim() !== '') {
                         e.target.classList.add('has-value');
+                        e.target.closest('.bgn-field')?.classList.add('has-value');
                     } else {
                         e.target.classList.remove('has-value');
+                        e.target.closest('.bgn-field')?.classList.remove('has-value');
                     }
                 }
             });
@@ -101,8 +122,10 @@
                 if (e.target && e.target.classList.contains('bgn-field-input')) {
                     if (e.target.value && e.target.value.toString().trim() !== '') {
                         e.target.classList.add('has-value');
+                        e.target.closest('.bgn-field')?.classList.add('has-value');
                     } else {
                         e.target.classList.remove('has-value');
+                        e.target.closest('.bgn-field')?.classList.remove('has-value');
                     }
                 }
             });
@@ -123,26 +146,65 @@
                 }
 
                 function initFlatpickrInstances() {
-                    // Date pickers
+                    // Date pickers (Format Indonesia: Hari Bulan Tahun, e.g. 13 Oktober 2026)
                     document.querySelectorAll('[data-flatpickr-date]').forEach(function (el) {
                         if (!el._flatpickr) {
+                            const isBgn = el.closest('.bgn-field') !== null;
+                            const isInvalid = el.classList.contains('is-invalid');
+                            const altClass = isBgn
+                                ? ('bgn-field-input has-suffix' + (isInvalid ? ' is-invalid' : ''))
+                                : (el.className.replace('flatpickr-input', '').trim() || 'form-control');
+
                             flatpickr(el, {
                                 locale: 'id',
                                 dateFormat: 'Y-m-d',
+                                altInput: true,
+                                altFormat: 'j F Y',
+                                altInputClass: altClass,
                                 allowInput: true,
                                 disableMobile: true,
-                                onChange: function () {
+                                onReady: function (selectedDates, dateStr, instance) {
+                                    if (instance.altInput) {
+                                        instance.altInput.placeholder = ' ';
+                                        if (isInvalid) {
+                                            instance.altInput.classList.add('is-invalid');
+                                        }
+                                        if (dateStr || instance.altInput.value) {
+                                            instance.altInput.classList.add('has-value');
+                                            el.closest('.bgn-field')?.classList.add('has-value');
+                                        }
+                                    }
+                                    if (window.bgnSyncFieldValues) {
+                                        window.bgnSyncFieldValues();
+                                    }
+                                },
+                                onChange: function (selectedDates, dateStr, instance) {
                                     el.dispatchEvent(new Event('input', { bubbles: true }));
                                     el.dispatchEvent(new Event('change', { bubbles: true }));
+                                    if (instance.altInput) {
+                                        instance.altInput.dispatchEvent(new Event('input', { bubbles: true }));
+                                        instance.altInput.dispatchEvent(new Event('change', { bubbles: true }));
+                                        if (dateStr || instance.altInput.value) {
+                                            instance.altInput.classList.add('has-value');
+                                            el.closest('.bgn-field')?.classList.add('has-value');
+                                        } else {
+                                            instance.altInput.classList.remove('has-value');
+                                            el.closest('.bgn-field')?.classList.remove('has-value');
+                                        }
+                                    }
+                                    if (window.bgnSyncFieldValues) {
+                                        window.bgnSyncFieldValues();
+                                    }
                                 }
                             });
                         }
                     });
 
-                    // Clock / Time pickers
+                    // Clock / Time pickers (Format 24 Jam Indonesia: H:i WIB)
                     document.querySelectorAll('[data-flatpickr-time]').forEach(function (el) {
                         if (!el._flatpickr) {
                             flatpickr(el, {
+                                locale: 'id',
                                 enableTime: true,
                                 noCalendar: true,
                                 dateFormat: 'H:i',
@@ -150,9 +212,19 @@
                                 minuteIncrement: 5,
                                 allowInput: true,
                                 disableMobile: true,
-                                onChange: function () {
+                                onChange: function (selectedDates, dateStr) {
                                     el.dispatchEvent(new Event('input', { bubbles: true }));
                                     el.dispatchEvent(new Event('change', { bubbles: true }));
+                                    if (dateStr && dateStr.trim() !== '') {
+                                        el.classList.add('has-value');
+                                        el.closest('.bgn-field')?.classList.add('has-value');
+                                    } else {
+                                        el.classList.remove('has-value');
+                                        el.closest('.bgn-field')?.classList.remove('has-value');
+                                    }
+                                    if (window.bgnSyncFieldValues) {
+                                        window.bgnSyncFieldValues();
+                                    }
                                 }
                             });
                         }
