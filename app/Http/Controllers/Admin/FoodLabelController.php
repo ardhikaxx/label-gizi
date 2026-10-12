@@ -183,8 +183,23 @@ class FoodLabelController extends Controller
     public function store(StoreFoodLabelRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $isPublishing = $validated['action'] === 'publish';
-        $status = $isPublishing ? 'published' : 'draft';
+        $isDraft = $validated['action'] === 'draft';
+        $menuDate = Carbon::parse($validated['menu_date'])->startOfDay();
+        $today = Carbon::today();
+
+        if ($isDraft) {
+            $status = 'draft';
+            $scheduledAt = null;
+            $publishedAt = null;
+        } elseif ($menuDate->gt($today)) {
+            $status = 'scheduled';
+            $scheduledAt = $menuDate->copy()->setTime(6, 0, 0);
+            $publishedAt = null;
+        } else {
+            $status = 'published';
+            $scheduledAt = null;
+            $publishedAt = now();
+        }
 
         DB::beginTransaction();
         try {
@@ -212,7 +227,8 @@ class FoodLabelController extends Controller
                 'consumption_time_end' => $validated['consumption_time_end'] ?? null,
                 'consumption_time_range' => $validated['consumption_time_range'] ?? null,
                 'status' => $status,
-                'published_at' => $isPublishing ? now() : null,
+                'scheduled_at' => $scheduledAt,
+                'published_at' => $publishedAt,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
             ]);
@@ -239,9 +255,11 @@ class FoodLabelController extends Controller
 
             DB::commit();
 
-            $message = $isPublishing
-                ? "Label makanan '{$label->title}' berhasil disimpan dan dipublikasikan!"
-                : "Label makanan '{$label->title}' berhasil disimpan sebagai draft.";
+            $message = match ($status) {
+                'scheduled' => "Label makanan '{$label->title}' berhasil disimpan dan dijadwalkan untuk tanggal {$label->menu_date->isoFormat('D MMMM Y')}!",
+                'published' => "Label makanan '{$label->title}' berhasil disimpan dan dipublikasikan!",
+                default => "Label makanan '{$label->title}' berhasil disimpan sebagai draft.",
+            };
 
             return redirect()->route('admin.labels.index')->with('success', $message);
         } catch (\Throwable $e) {
@@ -282,8 +300,23 @@ class FoodLabelController extends Controller
     public function update(UpdateFoodLabelRequest $request, FoodLabel $label): RedirectResponse
     {
         $validated = $request->validated();
-        $isPublishing = $validated['action'] === 'publish';
-        $newStatus = $isPublishing ? 'published' : 'draft';
+        $isDraft = $validated['action'] === 'draft';
+        $menuDate = Carbon::parse($validated['menu_date'])->startOfDay();
+        $today = Carbon::today();
+
+        if ($isDraft) {
+            $newStatus = 'draft';
+            $scheduledAt = null;
+            $publishedAt = null;
+        } elseif ($menuDate->gt($today)) {
+            $newStatus = 'scheduled';
+            $scheduledAt = $menuDate->copy()->setTime(6, 0, 0);
+            $publishedAt = null;
+        } else {
+            $newStatus = 'published';
+            $scheduledAt = null;
+            $publishedAt = $label->published_at ?? now();
+        }
 
         DB::beginTransaction();
         try {
@@ -322,7 +355,8 @@ class FoodLabelController extends Controller
                 'consumption_time_end' => array_key_exists('consumption_time_end', $validated) ? $validated['consumption_time_end'] : $label->consumption_time_end,
                 'consumption_time_range' => array_key_exists('consumption_time_range', $validated) ? $validated['consumption_time_range'] : $label->consumption_time_range,
                 'status' => $newStatus,
-                'published_at' => $isPublishing ? ($label->published_at ?? now()) : null,
+                'scheduled_at' => $scheduledAt,
+                'published_at' => $publishedAt,
                 'updated_by' => Auth::id(),
             ]);
 
@@ -349,9 +383,11 @@ class FoodLabelController extends Controller
 
             DB::commit();
 
-            $message = $isPublishing
-                ? "Label makanan '{$label->title}' berhasil diperbarui dan dipublikasikan!"
-                : "Label makanan '{$label->title}' berhasil diperbarui sebagai draft.";
+            $message = match ($newStatus) {
+                'scheduled' => "Label makanan '{$label->title}' berhasil diperbarui dan dijadwalkan untuk tanggal {$label->menu_date->isoFormat('D MMMM Y')}!",
+                'published' => "Label makanan '{$label->title}' berhasil diperbarui dan dipublikasikan!",
+                default => "Label makanan '{$label->title}' berhasil diperbarui sebagai draft.",
+            };
 
             return redirect()->route('admin.labels.show', $label)->with('success', $message);
         } catch (\Throwable $e) {
