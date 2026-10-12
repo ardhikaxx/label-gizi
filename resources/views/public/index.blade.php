@@ -213,7 +213,7 @@
                 @endforeach
             </div>
             <div class="carousel-swipe-hint" id="carouselSwipeHint">
-                <i class="fa-solid fa-arrows-left-right me-1"></i> Swipe / Geser untuk kondisi makanan lainnya
+                Swipe / Geser untuk kondisi makanan lainnya
             </div>
         </div>
     @endif
@@ -875,23 +875,31 @@ body > main {
         right: 8px;
     }
     .carousel-bottom-bar {
-        left: 50% !important;
-        transform: translateX(-50%) !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 12px !important;
+        transform: none !important;
         width: 100% !important;
-        max-width: 100vw !important;
+        max-width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
         align-items: center !important;
+        justify-content: center !important;
         text-align: center !important;
         padding: 0 16px !important;
         box-sizing: border-box !important;
+        margin: 0 auto !important;
+    }
+    .carousel-dots-list {
+        margin: 0 auto !important;
     }
     .carousel-swipe-hint {
         text-align: center !important;
         margin: 0 auto !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        display: block !important;
         font-size: clamp(9.5px, 2.7vw, 11px) !important;
         max-width: 90vw !important;
+        line-height: 1.4 !important;
     }
 }
 
