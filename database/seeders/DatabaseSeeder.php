@@ -260,5 +260,8 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+
+        // 6. Multi-condition Real Food Labels (5 conditions per day)
+        $this->call(FoodLabelMultiConditionSeeder::class);
     }
 }
