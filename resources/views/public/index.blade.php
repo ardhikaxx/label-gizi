@@ -7,7 +7,7 @@
 <div class="public-label-page" id="publicLabelPage">
 
     <!-- Accessibility & SEO Heading (Hidden Visually, Readable by Screen Readers & Tests) -->
-    <h1 class="visually-hidden">Sajian Menu Hari Ini — {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi Gratis SPPG Ponorogo' }}</h1>
+    <h1 class="visually-hidden">Sajian Menu Hari Ini — {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi Gratis SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional' }}</h1>
 
     <!-- ======================================================= -->
     <!-- FLOATING PREV / NEXT NAVIGATION ARROWS                  -->
