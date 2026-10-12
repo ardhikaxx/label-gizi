@@ -52,62 +52,64 @@
                     <div class="card-body p-4">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label for="menu_date" class="form-label small fw-semibold">Tanggal Menu <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-calendar"></i></span>
+                                <div class="bgn-field mb-1">
                                     <input type="date"
-                                           class="form-control @error('menu_date') is-invalid @enderror"
+                                           class="bgn-field-input @error('menu_date') is-invalid @enderror"
                                            id="menu_date"
                                            name="menu_date"
                                            value="{{ old('menu_date', $label->menu_date->format('Y-m-d')) }}"
                                            required>
+                                    <label for="menu_date" class="bgn-field-label">Tanggal Menu *</label>
                                 </div>
                                 @error('menu_date')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-12">
-                                <label for="food_condition" class="form-label small fw-semibold">Kondisi Makanan <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light text-muted"><i class="fa-solid fa-layer-group"></i></span>
-                                    <select class="form-select @error('food_condition') is-invalid @enderror" id="food_condition" name="food_condition" required>
+                                <div class="bgn-field mb-1">
+                                    <select class="bgn-field-input bgn-field-select @error('food_condition') is-invalid @enderror" id="food_condition" name="food_condition" required>
                                         @foreach($conditions as $conditionOption)
                                             <option value="{{ $conditionOption }}" {{ old('food_condition', $label->food_condition) === $conditionOption ? 'selected' : '' }}>
                                                 {{ $conditionOption }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    <label for="food_condition" class="bgn-field-label">Kondisi Makanan *</label>
                                 </div>
-                                <div class="form-text small text-muted">Kategori kondisi makanan untuk sasaran penerima (Porsi besar, Porsi kecil, Alergi, Balita, Busui dan Bumil).</div>
+                                <div class="form-text small text-muted ps-1">Kategori kondisi makanan untuk sasaran penerima (Porsi besar, Porsi kecil, Alergi, Balita, Busui dan Bumil).</div>
                                 @error('food_condition')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-12">
-                                <label for="title" class="form-label small fw-semibold">Nama Paket / Judul Label <span class="text-danger">*</span></label>
-                                <input type="text"
-                                       class="form-control @error('title') is-invalid @enderror"
-                                       id="title"
-                                       name="title"
-                                       value="{{ old('title', $label->title) }}"
-                                       placeholder="Contoh: Paket Menu Sehat Siang"
-                                       required>
+                                <div class="bgn-field mb-1">
+                                    <input type="text"
+                                           class="bgn-field-input @error('title') is-invalid @enderror"
+                                           id="title"
+                                           name="title"
+                                           value="{{ old('title', $label->title) }}"
+                                           placeholder=" "
+                                           required>
+                                    <label for="title" class="bgn-field-label">Nama Paket / Judul Label *</label>
+                                </div>
                                 @error('title')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-12">
-                                <label for="description" class="form-label small fw-semibold">Keterangan Tambahan (Opsional)</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror"
-                                          id="description"
-                                          name="description"
-                                          rows="2"
-                                          placeholder="Catatan kebersihan, rekomendasi penyajian, atau keterangan bahan...">{{ old('description', $label->description) }}</textarea>
+                                <div class="bgn-field mb-1">
+                                    <textarea class="bgn-field-input bgn-field-textarea @error('description') is-invalid @enderror"
+                                              id="description"
+                                              name="description"
+                                              rows="2"
+                                              placeholder=" ">{{ old('description', $label->description) }}</textarea>
+                                    <label for="description" class="bgn-field-label">Keterangan Tambahan (Opsional)</label>
+                                </div>
                                 @error('description')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -262,102 +264,92 @@
                     <div class="card-body p-4">
                         <div class="d-flex flex-column gap-3">
                             <!-- Energi -->
-                            <div>
-                                <label for="energy" class="form-label small fw-semibold">Energi Total <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number"
-                                           step="0.1"
-                                           min="0"
-                                           class="form-control @error('energy') is-invalid @enderror"
-                                           id="energy"
-                                           name="energy"
-                                           value="{{ old('energy', $label->energy) }}"
-                                           placeholder="0"
-                                           required>
-                                    <span class="input-group-text bg-light text-muted fw-bold">kkal</span>
-                                </div>
+                            <div class="bgn-field mb-1">
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       class="bgn-field-input has-suffix @error('energy') is-invalid @enderror"
+                                       id="energy"
+                                       name="energy"
+                                       value="{{ old('energy', $label->energy) }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="energy" class="bgn-field-label">Energi Total *</label>
+                                <span class="bgn-field-suffix-text">kkal</span>
                                 @error('energy')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- Protein -->
-                            <div>
-                                <label for="protein" class="form-label small fw-semibold">Protein <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number"
-                                           step="0.1"
-                                           min="0"
-                                           class="form-control @error('protein') is-invalid @enderror"
-                                           id="protein"
-                                           name="protein"
-                                           value="{{ old('protein', $label->protein) }}"
-                                           placeholder="0"
-                                           required>
-                                    <span class="input-group-text bg-light text-muted fw-bold">gram</span>
-                                </div>
+                            <div class="bgn-field mb-1">
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       class="bgn-field-input has-suffix @error('protein') is-invalid @enderror"
+                                       id="protein"
+                                       name="protein"
+                                       value="{{ old('protein', $label->protein) }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="protein" class="bgn-field-label">Protein *</label>
+                                <span class="bgn-field-suffix-text">gram</span>
                                 @error('protein')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- Lemak -->
-                            <div>
-                                <label for="fat" class="form-label small fw-semibold">Lemak <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number"
-                                           step="0.1"
-                                           min="0"
-                                           class="form-control @error('fat') is-invalid @enderror"
-                                           id="fat"
-                                           name="fat"
-                                           value="{{ old('fat', $label->fat) }}"
-                                           placeholder="0"
-                                           required>
-                                    <span class="input-group-text bg-light text-muted fw-bold">gram</span>
-                                </div>
+                            <div class="bgn-field mb-1">
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       class="bgn-field-input has-suffix @error('fat') is-invalid @enderror"
+                                       id="fat"
+                                       name="fat"
+                                       value="{{ old('fat', $label->fat) }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="fat" class="bgn-field-label">Lemak *</label>
+                                <span class="bgn-field-suffix-text">gram</span>
                                 @error('fat')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- Karbohidrat -->
-                            <div>
-                                <label for="carbohydrate" class="form-label small fw-semibold">Karbohidrat <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number"
-                                           step="0.1"
-                                           min="0"
-                                           class="form-control @error('carbohydrate') is-invalid @enderror"
-                                           id="carbohydrate"
-                                           name="carbohydrate"
-                                           value="{{ old('carbohydrate', $label->carbohydrate) }}"
-                                           placeholder="0"
-                                           required>
-                                    <span class="input-group-text bg-light text-muted fw-bold">gram</span>
-                                </div>
+                            <div class="bgn-field mb-1">
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       class="bgn-field-input has-suffix @error('carbohydrate') is-invalid @enderror"
+                                       id="carbohydrate"
+                                       name="carbohydrate"
+                                       value="{{ old('carbohydrate', $label->carbohydrate) }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="carbohydrate" class="bgn-field-label">Karbohidrat *</label>
+                                <span class="bgn-field-suffix-text">gram</span>
                                 @error('carbohydrate')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <!-- Serat -->
-                            <div>
-                                <label for="fiber" class="form-label small fw-semibold">Serat Pangan <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="number"
-                                           step="0.1"
-                                           min="0"
-                                           class="form-control @error('fiber') is-invalid @enderror"
-                                           id="fiber"
-                                           name="fiber"
-                                           value="{{ old('fiber', $label->fiber) }}"
-                                           placeholder="0"
-                                           required>
-                                    <span class="input-group-text bg-light text-muted fw-bold">gram</span>
-                                </div>
+                            <div class="bgn-field mb-1">
+                                <input type="number"
+                                       step="0.1"
+                                       min="0"
+                                       class="bgn-field-input has-suffix @error('fiber') is-invalid @enderror"
+                                       id="fiber"
+                                       name="fiber"
+                                       value="{{ old('fiber', $label->fiber) }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="fiber" class="bgn-field-label">Serat Pangan *</label>
+                                <span class="bgn-field-suffix-text">gram</span>
                                 @error('fiber')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -378,72 +370,70 @@
 
                     <div class="card-body p-4">
                         <!-- Durasi Jam Relatif -->
-                        <div class="mb-3">
-                            <label for="consumption_limit_hours" class="form-label small fw-semibold">Maksimal Durasi Aman <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input type="number"
-                                       step="0.5"
-                                       min="0.5"
-                                       max="24"
-                                       class="form-control @error('consumption_limit_hours') is-invalid @enderror"
-                                       id="consumption_limit_hours"
-                                       name="consumption_limit_hours"
-                                       value="{{ old('consumption_limit_hours', $label->consumption_limit_hours) }}"
-                                       required>
-                                <span class="input-group-text bg-light text-dark fw-bold">jam</span>
-                                <span class="input-group-text bg-light text-muted">setelah diterima</span>
-                            </div>
+                        <div class="bgn-field mb-3">
+                            <input type="number"
+                                   step="0.5"
+                                   min="0.5"
+                                   max="24"
+                                   class="bgn-field-input has-suffix @error('consumption_limit_hours') is-invalid @enderror"
+                                   id="consumption_limit_hours"
+                                   name="consumption_limit_hours"
+                                   value="{{ old('consumption_limit_hours', $label->consumption_limit_hours) }}"
+                                   placeholder=" "
+                                   required>
+                            <label for="consumption_limit_hours" class="bgn-field-label">Maksimal Durasi Aman *</label>
+                            <span class="bgn-field-suffix-text">jam</span>
                             @error('consumption_limit_hours')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                <div class="bgn-field-error">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <!-- Rentang Jam (Jam Berapa Sampai Jam Berapa) -->
-                        <div class="row g-2 mb-3">
+                        <div class="row g-3 mb-3">
                             <div class="col-sm-6">
-                                <label for="consumption_time_start" class="form-label small fw-semibold">Jam Mulai Konsumsi</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                <div class="bgn-field mb-1">
                                     <input type="time"
-                                           class="form-control @error('consumption_time_start') is-invalid @enderror"
+                                           class="bgn-field-input @error('consumption_time_start') is-invalid @enderror"
                                            id="consumption_time_start"
                                            name="consumption_time_start"
                                            value="{{ old('consumption_time_start', $label->consumption_time_start ?? '08:00') }}">
+                                    <label for="consumption_time_start" class="bgn-field-label">Jam Mulai Konsumsi</label>
                                 </div>
-                                <div class="form-text small text-muted">Contoh: 08:00 WIB</div>
+                                <div class="form-text small text-muted ps-1">Contoh: 08:00 WIB</div>
                                 @error('consumption_time_start')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-sm-6">
-                                <label for="consumption_time_end" class="form-label small fw-semibold">Jam Batas Akhir</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                <div class="bgn-field mb-1">
                                     <input type="time"
-                                           class="form-control @error('consumption_time_end') is-invalid @enderror"
+                                           class="bgn-field-input @error('consumption_time_end') is-invalid @enderror"
                                            id="consumption_time_end"
                                            name="consumption_time_end"
                                            value="{{ old('consumption_time_end', $label->consumption_time_end ?? '12:00') }}">
+                                    <label for="consumption_time_end" class="bgn-field-label">Jam Batas Akhir</label>
                                 </div>
-                                <div class="form-text small text-muted">Contoh: 12:00 WIB</div>
+                                <div class="form-text small text-muted ps-1">Contoh: 12:00 WIB</div>
                                 @error('consumption_time_end')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
                         <!-- Kustom Teks Rentang Jam (Opsional) -->
                         <div class="mb-3">
-                            <label for="consumption_time_range" class="form-label small fw-semibold">Kustom Teks Rentang Jam (Opsional)</label>
-                            <input type="text"
-                                   class="form-control form-control-sm @error('consumption_time_range') is-invalid @enderror"
-                                   id="consumption_time_range"
-                                   name="consumption_time_range"
-                                   value="{{ old('consumption_time_range', $label->consumption_time_range) }}"
-                                   placeholder="Contoh: Pukul : 08.00 – 12.00 WIB">
-                            <div class="form-text small text-muted">Kosongkan untuk otomatis menggunakan format dari jam mulai & selesai di atas.</div>
+                            <div class="bgn-field mb-1">
+                                <input type="text"
+                                       class="bgn-field-input @error('consumption_time_range') is-invalid @enderror"
+                                       id="consumption_time_range"
+                                       name="consumption_time_range"
+                                       value="{{ old('consumption_time_range', $label->consumption_time_range) }}"
+                                       placeholder=" ">
+                                <label for="consumption_time_range" class="bgn-field-label">Kustom Teks Rentang Jam (Opsional)</label>
+                            </div>
+                            <div class="form-text small text-muted ps-1">Kosongkan untuk otomatis menggunakan format dari jam mulai & selesai di atas.</div>
                             @error('consumption_time_range')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                <div class="bgn-field-error">{{ $message }}</div>
                             @enderror
                         </div>
 
