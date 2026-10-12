@@ -58,11 +58,20 @@
             <form action="{{ route('admin.labels.index') }}" method="GET" class="row g-2 align-items-center">
                 <input type="hidden" name="status" value="{{ $currentStatus }}">
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" name="search" class="form-control border-start-0" placeholder="Cari nama menu, judul, atau paket..." value="{{ $search }}">
+                        <input type="text" name="search" class="form-control border-start-0" placeholder="Cari nama menu, judul..." value="{{ $search }}">
                     </div>
+                </div>
+
+                <div class="col-md-2">
+                    <select name="condition" class="form-select form-select-sm">
+                        <option value="">Semua Kondisi</option>
+                        @foreach($conditions as $cond)
+                            <option value="{{ $cond }}" {{ $currentCondition === $cond ? 'selected' : '' }}>{{ $cond }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-md-3">
@@ -72,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="sort_by" class="form-select form-select-sm">
                         <option value="menu_date" {{ $sortBy === 'menu_date' ? 'selected' : '' }}>Urut: Tanggal Menu</option>
                         <option value="created_at" {{ $sortBy === 'created_at' ? 'selected' : '' }}>Urut: Waktu Pembuatan</option>
@@ -85,7 +94,7 @@
                     <button type="submit" class="btn btn-sm btn-success rounded-pill flex-grow-1">
                         Terapkan
                     </button>
-                    @if(!empty($search) || !empty($date) || $currentStatus !== 'all')
+                    @if(!empty($search) || !empty($date) || !empty($currentCondition) || $currentStatus !== 'all')
                         <a href="{{ route('admin.labels.index') }}" class="btn btn-sm btn-light border rounded-pill" title="Reset Filter">
                             <i class="fa-solid fa-rotate-left"></i>
                         </a>
@@ -138,6 +147,9 @@
                                                 </a>
                                                 <div class="small text-muted d-flex align-items-center gap-2 flex-wrap">
                                                     <span><i class="fa-regular fa-calendar-check text-success me-1"></i> {{ $label->menu_date->isoFormat('D MMMM Y') }}</span>
+                                                    <span class="badge {{ $label->condition_badge_class }} rounded-pill" style="font-size: 0.7rem;">
+                                                        <i class="fa-solid fa-layer-group me-1"></i>{{ $label->food_condition }}
+                                                    </span>
                                                     @if($label->image)
                                                         <span class="badge bg-success bg-opacity-10 text-success border-0" style="font-size: 0.7rem;">
                                                             <i class="fa-solid fa-camera me-1"></i>Foto WebP
