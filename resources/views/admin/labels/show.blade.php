@@ -288,11 +288,11 @@
                         </li>
                         <li class="d-flex justify-content-between">
                             <span class="text-muted">Waktu Dibuat:</span>
-                            <span class="text-dark">{{ $label->created_at->isoFormat('D MMMM Y, HH:mm') }}</span>
+                            <span class="text-dark">{{ $label->created_at->isoFormat('D MMMM Y, HH:mm') }} WIB</span>
                         </li>
                         <li class="d-flex justify-content-between">
                             <span class="text-muted">Terakhir Diperbarui:</span>
-                            <span class="text-dark">{{ $label->updated_at->isoFormat('D MMMM Y, HH:mm') }}</span>
+                            <span class="text-dark">{{ $label->updated_at->isoFormat('D MMMM Y, HH:mm') }} WIB</span>
                         </li>
                         @if($label->updater)
                             <li class="d-flex justify-content-between">
