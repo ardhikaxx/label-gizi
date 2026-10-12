@@ -26,6 +26,7 @@ class FoodLabelController extends Controller
     public function index(Request $request): View
     {
         $status = $request->query('status', 'all');
+        $condition = $request->query('condition');
         $search = $request->query('search');
         $date = $request->query('date');
         $startDate = $request->query('start_date');
@@ -38,6 +39,11 @@ class FoodLabelController extends Controller
         // Filter status
         if ($status !== 'all' && in_array($status, ['draft', 'scheduled', 'published', 'archived'])) {
             $query->where('status', $status);
+        }
+
+        // Filter condition
+        if (! empty($condition) && in_array($condition, FoodLabel::CONDITIONS)) {
+            $query->forCondition($condition);
         }
 
         // Search term
@@ -78,6 +84,8 @@ class FoodLabelController extends Controller
             'labels' => $labels,
             'counts' => $counts,
             'currentStatus' => $status,
+            'currentCondition' => $condition,
+            'conditions' => FoodLabel::CONDITIONS,
             'search' => $search,
             'date' => $date,
             'startDate' => $startDate,
@@ -96,6 +104,7 @@ class FoodLabelController extends Controller
             'defaultDate' => Carbon::today()->format('Y-m-d'),
             'defaultTimeStart' => ApplicationSetting::get('default_consumption_time_start', '08:00'),
             'defaultTimeEnd' => ApplicationSetting::get('default_consumption_time_end', '12:00'),
+            'conditions' => FoodLabel::CONDITIONS,
         ]);
     }
 
@@ -190,6 +199,7 @@ class FoodLabelController extends Controller
                 'title' => $validated['title'],
                 'slug' => $slug,
                 'menu_date' => $validated['menu_date'],
+                'food_condition' => $validated['food_condition'] ?? FoodLabel::CONDITION_PORSI_BESAR,
                 'description' => $validated['description'] ?? null,
                 'image' => $imageName,
                 'energy' => (float) ($validated['energy'] ?? 0),
@@ -262,6 +272,7 @@ class FoodLabelController extends Controller
 
         return view('admin.labels.edit', [
             'label' => $label,
+            'conditions' => FoodLabel::CONDITIONS,
         ]);
     }
 
@@ -298,6 +309,7 @@ class FoodLabelController extends Controller
                 'title' => $validated['title'],
                 'slug' => $slug,
                 'menu_date' => $validated['menu_date'],
+                'food_condition' => $validated['food_condition'] ?? $label->food_condition,
                 'description' => $validated['description'] ?? null,
                 'image' => $imageName,
                 'energy' => (float) ($validated['energy'] ?? $label->energy),
@@ -443,6 +455,7 @@ class FoodLabelController extends Controller
                 'title' => $newTitle,
                 'slug' => $newSlug,
                 'menu_date' => $newDate,
+                'food_condition' => $label->food_condition,
                 'description' => $label->description,
                 'image' => $copiedImage,
                 'energy' => $label->energy,
