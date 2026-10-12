@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\FoodLabel;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFoodLabelRequest extends FormRequest
 {
@@ -20,14 +22,22 @@ class StoreFoodLabelRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $mergeData = [];
+
         if ($this->has('menus') && is_array($this->input('menus'))) {
-            // Trim all menu items and filter out completely empty entries for clean processing
             $cleaned = array_map(function ($item) {
                 return is_string($item) ? trim($item) : $item;
             }, $this->input('menus'));
 
-            // Replace with trimmed array
-            $this->merge(['menus' => $cleaned]);
+            $mergeData['menus'] = $cleaned;
+        }
+
+        if (! $this->filled('food_condition')) {
+            $mergeData['food_condition'] = FoodLabel::CONDITION_PORSI_BESAR;
+        }
+
+        if (! empty($mergeData)) {
+            $this->merge($mergeData);
         }
     }
 
@@ -44,6 +54,7 @@ class StoreFoodLabelRequest extends FormRequest
             'action' => ['required', 'in:draft,publish'],
             'title' => ['required', 'string', 'max:255'],
             'menu_date' => ['required', 'date'],
+            'food_condition' => ['required', 'string', Rule::in(FoodLabel::CONDITIONS)],
             'description' => ['nullable', 'string', 'max:2000'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
@@ -85,6 +96,8 @@ class StoreFoodLabelRequest extends FormRequest
             'title.max' => 'Judul label tidak boleh melebihi 255 karakter.',
             'menu_date.required' => 'Tanggal menu wajib diisi.',
             'menu_date.date' => 'Format tanggal menu tidak valid.',
+            'food_condition.required' => 'Kondisi makanan wajib dipilih.',
+            'food_condition.in' => 'Kondisi makanan yang dipilih tidak valid.',
             'energy.required' => 'Kandungan energi (kkal) wajib diisi untuk publikasi.',
             'energy.numeric' => 'Nilai energi harus berupa angka.',
             'energy.min' => 'Nilai energi tidak boleh bernilai negatif.',
