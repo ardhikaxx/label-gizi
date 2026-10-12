@@ -1,5 +1,5 @@
 @php
-    $appName = \App\Models\ApplicationSetting::get('app_name', 'Label Gizi');
+    $appName = \App\Models\ApplicationSetting::get('app_name', 'Label Gizi SPPG Ponorogo');
 @endphp
 <!DOCTYPE html>
 <html lang="id">
