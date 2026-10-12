@@ -202,8 +202,9 @@
                                                 <a href="{{ route('admin.labels.show', $lbl) }}" class="fw-semibold text-dark text-decoration-none d-block text-truncate" style="max-width: 240px;">
                                                     {{ $lbl->title }}
                                                 </a>
-                                                <small class="text-muted">
-                                                    <i class="fa-regular fa-calendar me-1"></i> {{ $lbl->menu_date->isoFormat('D MMMM Y') }}
+                                                <small class="text-muted d-flex align-items-center gap-1 flex-wrap mt-1">
+                                                    <span><i class="fa-regular fa-calendar me-1"></i> {{ $lbl->menu_date->isoFormat('D MMMM Y') }}</span>
+                                                    <span class="badge {{ $lbl->condition_badge_class }} rounded-pill" style="font-size: 0.68rem;">{{ $lbl->food_condition }}</span>
                                                 </small>
                                             </td>
                                             <td>
