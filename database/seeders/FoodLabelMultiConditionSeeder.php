@@ -16,6 +16,7 @@ class FoodLabelMultiConditionSeeder extends Seeder
     public function run(): void
     {
         $admin = User::first() ?? User::factory()->create([
+            'name' => 'Admin SPPG Kauman Somoroto',
             'email' => 'admin@labelgizi.test',
             'username' => 'admin',
         ]);
