@@ -68,6 +68,24 @@
                             </div>
 
                             <div class="col-12">
+                                <label for="food_condition" class="form-label small fw-semibold">Kondisi Makanan <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted"><i class="fa-solid fa-layer-group"></i></span>
+                                    <select class="form-select @error('food_condition') is-invalid @enderror" id="food_condition" name="food_condition" required>
+                                        @foreach($conditions as $conditionOption)
+                                            <option value="{{ $conditionOption }}" {{ old('food_condition', $label->food_condition) === $conditionOption ? 'selected' : '' }}>
+                                                {{ $conditionOption }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-text small text-muted">Kategori kondisi makanan untuk sasaran penerima (Porsi besar, Porsi kecil, Alergi, Balita, Busui dan Bumil).</div>
+                                @error('food_condition')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12">
                                 <label for="title" class="form-label small fw-semibold">Nama Paket / Judul Label <span class="text-danger">*</span></label>
                                 <input type="text"
                                        class="form-control @error('title') is-invalid @enderror"
