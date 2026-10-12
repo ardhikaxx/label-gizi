@@ -72,6 +72,43 @@
 
     @include('partials.sweetalert')
 
+    <!-- Sinkronisasi Nilai Input Outlined Floating Label (.bgn-field) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function syncFieldValues() {
+                document.querySelectorAll('.bgn-field-input').forEach(function (input) {
+                    if (input.value && input.value.toString().trim() !== '') {
+                        input.classList.add('has-value');
+                    } else {
+                        input.classList.remove('has-value');
+                    }
+                });
+            }
+            syncFieldValues();
+            document.addEventListener('input', function (e) {
+                if (e.target && e.target.classList.contains('bgn-field-input')) {
+                    if (e.target.value && e.target.value.toString().trim() !== '') {
+                        e.target.classList.add('has-value');
+                    } else {
+                        e.target.classList.remove('has-value');
+                    }
+                }
+            });
+            document.addEventListener('change', function (e) {
+                if (e.target && e.target.classList.contains('bgn-field-input')) {
+                    if (e.target.value && e.target.value.toString().trim() !== '') {
+                        e.target.classList.add('has-value');
+                    } else {
+                        e.target.classList.remove('has-value');
+                    }
+                }
+            });
+            document.addEventListener('shown.bs.modal', function () {
+                syncFieldValues();
+            });
+        });
+    </script>
+
     @stack('scripts')
 </body>
 </html>
