@@ -380,3 +380,85 @@ test('pages have logo-bgn.png favicon in browser tabs', function () {
     $adminResponse->assertStatus(200);
     $adminResponse->assertSee('images/logo-bgn.png');
 });
+
+test('admin can store and update food label with specific condition', function () {
+    $today = Carbon::today()->format('Y-m-d');
+
+    // Create label for Balita
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), [
+        'action' => 'publish',
+        'title' => 'Menu Balita Sehat Lunak',
+        'menu_date' => $today,
+        'food_condition' => 'Balita',
+        'energy' => 320,
+        'protein' => 12.0,
+        'fat' => 8.0,
+        'carbohydrate' => 45.0,
+        'fiber' => 3.0,
+        'consumption_limit_hours' => 3.0,
+        'menus' => ['Bubur Ayam Halus', 'Puree Wortel'],
+    ]);
+
+    $response->assertRedirect(route('admin.labels.index'));
+
+    $label = FoodLabel::where('title', 'Menu Balita Sehat Lunak')->first();
+    expect($label)->not->toBeNull()
+        ->and($label->food_condition)->toBe('Balita');
+
+    // Update label to Busui dan Bumil
+    $updateResponse = $this->actingAs($this->admin)->put(route('admin.labels.update', $label), [
+        'action' => 'publish',
+        'title' => 'Menu Busui dan Bumil Bernutrisi',
+        'menu_date' => $today,
+        'food_condition' => 'Busui dan Bumil',
+        'energy' => 750,
+        'protein' => 30.0,
+        'fat' => 20.0,
+        'carbohydrate' => 90.0,
+        'fiber' => 7.0,
+        'consumption_limit_hours' => 4.0,
+        'menus' => ['Nasi Beras Merah', 'Sup Daun Katuk Ayam'],
+    ]);
+
+    $updateResponse->assertRedirect(route('admin.labels.show', $label));
+
+    $label->refresh();
+    expect($label->food_condition)->toBe('Busui dan Bumil');
+});
+
+test('storing food label with invalid condition fails validation', function () {
+    $today = Carbon::today()->format('Y-m-d');
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), [
+        'action' => 'publish',
+        'title' => 'Menu Kondisi Ngawur',
+        'menu_date' => $today,
+        'food_condition' => 'Kondisi Tidak Ada',
+        'energy' => 500,
+        'protein' => 20.0,
+        'fat' => 10.0,
+        'carbohydrate' => 60.0,
+        'fiber' => 4.0,
+        'consumption_limit_hours' => 4.0,
+        'menus' => ['Nasi'],
+    ]);
+
+    $response->assertSessionHasErrors('food_condition');
+});
+
+test('admin can filter food labels by condition on index page', function () {
+    FoodLabel::factory()->create([
+        'title' => 'Label Alergi Khusus',
+        'food_condition' => 'Alergi',
+    ]);
+    FoodLabel::factory()->create([
+        'title' => 'Label Porsi Besar Normal',
+        'food_condition' => 'Porsi besar',
+    ]);
+
+    $response = $this->actingAs($this->admin)->get(route('admin.labels.index', ['condition' => 'Alergi']));
+
+    $response->assertStatus(200);
+    $response->assertSee('Label Alergi Khusus');
+    $response->assertDontSee('Label Porsi Besar Normal');
+});
