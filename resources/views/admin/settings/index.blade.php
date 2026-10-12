@@ -65,8 +65,8 @@
                                    name="institution_name"
                                    id="institution_name"
                                    class="form-control form-control-lg fs-6 @error('institution_name') is-invalid @enderror"
-                                   value="{{ old('institution_name', $settings['institution_name']['value'] ?? 'Badan Gizi Nasional Republik Indonesia') }}"
-                                   placeholder="Contoh: Badan Gizi Nasional Republik Indonesia"
+                                   value="{{ old('institution_name', $settings['institution_name']['value'] ?? 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional') }}"
+                                   placeholder="Contoh: SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional"
                                    required>
                             <div class="form-text small text-muted">
                                 Nama instansi resmi penyedia makanan yang dicantumkan pada format cetak stiker label gizi.
@@ -133,12 +133,12 @@
                     <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-light mx-auto mb-3" style="width: 120px; height: 120px; box-shadow: 0 4px 12px rgba(11, 40, 83, 0.08);">
                         <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="width: 90px; height: 90px; object-fit: contain;">
                     </div>
-                    <h5 class="fw-bold text-dark mb-1">Badan Gizi Nasional</h5>
+                    <h5 class="fw-bold text-dark mb-1">SPPG Kauman Somoroto</h5>
                     <div class="badge badge-bgn-gold mx-auto mb-3 px-3 py-1 text-uppercase" style="letter-spacing: 0.08em; font-size: 0.72rem;">
-                        Republik Indonesia
+                        Badan Gizi Nasional &bull; Ponorogo
                     </div>
                     <p class="text-muted small mb-0">
-                        Identitas visual resmi Badan Gizi Nasional RI diterapkan pada tata letak administrator, halaman otentikasi login, serta palet warna navigasi.
+                        Identitas resmi SPPG Ponorogo Kauman Somoroto di bawah naungan Badan Gizi Nasional Republik Indonesia diterapkan pada seluruh sistem label gizi, stiker cetak, dan otentikasi login.
                     </p>
                 </div>
             </div>
