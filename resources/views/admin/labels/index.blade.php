@@ -77,7 +77,7 @@
                 <div class="col-md-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-regular fa-calendar"></i></span>
-                        <input type="date" name="date" class="form-control border-start-0" value="{{ $date }}" title="Filter Tanggal Spesifik">
+                        <input type="text" name="date" class="form-control border-start-0" value="{{ $date }}" data-flatpickr-date placeholder="Pilih Tanggal..." title="Filter Tanggal Spesifik">
                     </div>
                 </div>
 
