@@ -94,13 +94,7 @@
                             </div>
 
                             <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
-                            <div class="desktop-circle-box"
-                                 role="button"
-                                 tabindex="0"
-                                 data-photo-src="{{ $slide['dishImageUrl'] }}"
-                                 data-photo-date="{{ $slide['menuDateFormatted'] }}"
-                                 data-photo-title="{{ $slide['title'] }} — {{ $slide['condition'] }}"
-                                 title="Klik untuk memperbesar foto hidangan {{ $slide['condition'] }}">
+                            <div class="desktop-circle-box">
                                 <img src="{{ $slide['dishImageUrl'] }}"
                                      alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
                                      class="desktop-circle-img"
@@ -176,13 +170,7 @@
                             </div>
 
                             <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
-                            <div class="mobile-circle-box"
-                                 role="button"
-                                 tabindex="0"
-                                 data-photo-src="{{ $slide['dishImageUrl'] }}"
-                                 data-photo-date="{{ $slide['menuDateFormatted'] }}"
-                                 data-photo-title="{{ $slide['title'] }} — {{ $slide['condition'] }}"
-                                 title="Klik untuk memperbesar foto hidangan {{ $slide['condition'] }}">
+                            <div class="mobile-circle-box">
                                 <img src="{{ $slide['dishImageUrl'] }}"
                                      alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
                                      class="mobile-circle-img"
@@ -220,27 +208,6 @@
 
 </div>
 
-<!-- ======================================================= -->
-<!-- MODAL LIGHTBOX FOTO SAJIAN MENU (ZOOM PREVIEW)          -->
-<!-- ======================================================= -->
-<div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content rounded-4 border-0 shadow overflow-hidden">
-            <div class="modal-header border-0 pb-0 position-absolute end-0 top-0 z-3 p-3">
-                <button type="button" class="btn btn-sm btn-light rounded-circle shadow-sm" data-bs-dismiss="modal" aria-label="Tutup">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="modal-body p-0 text-center bg-dark">
-                <img src="{{ $dishImageUrl }}" id="modalPhotoImg" alt="Foto Sajian Menu Makanan" class="img-fluid w-100 object-fit-contain" style="max-height: 80vh;">
-            </div>
-            <div class="modal-footer bg-white border-0 py-2.5 px-3 d-flex justify-content-between">
-                <small class="text-dark fw-bold mb-0" id="modalPhotoDate">{{ $menuDateFormatted }}</small>
-                <small class="text-muted" id="modalPhotoTitle">{{ $todayLabel ? $todayLabel->title : 'Sajian Menu Bergizi' }}</small>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @push('styles')
@@ -621,7 +588,8 @@ body > main {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: default;
+    pointer-events: none;
 }
 
 .desktop-circle-img {
@@ -629,11 +597,6 @@ body > main {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-.desktop-circle-box:hover .desktop-circle-img {
-    transform: scale(1.05);
 }
 
 /* -------------------------------------------------------------
@@ -829,7 +792,8 @@ body > main {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: default;
+    pointer-events: none;
 }
 
 .mobile-circle-img {
@@ -837,11 +801,6 @@ body > main {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-.mobile-circle-box:hover .mobile-circle-img {
-    transform: scale(1.05);
 }
 
 /* -------------------------------------------------------------
@@ -1114,28 +1073,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isMouseDown) return;
         isMouseDown = false;
         handleTouchEnd();
-    });
-
-    // Lightbox modal logic for dish photo
-    const photoModalEl = document.getElementById('photoModal');
-    const photoModal = photoModalEl ? new bootstrap.Modal(photoModalEl) : null;
-    const modalImg = document.getElementById('modalPhotoImg');
-    const modalDate = document.getElementById('modalPhotoDate');
-    const modalTitle = document.getElementById('modalPhotoTitle');
-
-    document.querySelectorAll('.desktop-circle-box, .mobile-circle-box').forEach(box => {
-        box.addEventListener('click', function (e) {
-            if (Math.abs(currentDeltaX) > 10) return; // ignore click if dragging
-            const src = this.getAttribute('data-photo-src');
-            const date = this.getAttribute('data-photo-date');
-            const title = this.getAttribute('data-photo-title');
-
-            if (modalImg && src) modalImg.src = src;
-            if (modalDate && date) modalDate.textContent = date;
-            if (modalTitle && title) modalTitle.textContent = title;
-
-            if (photoModal) photoModal.show();
-        });
     });
 
     // Initial setup
