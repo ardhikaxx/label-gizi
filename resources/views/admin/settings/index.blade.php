@@ -85,24 +85,34 @@
                             <div class="row g-3 mb-2">
                                 <div class="col-sm-6">
                                     <div class="bgn-field mb-1">
-                                        <input type="time"
+                                        <input type="text"
                                                name="default_consumption_time_start"
                                                id="default_consumption_time_start"
-                                               class="bgn-field-input @error('default_consumption_time_start') is-invalid @enderror"
-                                               value="{{ old('default_consumption_time_start', $settings['default_consumption_time_start']['value'] ?? '08:00') }}">
+                                               class="bgn-field-input has-suffix @error('default_consumption_time_start') is-invalid @enderror"
+                                               value="{{ old('default_consumption_time_start', $settings['default_consumption_time_start']['value'] ?? '08:00') }}"
+                                               data-flatpickr-time
+                                               placeholder=" ">
                                         <label for="default_consumption_time_start" class="bgn-field-label">Jam Mulai</label>
+                                        <span class="bgn-field-suffix-btn text-muted" style="pointer-events: none;">
+                                            <i class="fa-regular fa-clock"></i>
+                                        </span>
                                     </div>
                                     <div class="form-text small text-muted ps-1">Contoh: 08:00 WIB</div>
                                     @error('default_consumption_time_start') <div class="bgn-field-error">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="bgn-field mb-1">
-                                        <input type="time"
+                                        <input type="text"
                                                name="default_consumption_time_end"
                                                id="default_consumption_time_end"
-                                               class="bgn-field-input @error('default_consumption_time_end') is-invalid @enderror"
-                                               value="{{ old('default_consumption_time_end', $settings['default_consumption_time_end']['value'] ?? '12:00') }}">
+                                               class="bgn-field-input has-suffix @error('default_consumption_time_end') is-invalid @enderror"
+                                               value="{{ old('default_consumption_time_end', $settings['default_consumption_time_end']['value'] ?? '12:00') }}"
+                                               data-flatpickr-time
+                                               placeholder=" ">
                                         <label for="default_consumption_time_end" class="bgn-field-label">Jam Selesai</label>
+                                        <span class="bgn-field-suffix-btn text-muted" style="pointer-events: none;">
+                                            <i class="fa-regular fa-clock"></i>
+                                        </span>
                                     </div>
                                     <div class="form-text small text-muted ps-1">Contoh: 12:00 WIB</div>
                                     @error('default_consumption_time_end') <div class="bgn-field-error">{{ $message }}</div> @enderror
