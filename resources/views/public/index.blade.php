@@ -155,7 +155,11 @@
                             <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
                             <div class="mobile-batas-box">
                                 <div class="mobile-batas-desc">
-                                    {{ $slide['consumptionNotice'] }}
+                                    @if(str_contains($slide['consumptionNotice'], 'maksimal'))
+                                        {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
+                                    @else
+                                        {{ $slide['consumptionNotice'] }}
+                                    @endif
                                 </div>
                                 <div class="mobile-batas-time">
                                     {{ $slide['consumptionTimeRange'] }}
@@ -740,9 +744,9 @@ body > main {
 .mobile-batas-box {
     position: absolute;
     left: 30.0%;
-    top: 42.2%;
+    top: 41.8%;
     width: 54.0%;
-    height: 7.4%;
+    height: 7.8%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -755,21 +759,19 @@ body > main {
 .mobile-batas-desc {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(8.5px, 1.8cqw, 15px);
+    font-size: clamp(8px, 1.65cqw, 14px);
     line-height: 1.25;
     color: #0b2754;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: normal;
 }
 
 .mobile-batas-time {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: clamp(10.5px, 2.3cqw, 20px);
+    font-size: clamp(10px, 2.1cqw, 18.5px);
     line-height: 1.2;
     color: #0b2754;
-    margin-top: 0.25cqw;
+    margin-top: 0.3cqw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
