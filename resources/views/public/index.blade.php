@@ -77,7 +77,11 @@
                             <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
                             <div class="desktop-batas-box">
                                 <div class="desktop-batas-desc">
-                                    {{ $slide['consumptionNotice'] }}
+                                    @if(str_contains($slide['consumptionNotice'], 'maksimal'))
+                                        {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
+                                    @else
+                                        {{ $slide['consumptionNotice'] }}
+                                    @endif
                                 </div>
                                 <div class="desktop-batas-time">
                                     {{ $slide['consumptionTimeRange'] }}
@@ -421,6 +425,10 @@ body > main {
     border-radius: 999px;
     box-shadow: 0 2px 8px rgba(11, 39, 84, 0.1);
     transition: opacity 0.4s ease;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* -------------------------------------------------------------
@@ -554,18 +562,22 @@ body > main {
 .desktop-batas-desc {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(10px, 1.05cqw, 18px);
-    line-height: 1.3;
+    font-size: clamp(12px, 1.25cqw, 23px);
+    line-height: 1.25;
     color: #0b2754;
+    word-break: normal;
 }
 
 .desktop-batas-time {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: clamp(12px, 1.3cqw, 22px);
+    font-size: clamp(14px, 1.45cqw, 26px);
     line-height: 1.2;
     color: #0b2754;
-    margin-top: 0.3cqw;
+    margin-top: 0.35cqw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Desktop 4: Kotak Kondisi Makanan (Sebelah gambar di page-desktop.png) */
@@ -861,6 +873,25 @@ body > main {
     }
     .carousel-arrow-next {
         right: 8px;
+    }
+    .carousel-bottom-bar {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+    }
+    .carousel-swipe-hint {
+        text-align: center !important;
+        margin: 0 auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: clamp(9.5px, 2.7vw, 11px) !important;
+        max-width: 90vw !important;
     }
 }
 
