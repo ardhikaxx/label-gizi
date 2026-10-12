@@ -368,4 +368,19 @@ class FoodLabel extends Model
     {
         return $this->image ? url('uploads/food-labels/'.$this->image) : null;
     }
+
+    /**
+     * Publish any scheduled labels whose date has arrived.
+     */
+    public static function publishDueScheduledLabels(): int
+    {
+        $today = Carbon::today();
+
+        return static::scheduled()
+            ->whereDate('menu_date', '<=', $today)
+            ->update([
+                'status' => 'published',
+                'published_at' => Carbon::now(),
+            ]);
+    }
 }
