@@ -177,7 +177,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
 
-            // Label 3: Tomorrow's Menu (Draft / Persiapan)
+            // Label 3: Tomorrow's Menu (Terjadwal)
             $tomorrow = Carbon::tomorrow();
             $label3 = FoodLabel::create([
                 'title' => 'Paket Menu Ikan Gurame Asam Manis Sehat',
@@ -190,7 +190,9 @@ class DatabaseSeeder extends Seeder
                 'carbohydrate' => 75.00,
                 'fiber' => 5.80,
                 'consumption_limit_hours' => 4.0,
-                'status' => 'draft',
+                'status' => 'scheduled',
+                'scheduled_at' => $tomorrow->copy()->setTime(6, 0, 0),
+                'published_at' => null,
                 'created_by' => $admin->id,
             ]);
 
