@@ -96,7 +96,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="small text-muted">{{ $user->created_at->isoFormat('D MMM Y') }}</span>
+                                    <span class="small text-muted">{{ $user->created_at->isoFormat('D MMMM Y') }}</span>
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="d-flex align-items-center justify-content-end gap-1">
