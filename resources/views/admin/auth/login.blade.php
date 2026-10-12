@@ -59,44 +59,34 @@
                         <form action="{{ route('admin.login.submit') }}" method="POST" novalidate class="mt-3">
                             @csrf
 
-                            <div class="mb-3">
-                                <label for="login" class="form-label small fw-semibold text-secondary">Email atau Username</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted">
-                                        <i class="fa-solid fa-user"></i>
-                                    </span>
-                                    <input type="text"
-                                           class="form-control border-start-0 ps-0 @error('login') is-invalid @enderror"
-                                           id="login"
-                                           name="login"
-                                           value="{{ old('login') }}"
-                                           placeholder="nama@email.com atau username"
-                                           required
-                                           autofocus>
-                                </div>
+                            <div class="bgn-field mb-3">
+                                <input type="text"
+                                       class="bgn-field-input @error('login') is-invalid @enderror"
+                                       id="login"
+                                       name="login"
+                                       value="{{ old('login') }}"
+                                       placeholder=" "
+                                       required
+                                       autofocus>
+                                <label for="login" class="bgn-field-label">Email atau Username</label>
                                 @error('login')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label small fw-semibold text-secondary">Kata Sandi</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted">
-                                        <i class="fa-solid fa-key"></i>
-                                    </span>
-                                    <input type="password"
-                                           class="form-control border-start-0 border-end-0 px-0 @error('password') is-invalid @enderror"
-                                           id="password"
-                                           name="password"
-                                           placeholder="••••••••"
-                                           required>
-                                    <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword" title="Tampilkan / Sembunyikan Kata Sandi">
-                                        <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
-                                    </button>
-                                </div>
+                            <div class="bgn-field mb-3">
+                                <input type="password"
+                                       class="bgn-field-input has-suffix @error('password') is-invalid @enderror"
+                                       id="password"
+                                       name="password"
+                                       placeholder=" "
+                                       required>
+                                <label for="password" class="bgn-field-label">Kata Sandi</label>
+                                <button class="bgn-field-suffix-btn" type="button" id="togglePassword" title="Tampilkan / Sembunyikan Kata Sandi">
+                                    <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+                                </button>
                                 @error('password')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -153,6 +143,23 @@
                 icon.classList.add('fa-eye');
             }
         });
+
+        // Sinkronisasi status nilai input outlined floating label
+        function syncLoginFields() {
+            document.querySelectorAll('.bgn-field-input').forEach(function (input) {
+                if (input.value && input.value.toString().trim() !== '') {
+                    input.classList.add('has-value');
+                } else {
+                    input.classList.remove('has-value');
+                }
+            });
+        }
+        syncLoginFields();
+        document.querySelectorAll('.bgn-field-input').forEach(function (input) {
+            input.addEventListener('input', syncLoginFields);
+            input.addEventListener('change', syncLoginFields);
+        });
+        setTimeout(syncLoginFields, 150);
     </script>
 </body>
 </html>
