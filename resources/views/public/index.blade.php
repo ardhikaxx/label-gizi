@@ -739,32 +739,40 @@ body > main {
 /* Mobile 3: Batas Akhir Konsumsi Box */
 .mobile-batas-box {
     position: absolute;
-    left: 32.2%;
-    top: 43.2%;
-    width: 50.0%;
-    height: 7.0%;
+    left: 30.0%;
+    top: 42.2%;
+    width: 54.0%;
+    height: 7.4%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 0.6cqw;
-    padding-right: 1.0cqw;
+    padding-left: 0.5cqw;
+    padding-right: 0.8cqw;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .mobile-batas-desc {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(9px, 1.9cqw, 16px);
-    line-height: 1.3;
+    font-size: clamp(8.5px, 1.8cqw, 15px);
+    line-height: 1.25;
     color: #0b2754;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .mobile-batas-time {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: clamp(11px, 2.4cqw, 20px);
+    font-size: clamp(10.5px, 2.3cqw, 20px);
     line-height: 1.2;
     color: #0b2754;
-    margin-top: 0.3cqw;
+    margin-top: 0.25cqw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Mobile 4: Kotak Kondisi Makanan (Sebelah gambar di page-mobile.png) */
