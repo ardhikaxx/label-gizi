@@ -2,11 +2,12 @@
     $appName = \App\Models\ApplicationSetting::get('app_name', 'Label Gizi');
 @endphp
 <aside class="admin-sidebar no-print">
-    <a href="{{ route('admin.dashboard') }}" class="sidebar-brand py-3">
-        <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="height: 38px; width: auto; object-fit: contain;" class="me-1">
-        <div class="d-flex flex-column">
-            <span class="fs-6 fw-bold lh-1 text-white" style="letter-spacing: 0.02em;">BADAN GIZI NASIONAL</span>
-            <span class="small lh-1 mt-1 text-uppercase" style="font-size: 0.65rem; color: #d4a34b; font-weight: 600; letter-spacing: 0.06em;">Republik Indonesia</span>
+    <a href="{{ route('admin.dashboard') }}" class="sidebar-brand py-3 px-3">
+        <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="height: 40px; width: auto; object-fit: contain;" class="me-2">
+        <div class="d-flex flex-column overflow-hidden">
+            <span class="fw-bold lh-1 text-white text-truncate" style="font-size: 0.82rem; letter-spacing: 0.02em;">SPPG KAUMAN SOMOROTO</span>
+            <span class="small lh-1 mt-1 text-uppercase text-truncate" style="font-size: 0.65rem; color: #d4a34b; font-weight: 700; letter-spacing: 0.04em;">Badan Gizi Nasional</span>
+            <span class="text-white-50 lh-1 mt-1 text-truncate" style="font-size: 0.58rem; letter-spacing: 0.03em;">Ponorogo &bull; Jawa Timur</span>
         </div>
     </a>
 
