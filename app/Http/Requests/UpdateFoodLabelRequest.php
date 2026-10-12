@@ -48,10 +48,10 @@ class UpdateFoodLabelRequest extends FormRequest
      */
     public function rules(): array
     {
-        $isPublishing = $this->input('action') === 'publish';
+        $isPublishing = in_array($this->input('action'), ['publish', 'schedule'], true);
 
         $rules = [
-            'action' => ['required', 'in:draft,publish'],
+            'action' => ['required', 'in:draft,publish,schedule'],
             'title' => ['required', 'string', 'max:255'],
             'menu_date' => ['required', 'date'],
             'food_condition' => ['required', 'string', Rule::in(FoodLabel::CONDITIONS)],
