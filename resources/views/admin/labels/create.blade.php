@@ -58,6 +58,9 @@
                                         <i class="fa-regular fa-calendar"></i>
                                     </span>
                                 </div>
+                                <div class="form-text small text-muted ps-1" id="menuDateScheduleNotice">
+                                    <i class="fa-solid fa-circle-info text-info me-1"></i> Tanggal menu hari ini langsung diterbitkan, sedangkan tanggal esok/masa depan otomatis berstatus <strong>Terjadwal</strong>.
+                                </div>
                                 @error('menu_date')
                                     <div class="bgn-field-error">{{ $message }}</div>
                                 @enderror
@@ -442,8 +445,8 @@
                 <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-4">
                         <div class="d-flex flex-column gap-2">
-                            <button type="submit" name="action" value="publish" class="btn btn-bgn-primary py-2 fw-semibold rounded-pill shadow-sm">
-                                <i class="fa-solid fa-circle-check me-1"></i> Simpan & Publikasikan
+                            <button type="submit" name="action" value="publish" id="btnSubmitPublish" class="btn btn-bgn-primary py-2 fw-semibold rounded-pill shadow-sm">
+                                <i class="fa-solid fa-circle-check me-1" id="publishBtnIcon"></i> <span id="publishBtnText">Simpan & Publikasikan</span>
                             </button>
                             <button type="submit" name="action" value="draft" class="btn btn-outline-secondary py-2 fw-semibold rounded-pill">
                                 <i class="fa-solid fa-file-pen me-1"></i> Simpan sebagai Draft
@@ -451,6 +454,10 @@
                             <a href="{{ route('admin.labels.index') }}" class="btn btn-light py-2 text-muted rounded-pill">
                                 Batal
                             </a>
+                        </div>
+                        <div class="mt-3 p-2 rounded-3 bg-light text-center small text-muted" id="statusHintBox">
+                            <i class="fa-solid fa-circle-info text-success me-1" id="statusHintIcon"></i>
+                            <span id="statusHintText">Tanggal hari ini: label akan <strong>langsung dipublikasikan</strong>.</span>
                         </div>
                     </div>
                 </div>
@@ -644,6 +651,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 previewImg.src = '#';
             });
         }
+    }
+
+    // Dynamic Schedule Status Hint
+    const menuDateEl = document.getElementById('menu_date');
+    const btnTextEl = document.getElementById('publishBtnText');
+    const btnIconEl = document.getElementById('publishBtnIcon');
+    const hintTextEl = document.getElementById('statusHintText');
+    const hintIconEl = document.getElementById('statusHintIcon');
+
+    function updatePublishStatusHint() {
+        if (!menuDateEl || !btnTextEl || !hintTextEl) return;
+        const hiddenDate = document.querySelector('input[name="menu_date"][type="hidden"]') || menuDateEl;
+        const dateVal = (hiddenDate.value || menuDateEl.value || '').trim();
+        if (!dateVal) return;
+
+        const todayStr = '{{ \Carbon\Carbon::today()->format('Y-m-d') }}';
+        if (dateVal > todayStr) {
+            btnTextEl.textContent = 'Simpan & Jadwalkan';
+            if (btnIconEl) {
+                btnIconEl.className = 'fa-solid fa-calendar-check me-1 text-warning';
+            }
+            if (hintIconEl) {
+                hintIconEl.className = 'fa-solid fa-calendar-check text-info me-1';
+            }
+            hintTextEl.innerHTML = 'Tanggal masa depan: status otomatis <strong class="text-info">Terjadwal</strong> dan akan terbit otomatis pada hari H.';
+        } else {
+            btnTextEl.textContent = 'Simpan & Publikasikan';
+            if (btnIconEl) {
+                btnIconEl.className = 'fa-solid fa-circle-check me-1';
+            }
+            if (hintIconEl) {
+                hintIconEl.className = 'fa-solid fa-circle-info text-success me-1';
+            }
+            hintTextEl.innerHTML = 'Tanggal hari ini/lampau: label akan <strong class="text-success">Langsung Dipublikasikan</strong>.';
+        }
+    }
+
+    if (menuDateEl) {
+        menuDateEl.addEventListener('change', updatePublishStatusHint);
+        menuDateEl.addEventListener('input', updatePublishStatusHint);
+        setInterval(updatePublishStatusHint, 800);
+        updatePublishStatusHint();
     }
 
     window.addEventListener('beforeunload', function(e) {
