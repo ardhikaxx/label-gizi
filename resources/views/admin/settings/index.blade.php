@@ -40,38 +40,38 @@
                     <div class="card-body p-4">
                         <!-- Nama Aplikasi -->
                         <div class="mb-4">
-                            <label for="app_name" class="form-label fw-semibold text-dark">
-                                Nama Aplikasi <span class="text-danger">*</span>
-                            </label>
-                            <input type="text"
-                                   name="app_name"
-                                   id="app_name"
-                                   class="form-control form-control-lg fs-6 @error('app_name') is-invalid @enderror"
-                                   value="{{ old('app_name', $settings['app_name']['value'] ?? 'Label Gizi') }}"
-                                   placeholder="Contoh: Label Gizi"
-                                   required>
-                            <div class="form-text small text-muted">
+                            <div class="bgn-field mb-1">
+                                <input type="text"
+                                       name="app_name"
+                                       id="app_name"
+                                       class="bgn-field-input @error('app_name') is-invalid @enderror"
+                                       value="{{ old('app_name', $settings['app_name']['value'] ?? 'Label Gizi') }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="app_name" class="bgn-field-label">Nama Aplikasi *</label>
+                            </div>
+                            <div class="form-text small text-muted ps-1">
                                 Nama sistem yang digunakan pada judul browser (tab title), metadata, dan identitas aplikasi.
                             </div>
-                            @error('app_name') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                            @error('app_name') <div class="bgn-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <!-- Nama Instansi / Pengelola Pangan -->
                         <div class="mb-4">
-                            <label for="institution_name" class="form-label fw-semibold text-dark">
-                                Nama Instansi / Pengelola Pangan <span class="text-danger">*</span>
-                            </label>
-                            <input type="text"
-                                   name="institution_name"
-                                   id="institution_name"
-                                   class="form-control form-control-lg fs-6 @error('institution_name') is-invalid @enderror"
-                                   value="{{ old('institution_name', $settings['institution_name']['value'] ?? 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional') }}"
-                                   placeholder="Contoh: SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional"
-                                   required>
-                            <div class="form-text small text-muted">
+                            <div class="bgn-field mb-1">
+                                <input type="text"
+                                       name="institution_name"
+                                       id="institution_name"
+                                       class="bgn-field-input @error('institution_name') is-invalid @enderror"
+                                       value="{{ old('institution_name', $settings['institution_name']['value'] ?? 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional') }}"
+                                       placeholder=" "
+                                       required>
+                                <label for="institution_name" class="bgn-field-label">Nama Instansi / Pengelola Pangan *</label>
+                            </div>
+                            <div class="form-text small text-muted ps-1">
                                 Nama instansi resmi penyedia makanan yang dicantumkan pada format cetak stiker label gizi.
                             </div>
-                            @error('institution_name') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                            @error('institution_name') <div class="bgn-field-error">{{ $message }}</div> @enderror
                         </div>
 
                         <!-- Default Jam Batas Konsumsi (Tampilan Awal) -->
@@ -82,32 +82,30 @@
                             <p class="text-muted small mb-3">
                                 Atur rentang jam konsumsi standar ("Jam berapa sampai jam berapa") untuk halaman publik depan dan bawaan pembuatan label baru.
                             </p>
-                            <div class="row g-2 mb-2">
+                            <div class="row g-3 mb-2">
                                 <div class="col-sm-6">
-                                    <label for="default_consumption_time_start" class="form-label small fw-semibold text-muted">Jam Mulai</label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                    <div class="bgn-field mb-1">
                                         <input type="time"
                                                name="default_consumption_time_start"
                                                id="default_consumption_time_start"
-                                               class="form-control @error('default_consumption_time_start') is-invalid @enderror"
+                                               class="bgn-field-input @error('default_consumption_time_start') is-invalid @enderror"
                                                value="{{ old('default_consumption_time_start', $settings['default_consumption_time_start']['value'] ?? '08:00') }}">
+                                        <label for="default_consumption_time_start" class="bgn-field-label">Jam Mulai</label>
                                     </div>
-                                    <div class="form-text small text-muted">Contoh: 08:00 WIB</div>
-                                    @error('default_consumption_time_start') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                                    <div class="form-text small text-muted ps-1">Contoh: 08:00 WIB</div>
+                                    @error('default_consumption_time_start') <div class="bgn-field-error">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="default_consumption_time_end" class="form-label small fw-semibold text-muted">Jam Selesai</label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text bg-light text-muted"><i class="fa-regular fa-clock"></i></span>
+                                    <div class="bgn-field mb-1">
                                         <input type="time"
                                                name="default_consumption_time_end"
                                                id="default_consumption_time_end"
-                                               class="form-control @error('default_consumption_time_end') is-invalid @enderror"
+                                               class="bgn-field-input @error('default_consumption_time_end') is-invalid @enderror"
                                                value="{{ old('default_consumption_time_end', $settings['default_consumption_time_end']['value'] ?? '12:00') }}">
+                                        <label for="default_consumption_time_end" class="bgn-field-label">Jam Selesai</label>
                                     </div>
-                                    <div class="form-text small text-muted">Contoh: 12:00 WIB</div>
-                                    @error('default_consumption_time_end') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                                    <div class="form-text small text-muted ps-1">Contoh: 12:00 WIB</div>
+                                    @error('default_consumption_time_end') <div class="bgn-field-error">{{ $message }}</div> @enderror
                                 </div>
                             </div>
                             <div class="form-text small text-muted">
