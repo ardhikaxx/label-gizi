@@ -26,33 +26,34 @@ class DatabaseSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => $adminEmail],
             [
-                'name' => 'Administrator Label Gizi',
+                'name' => 'Admin SPPG Kauman Somoroto',
                 'username' => $adminUsername,
                 'password' => Hash::make($adminPassword),
                 'is_active' => true,
                 'email_verified_at' => now(),
             ]
         );
+        $admin->update(['name' => 'Admin SPPG Kauman Somoroto']);
 
         // 2. Application Settings
         $settings = [
             [
                 'key' => 'app_name',
-                'value' => 'Label Gizi',
+                'value' => 'Label Gizi SPPG Ponorogo',
                 'type' => 'string',
                 'group' => 'general',
                 'label' => 'Nama Aplikasi',
             ],
             [
                 'key' => 'institution_name',
-                'value' => 'Badan Gizi Nasional Republik Indonesia',
+                'value' => 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional',
                 'type' => 'string',
                 'group' => 'general',
                 'label' => 'Nama Instansi / Pengelola',
             ],
             [
                 'key' => 'contact_email',
-                'value' => 'layanan@labelgizi.go.id',
+                'value' => 'sppg.kaumansomoroto@gizi.id',
                 'type' => 'string',
                 'group' => 'contact',
                 'label' => 'Email Kontak',
@@ -66,21 +67,21 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'key' => 'footer_text',
-                'value' => 'Sistem Informasi Label Makanan Bergizi — Transparansi Pangan Sehat untuk Generasi Indonesia Kuat.',
+                'value' => 'Sistem Informasi Label Makanan Bergizi — SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional.',
                 'type' => 'text',
                 'group' => 'general',
                 'label' => 'Teks Footer',
             ],
             [
                 'key' => 'hero_title',
-                'value' => 'Informasi Label Makanan Bergizi Gratis',
+                'value' => 'Informasi Label Makanan Bergizi Gratis — SPPG Ponorogo Kauman Somoroto',
                 'type' => 'string',
                 'group' => 'general',
                 'label' => 'Judul Hero Landing Page',
             ],
             [
                 'key' => 'hero_subtitle',
-                'value' => 'Transparansi kandungan gizi, rincian menu harian, dan petunjuk batas akhir konsumsi makanan untuk kesehatan dan keamanan pangan masyarakat.',
+                'value' => 'Transparansi kandungan gizi, rincian menu harian, dan petunjuk batas akhir konsumsi makanan bergizi SPPG Ponorogo Kauman Somoroto — Badan Gizi Nasional.',
                 'type' => 'text',
                 'group' => 'general',
                 'label' => 'Subjudul Hero Landing Page',
@@ -94,7 +95,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'key' => 'education_text',
-                'value' => 'Setiap porsi makanan dirancang untuk memenuhi standar zat gizi makro yang dibutuhkan tubuh: energi sebagai bahan bakar aktivitas, protein untuk pertumbuhan jaringan sel, lemak esensial, karbohidrat, serta serat untuk pencernaan sehat. Batas waktu konsumsi dihitung secara cermat sejak pengantaran untuk menjaga higienitas dan memastikan makanan dinikmati dalam kondisi segar dan aman.',
+                'value' => 'Setiap porsi makanan bergizi SPPG Ponorogo Kauman Somoroto dirancang untuk memenuhi standar zat gizi makro yang dibutuhkan tubuh: energi, protein, lemak sehat, karbohidrat, serta serat pangan. Batas waktu konsumsi dihitung secara cermat sejak pengolahan dan distribusi demi menjaga higienitas dan memastikan makanan dinikmati dalam kondisi segar dan aman sesuai standar Badan Gizi Nasional.',
                 'type' => 'text',
                 'group' => 'general',
                 'label' => 'Teks Bagian Edukasi Gizi',
