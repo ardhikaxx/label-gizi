@@ -4,7 +4,12 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <div>
-            <h5 class="mb-0 fw-bold text-dark">@yield('page_title', 'Dashboard')</h5>
+            <div class="d-flex align-items-center gap-2">
+                <h5 class="mb-0 fw-bold text-dark">@yield('page_title', 'Dashboard')</h5>
+                <span class="badge rounded-pill text-uppercase d-none d-lg-inline-block" style="background: rgba(11, 40, 83, 0.08); color: #0b2853; font-weight: 700; font-size: 0.68rem; letter-spacing: 0.03em;">
+                    <i class="fa-solid fa-building-flag me-1" style="color: #d4a34b;"></i> SPPG KAUMAN SOMOROTO
+                </span>
+            </div>
             <small class="text-muted d-none d-sm-inline">
                 <i class="fa-regular fa-calendar me-1"></i> {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}
             </small>
