@@ -53,13 +53,18 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="bgn-field mb-1">
-                                    <input type="date"
-                                           class="bgn-field-input @error('menu_date') is-invalid @enderror"
+                                    <input type="text"
+                                           class="bgn-field-input has-suffix @error('menu_date') is-invalid @enderror"
                                            id="menu_date"
                                            name="menu_date"
                                            value="{{ old('menu_date', $label->menu_date->format('Y-m-d')) }}"
+                                           data-flatpickr-date
+                                           placeholder=" "
                                            required>
                                     <label for="menu_date" class="bgn-field-label">Tanggal Menu *</label>
+                                    <span class="bgn-field-suffix-btn text-muted" style="pointer-events: none;">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </span>
                                 </div>
                                 @error('menu_date')
                                     <div class="bgn-field-error">{{ $message }}</div>
@@ -392,12 +397,17 @@
                         <div class="row g-3 mb-3">
                             <div class="col-sm-6">
                                 <div class="bgn-field mb-1">
-                                    <input type="time"
-                                           class="bgn-field-input @error('consumption_time_start') is-invalid @enderror"
+                                    <input type="text"
+                                           class="bgn-field-input has-suffix @error('consumption_time_start') is-invalid @enderror"
                                            id="consumption_time_start"
                                            name="consumption_time_start"
-                                           value="{{ old('consumption_time_start', $label->consumption_time_start ?? '08:00') }}">
+                                           value="{{ old('consumption_time_start', $label->consumption_time_start ?? '08:00') }}"
+                                           data-flatpickr-time
+                                           placeholder=" ">
                                     <label for="consumption_time_start" class="bgn-field-label">Jam Mulai Konsumsi</label>
+                                    <span class="bgn-field-suffix-btn text-muted" style="pointer-events: none;">
+                                        <i class="fa-regular fa-clock"></i>
+                                    </span>
                                 </div>
                                 <div class="form-text small text-muted ps-1">Contoh: 08:00 WIB</div>
                                 @error('consumption_time_start')
@@ -406,12 +416,17 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="bgn-field mb-1">
-                                    <input type="time"
-                                           class="bgn-field-input @error('consumption_time_end') is-invalid @enderror"
+                                    <input type="text"
+                                           class="bgn-field-input has-suffix @error('consumption_time_end') is-invalid @enderror"
                                            id="consumption_time_end"
                                            name="consumption_time_end"
-                                           value="{{ old('consumption_time_end', $label->consumption_time_end ?? '12:00') }}">
+                                           value="{{ old('consumption_time_end', $label->consumption_time_end ?? '12:00') }}"
+                                           data-flatpickr-time
+                                           placeholder=" ">
                                     <label for="consumption_time_end" class="bgn-field-label">Jam Batas Akhir</label>
+                                    <span class="bgn-field-suffix-btn text-muted" style="pointer-events: none;">
+                                        <i class="fa-regular fa-clock"></i>
+                                    </span>
                                 </div>
                                 <div class="form-text small text-muted ps-1">Contoh: 12:00 WIB</div>
                                 @error('consumption_time_end')
