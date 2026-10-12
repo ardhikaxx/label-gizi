@@ -462,3 +462,47 @@ test('admin can filter food labels by condition on index page', function () {
     $response->assertSee('Label Alergi Khusus');
     $response->assertDontSee('Label Porsi Besar Normal');
 });
+
+test('storing label with future menu date automatically sets status to scheduled', function () {
+    $tomorrow = Carbon::tomorrow()->format('Y-m-d');
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), [
+        'action' => 'publish',
+        'title' => 'Menu Masa Depan Terjadwal',
+        'menu_date' => $tomorrow,
+        'food_condition' => FoodLabel::CONDITION_PORSI_BESAR,
+        'energy' => 550,
+        'protein' => 22.0,
+        'fat' => 12.0,
+        'carbohydrate' => 65.0,
+        'fiber' => 5.0,
+        'consumption_limit_hours' => 4.0,
+        'menus' => ['Nasi Uduk', 'Ayam Panggang'],
+    ]);
+
+    $response->assertRedirect(route('admin.labels.index'));
+    $this->assertDatabaseHas('food_labels', [
+        'title' => 'Menu Masa Depan Terjadwal',
+        'status' => 'scheduled',
+    ]);
+
+    $label = FoodLabel::where('title', 'Menu Masa Depan Terjadwal')->first();
+    expect($label->scheduled_at)->not->toBeNull()
+        ->and($label->published_at)->toBeNull();
+});
+
+test('scheduled labels can be published via artisan command when due date arrives', function () {
+    $pastDate = Carbon::yesterday()->format('Y-m-d');
+    $scheduledLabel = FoodLabel::factory()->create([
+        'title' => 'Menu Jatuh Tempo',
+        'menu_date' => $pastDate,
+        'status' => 'scheduled',
+        'published_at' => null,
+    ]);
+
+    $this->artisan('labels:publish-scheduled')
+        ->assertSuccessful();
+
+    expect($scheduledLabel->fresh()->status)->toBe('published')
+        ->and($scheduledLabel->fresh()->published_at)->not->toBeNull();
+});
