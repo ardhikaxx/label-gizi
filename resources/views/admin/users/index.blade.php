@@ -160,17 +160,17 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body p-4">
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-semibold">Nama Lengkap</label>
-                                                    <input type="text" name="name" class="form-control" value="{{ $user->name }}" required>
+                                                <div class="bgn-field mb-3">
+                                                    <input type="text" name="name" id="edit_name_{{ $user->id }}" class="bgn-field-input" value="{{ $user->name }}" placeholder=" " required>
+                                                    <label for="edit_name_{{ $user->id }}" class="bgn-field-label">Nama Lengkap</label>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-semibold">Alamat Email</label>
-                                                    <input type="email" name="email" class="form-control" value="{{ $user->email }}" required>
+                                                <div class="bgn-field mb-3">
+                                                    <input type="email" name="email" id="edit_email_{{ $user->id }}" class="bgn-field-input" value="{{ $user->email }}" placeholder=" " required>
+                                                    <label for="edit_email_{{ $user->id }}" class="bgn-field-label">Alamat Email</label>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-semibold">Username</label>
-                                                    <input type="text" name="username" class="form-control" value="{{ $user->username }}" required>
+                                                <div class="bgn-field mb-3">
+                                                    <input type="text" name="username" id="edit_username_{{ $user->id }}" class="bgn-field-input" value="{{ $user->username }}" placeholder=" " required>
+                                                    <label for="edit_username_{{ $user->id }}" class="bgn-field-label">Username</label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-0 pt-0">
@@ -198,13 +198,13 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body p-4">
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-semibold">Kata Sandi Baru (Min. 8 Karakter)</label>
-                                                    <input type="password" name="password" class="form-control" placeholder="••••••••" required minlength="8">
+                                                <div class="bgn-field mb-3">
+                                                    <input type="password" name="password" id="pwd_{{ $user->id }}" class="bgn-field-input" placeholder=" " required minlength="8">
+                                                    <label for="pwd_{{ $user->id }}" class="bgn-field-label">Kata Sandi Baru (Min. 8 Karakter)</label>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-semibold">Konfirmasi Kata Sandi Baru</label>
-                                                    <input type="password" name="password_confirmation" class="form-control" placeholder="••••••••" required minlength="8">
+                                                <div class="bgn-field mb-3">
+                                                    <input type="password" name="password_confirmation" id="pwd_conf_{{ $user->id }}" class="bgn-field-input" placeholder=" " required minlength="8">
+                                                    <label for="pwd_conf_{{ $user->id }}" class="bgn-field-label">Konfirmasi Kata Sandi Baru</label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-0 pt-0">
@@ -254,33 +254,33 @@
                 <div class="modal-body p-4">
                     <p class="small text-muted mb-3">Setiap akun baru secara otomatis memiliki hak akses Administrator penuh.</p>
 
-                    <div class="mb-3">
-                        <label for="new_name" class="form-label small fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="new_name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Contoh: Rina Anggraeni, S.Gz" required>
-                        @error('name') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                    <div class="bgn-field mb-3">
+                        <input type="text" name="name" id="new_name" class="bgn-field-input @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder=" " required>
+                        <label for="new_name" class="bgn-field-label">Nama Lengkap *</label>
+                        @error('name') <div class="bgn-field-error">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_email" class="form-label small fw-semibold">Alamat Email <span class="text-danger">*</span></label>
-                        <input type="email" name="email" id="new_email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="nama@email.com" required>
-                        @error('email') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                    <div class="bgn-field mb-3">
+                        <input type="email" name="email" id="new_email" class="bgn-field-input @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder=" " required>
+                        <label for="new_email" class="bgn-field-label">Alamat Email *</label>
+                        @error('email') <div class="bgn-field-error">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_username" class="form-label small fw-semibold">Username Login <span class="text-danger">*</span></label>
-                        <input type="text" name="username" id="new_username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" placeholder="Contoh: admin_rina" required>
-                        @error('username') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                    <div class="bgn-field mb-3">
+                        <input type="text" name="username" id="new_username" class="bgn-field-input @error('username') is-invalid @enderror" value="{{ old('username') }}" placeholder=" " required>
+                        <label for="new_username" class="bgn-field-label">Username Login *</label>
+                        @error('username') <div class="bgn-field-error">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_password" class="form-label small fw-semibold">Kata Sandi <span class="text-danger">*</span></label>
-                        <input type="password" name="password" id="new_password" class="form-control @error('password') is-invalid @enderror" placeholder="Minimal 8 karakter" required minlength="8">
-                        @error('password') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                    <div class="bgn-field mb-3">
+                        <input type="password" name="password" id="new_password" class="bgn-field-input @error('password') is-invalid @enderror" placeholder=" " required minlength="8">
+                        <label for="new_password" class="bgn-field-label">Kata Sandi (Min. 8 Karakter) *</label>
+                        @error('password') <div class="bgn-field-error">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="new_password_confirmation" class="form-label small fw-semibold">Konfirmasi Kata Sandi <span class="text-danger">*</span></label>
-                        <input type="password" name="password_confirmation" id="new_password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required minlength="8">
+                    <div class="bgn-field mb-3">
+                        <input type="password" name="password_confirmation" id="new_password_confirmation" class="bgn-field-input" placeholder=" " required minlength="8">
+                        <label for="new_password_confirmation" class="bgn-field-label">Konfirmasi Kata Sandi *</label>
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0">
