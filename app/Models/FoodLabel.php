@@ -15,6 +15,27 @@ class FoodLabel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const CONDITION_PORSI_BESAR = 'Porsi besar';
+
+    public const CONDITION_PORSI_KECIL = 'Porsi kecil';
+
+    public const CONDITION_ALERGI = 'Alergi';
+
+    public const CONDITION_BALITA = 'Balita';
+
+    public const CONDITION_BUSUI_BUMIL = 'Busui dan Bumil';
+
+    /**
+     * @var list<string>
+     */
+    public const CONDITIONS = [
+        self::CONDITION_PORSI_BESAR,
+        self::CONDITION_PORSI_KECIL,
+        self::CONDITION_ALERGI,
+        self::CONDITION_BALITA,
+        self::CONDITION_BUSUI_BUMIL,
+    ];
+
     /**
      * @var list<string>
      */
@@ -22,6 +43,7 @@ class FoodLabel extends Model
         'title',
         'slug',
         'menu_date',
+        'food_condition',
         'description',
         'image',
         'energy',
@@ -177,6 +199,18 @@ class FoodLabel extends Model
     }
 
     /**
+     * Filter by food condition.
+     *
+     * @param  Builder<FoodLabel>  $query
+     */
+    public function scopeForCondition(Builder $query, ?string $condition): void
+    {
+        if (! empty($condition)) {
+            $query->where('food_condition', $condition);
+        }
+    }
+
+    /**
      * Check if label is published.
      */
     public function isPublished(): bool
@@ -231,6 +265,29 @@ class FoodLabel extends Model
             'scheduled' => 'bg-info text-dark',
             'archived' => 'bg-secondary',
             default => 'bg-warning text-dark',
+        };
+    }
+
+    /**
+     * Accessor for condition alias.
+     */
+    public function getConditionAttribute(): string
+    {
+        return $this->food_condition ?: self::CONDITION_PORSI_BESAR;
+    }
+
+    /**
+     * Bootstrap badge class for food condition.
+     */
+    public function getConditionBadgeClassAttribute(): string
+    {
+        return match ($this->food_condition) {
+            self::CONDITION_PORSI_BESAR => 'bg-primary text-white',
+            self::CONDITION_PORSI_KECIL => 'bg-info text-dark',
+            self::CONDITION_ALERGI => 'bg-danger text-white',
+            self::CONDITION_BALITA => 'bg-warning text-dark',
+            self::CONDITION_BUSUI_BUMIL => 'bg-success text-white',
+            default => 'bg-secondary text-white',
         };
     }
 
