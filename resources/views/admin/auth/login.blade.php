@@ -46,20 +46,14 @@
                     <div class="d-inline-block px-3 py-1 rounded-pill small fw-bold text-uppercase" style="background: rgba(212, 163, 75, 0.22); color: #d4a34b; border: 1px solid rgba(212, 163, 75, 0.45); letter-spacing: 0.06em; font-size: 0.72rem;">
                         BADAN GIZI NASIONAL &bull; PONOROGO
                     </div>
-                    <p class="text-white-50 small mt-2 mb-0">Panel Masuk Administrator Label Gizi</p>
                 </div>
 
                 <!-- Login Card -->
                 <div class="card bgn-login-card border-0 rounded-4 overflow-hidden">
                     <div class="card-body p-4 p-md-5">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div>
-                                <h5 class="fw-bold text-dark mb-1">Masuk Administrator</h5>
-                                <p class="text-muted small mb-0">SPPG Ponorogo Kauman Somoroto</p>
-                            </div>
-                            <span class="badge badge-bgn-gold rounded-pill px-3 py-2 small fw-semibold">
-                                <i class="fa-solid fa-shield-halved me-1"></i> Akses Resmi
-                            </span>
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-dark mb-1">Masuk Administrator</h5>
+                            <p class="text-muted small mb-0">SPPG Ponorogo Kauman Somoroto</p>
                         </div>
 
                         <form action="{{ route('admin.login.submit') }}" method="POST" novalidate class="mt-3">
