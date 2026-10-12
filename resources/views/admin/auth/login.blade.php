@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk Administrator — Badan Gizi Nasional RI</title>
+    <title>Masuk Administrator — SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional</title>
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Favicon (Badan Gizi Nasional) -->
@@ -42,11 +42,11 @@
                     <div class="d-inline-flex align-items-center justify-content-center p-2 mb-3 rounded-circle bg-white shadow-lg" style="width: 88px; height: 88px;">
                         <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="width: 72px; height: 72px; object-fit: contain;">
                     </div>
-                    <h4 class="fw-bold text-white mb-1" style="letter-spacing: 0.03em;">BADAN GIZI NASIONAL</h4>
-                    <div class="d-inline-block px-3 py-1 rounded-pill small fw-semibold text-uppercase" style="background: rgba(212, 163, 75, 0.18); color: #d4a34b; border: 1px solid rgba(212, 163, 75, 0.4); letter-spacing: 0.08em; font-size: 0.72rem;">
-                        REPUBLIK INDONESIA
+                    <h4 class="fw-bold text-white mb-1" style="letter-spacing: 0.02em;">SPPG KAUMAN SOMOROTO</h4>
+                    <div class="d-inline-block px-3 py-1 rounded-pill small fw-bold text-uppercase" style="background: rgba(212, 163, 75, 0.22); color: #d4a34b; border: 1px solid rgba(212, 163, 75, 0.45); letter-spacing: 0.06em; font-size: 0.72rem;">
+                        BADAN GIZI NASIONAL &bull; PONOROGO
                     </div>
-                    <p class="text-white-50 small mt-2 mb-0">Panel Masuk Administrator</p>
+                    <p class="text-white-50 small mt-2 mb-0">Panel Masuk Administrator Label Gizi</p>
                 </div>
 
                 <!-- Login Card -->
@@ -55,7 +55,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div>
                                 <h5 class="fw-bold text-dark mb-1">Masuk Administrator</h5>
-                                <p class="text-muted small mb-0">Gunakan akun kredensial terdaftar.</p>
+                                <p class="text-muted small mb-0">SPPG Ponorogo Kauman Somoroto</p>
                             </div>
                             <span class="badge badge-bgn-gold rounded-pill px-3 py-2 small fw-semibold">
                                 <i class="fa-solid fa-shield-halved me-1"></i> Akses Resmi
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <small class="text-white-50 d-block">&copy; {{ date('Y') }} Badan Gizi Nasional Republik Indonesia</small>
+                    <small class="text-white-50 d-block">&copy; {{ date('Y') }} SPPG PONOROGO KAUMAN SOMOROTO — Badan Gizi Nasional</small>
                 </div>
             </div>
         </div>
