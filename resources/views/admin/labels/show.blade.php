@@ -18,6 +18,9 @@
             </nav>
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <h4 class="fw-bold text-dark mb-0">{{ $label->title }}</h4>
+                <span class="badge {{ $label->condition_badge_class }} rounded-pill px-3 py-1">
+                    <i class="fa-solid fa-layer-group me-1"></i> {{ $label->food_condition }}
+                </span>
                 <span class="badge {{ $label->status_badge_class }} rounded-pill px-3 py-1">
                     {{ $label->status_label }}
                 </span>
@@ -117,11 +120,17 @@
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-body p-4">
                     <div class="row g-3 mb-3">
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <small class="text-muted d-block">Tanggal Penyajian Menu:</small>
                             <span class="fs-6 fw-bold text-dark">
                                 <i class="fa-regular fa-calendar-check text-success me-1"></i>
                                 {{ $label->menu_date->isoFormat('dddd, D MMMM Y') }}
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted d-block">Kondisi Makanan:</small>
+                            <span class="badge {{ $label->condition_badge_class }} rounded-pill px-3 py-1.5 mt-1 fs-6">
+                                <i class="fa-solid fa-layer-group me-1"></i> {{ $label->food_condition }}
                             </span>
                         </div>
                     </div>
