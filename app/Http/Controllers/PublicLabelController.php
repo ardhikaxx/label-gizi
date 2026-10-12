@@ -15,6 +15,9 @@ class PublicLabelController extends Controller
      */
     public function index(Request $request): View
     {
+        // Auto-publish any scheduled labels whose date has arrived
+        FoodLabel::publishDueScheduledLabels();
+
         $today = Carbon::today()->format('Y-m-d');
         $requestedDate = $request->query('date');
 
