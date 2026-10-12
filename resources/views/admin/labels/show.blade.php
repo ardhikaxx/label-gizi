@@ -43,7 +43,9 @@
             <div class="d-flex align-items-center gap-2 small text-muted">
                 <i class="fa-solid fa-circle-info text-success"></i>
                 <span>Status Saat Ini: <strong class="text-dark">{{ $label->status_label }}</strong></span>
-                @if($label->published_at)
+                @if($label->status === 'scheduled')
+                    &bull; <span class="text-info fw-semibold"><i class="fa-regular fa-calendar-check me-1"></i> Dijadwalkan terbit: {{ $label->menu_date->isoFormat('dddd, D MMMM Y') }} (06:00 WIB)</span>
+                @elseif($label->published_at)
                     &bull; <span>Diterbitkan: {{ $label->published_at->isoFormat('D MMMM Y, HH:mm') }} WIB</span>
                 @endif
             </div>
