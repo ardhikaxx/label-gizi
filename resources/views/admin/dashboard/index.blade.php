@@ -12,7 +12,7 @@
             <div>
                 <h4 class="fw-bold text-bgn-navy mb-1">Halo, {{ Auth::user()->name }}! 👋</h4>
                 <p class="text-muted mb-0 small">
-                    Selamat datang di panel kelola sistem informasi label makanan bergizi resmi Badan Gizi Nasional.
+                    Selamat datang di panel kelola sistem informasi label makanan bergizi SPPG PONOROGO KAUMAN SOMOROTO — Badan Gizi Nasional.
                 </p>
             </div>
             <div class="d-flex align-items-center gap-2">
