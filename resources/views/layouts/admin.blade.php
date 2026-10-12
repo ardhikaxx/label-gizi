@@ -28,6 +28,9 @@
     <!-- SweetAlert2 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+    <!-- Flatpickr CDN CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <!-- Custom Brand CSS -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
@@ -106,6 +109,59 @@
             document.addEventListener('shown.bs.modal', function () {
                 syncFieldValues();
             });
+        });
+    </script>
+
+    <!-- Flatpickr CDN JS & Locale ID -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof flatpickr !== 'undefined') {
+                if (flatpickr.l10ns && flatpickr.l10ns.id) {
+                    flatpickr.localize(flatpickr.l10ns.id);
+                }
+
+                function initFlatpickrInstances() {
+                    // Date pickers
+                    document.querySelectorAll('[data-flatpickr-date]').forEach(function (el) {
+                        if (!el._flatpickr) {
+                            flatpickr(el, {
+                                locale: 'id',
+                                dateFormat: 'Y-m-d',
+                                allowInput: true,
+                                disableMobile: true,
+                                onChange: function () {
+                                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                                }
+                            });
+                        }
+                    });
+
+                    // Clock / Time pickers
+                    document.querySelectorAll('[data-flatpickr-time]').forEach(function (el) {
+                        if (!el._flatpickr) {
+                            flatpickr(el, {
+                                enableTime: true,
+                                noCalendar: true,
+                                dateFormat: 'H:i',
+                                time_24hr: true,
+                                minuteIncrement: 5,
+                                allowInput: true,
+                                disableMobile: true,
+                                onChange: function () {
+                                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                                }
+                            });
+                        }
+                    });
+                }
+
+                initFlatpickrInstances();
+                document.addEventListener('shown.bs.modal', initFlatpickrInstances);
+            }
         });
     </script>
 
