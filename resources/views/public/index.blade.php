@@ -739,15 +739,15 @@ body > main {
 /* Mobile 3: Batas Akhir Konsumsi Box */
 .mobile-batas-box {
     position: absolute;
-    left: 28.5%;
-    top: 41.8%;
-    width: 53.5%;
-    height: 6.8%;
+    left: 32.2%;
+    top: 43.2%;
+    width: 50.0%;
+    height: 7.0%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 1.2cqw;
-    padding-right: 1.2cqw;
+    padding-left: 0.6cqw;
+    padding-right: 1.0cqw;
 }
 
 .mobile-batas-desc {
@@ -771,13 +771,13 @@ body > main {
 .mobile-condition-box {
     position: absolute;
     left: 67.96%;
-    top: 62.50%;
-    width: 31.94%;
-    height: 9.48%;
+    top: 64.38%;
+    width: 31.50%;
+    height: 7.65%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5cqw 1.2cqw;
+    padding: 0.2cqw 1.0cqw;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
