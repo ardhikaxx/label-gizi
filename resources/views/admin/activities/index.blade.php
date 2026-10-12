@@ -65,7 +65,7 @@
                         @forelse($logs as $log)
                             <tr>
                                 <td class="ps-4 text-nowrap">
-                                    <div class="small fw-semibold text-dark">{{ $log->created_at->isoFormat('D MMM Y, HH:mm') }}</div>
+                                    <div class="small fw-semibold text-dark">{{ $log->created_at->isoFormat('D MMMM Y, HH:mm') }} WIB</div>
                                     <small class="text-muted">{{ $log->created_at->diffForHumans() }}</small>
                                 </td>
                                 <td>
