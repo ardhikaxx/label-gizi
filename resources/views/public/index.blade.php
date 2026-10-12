@@ -744,9 +744,9 @@ body > main {
 .mobile-batas-box {
     position: absolute;
     left: 30.0%;
-    top: 41.8%;
+    top: 41.5%;
     width: 54.0%;
-    height: 7.8%;
+    height: 8.5%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -759,7 +759,7 @@ body > main {
 .mobile-batas-desc {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 700;
-    font-size: clamp(8px, 1.65cqw, 14px);
+    font-size: clamp(10.5px, 2.2cqw, 20px);
     line-height: 1.25;
     color: #0b2754;
     word-break: normal;
@@ -768,10 +768,10 @@ body > main {
 .mobile-batas-time {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: clamp(10px, 2.1cqw, 18.5px);
+    font-size: clamp(12.5px, 2.6cqw, 23px);
     line-height: 1.2;
     color: #0b2754;
-    margin-top: 0.3cqw;
+    margin-top: 0.35cqw;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
