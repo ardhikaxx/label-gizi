@@ -116,11 +116,292 @@ body {
     border: 1px solid #c8def4;
 }
 
-/* ----------------- Form Inputs Focus ----------------- */
+/* ==========================================================================
+   Outlined Floating Input Field System (Desain Sesuai State image.png)
+   States:
+   - DEFAULT : Border #cbd5e1, rounded corners, label inside #64748b
+   - ACTIVE  : Border #0b2853, label floating on top border #0b2853
+   - TYPING  : Border #0b2853, text inside, label floating
+   - HOVER   : Subtle background tint #f8fafc, border #94a3b8
+   - DISABLED: Light grey border #e2e8f0, background #f8fafc, label #94a3b8
+   - ERROR   : Border #dc2626, label #dc2626, pesan error merah miring
+   ========================================================================== */
+
+/* Universal Form Controls Baseline */
+.form-control,
+.form-select {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #1e293b;
+    font-size: 0.925rem;
+    padding: 0.65rem 0.95rem;
+    transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+
+.form-control:hover:not(:focus):not(:disabled),
+.form-select:hover:not(:focus):not(:disabled) {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
 .form-control:focus,
 .form-select:focus {
-    border-color: #87c3e3;
-    box-shadow: 0 0 0 0.25rem rgba(11, 40, 83, 0.15);
+    border-color: #0b2853 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 1px #0b2853 !important;
+    outline: none;
+    color: #0f172a;
+}
+
+.form-control:disabled,
+.form-select:disabled,
+.form-control[readonly] {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 1px #dc2626 !important;
+    background-image: none !important;
+}
+
+/* Pesan Error: Merah miring (sesuai spesifikasi image.png: Error message) */
+.invalid-feedback,
+.text-danger.small,
+.bgn-field-error {
+    font-style: italic !important;
+    color: #dc2626 !important;
+    font-size: 0.75rem !important;
+    margin-top: 0.35rem !important;
+    margin-left: 0.35rem !important;
+    display: block;
+    line-height: 1.35;
+}
+
+/* Input Group Baseline */
+.input-group .form-control,
+.input-group .form-select {
+    border-radius: 10px;
+}
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input-group > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group-text {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+/* Outlined Floating Field Container (.bgn-field) */
+.bgn-field {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.15rem;
+}
+
+.bgn-field-input {
+    width: 100%;
+    height: 52px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 14px 16px;
+    font-size: 0.925rem;
+    font-family: inherit;
+    color: #0f172a;
+    transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Hover State */
+.bgn-field-input:hover:not(:focus):not(:disabled) {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+/* Active / Typing State */
+.bgn-field-input:focus {
+    border-color: #0b2853;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px #0b2853;
+    color: #0f172a;
+}
+
+/* Disabled State */
+.bgn-field-input:disabled,
+.bgn-field-input[readonly] {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.bgn-field-input:disabled ~ .bgn-field-label,
+.bgn-field-input[readonly] ~ .bgn-field-label {
+    color: #94a3b8;
+    background-color: transparent;
+}
+
+/* Error State */
+.bgn-field-input.is-invalid,
+.bgn-field.is-invalid .bgn-field-input {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 1px #dc2626 !important;
+    color: #b91c1c;
+}
+
+.bgn-field-input.is-invalid ~ .bgn-field-label,
+.bgn-field.is-invalid .bgn-field-label {
+    color: #dc2626 !important;
+}
+
+/* Outlined Floating Label */
+.bgn-field-label {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 6px;
+    background-color: transparent;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    pointer-events: none;
+    transition: top 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                font-size 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.18s ease;
+    z-index: 3;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: 4px;
+}
+
+/* Label floating behavior:
+   When focused, or placeholder is NOT shown, or class has-value, or is select / date / time */
+.bgn-field-input:focus ~ .bgn-field-label,
+.bgn-field-input:not(:placeholder-shown) ~ .bgn-field-label,
+.bgn-field-input.has-value ~ .bgn-field-label,
+.bgn-field.active-label .bgn-field-label,
+.bgn-field-input[type="date"] ~ .bgn-field-label,
+.bgn-field-input[type="time"] ~ .bgn-field-label,
+.bgn-field-select ~ .bgn-field-label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: #0b2853;
+    background-color: #ffffff;
+}
+
+/* Textarea variant */
+.bgn-field-textarea {
+    height: auto;
+    min-height: 95px;
+    padding-top: 14px;
+    resize: vertical;
+}
+
+.bgn-field-textarea ~ .bgn-field-label {
+    top: 20px;
+    transform: translateY(0);
+}
+
+.bgn-field-textarea:focus ~ .bgn-field-label,
+.bgn-field-textarea:not(:placeholder-shown) ~ .bgn-field-label,
+.bgn-field-textarea.has-value ~ .bgn-field-label {
+    top: 0;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+}
+
+/* Select dropdown variant */
+.bgn-field-select {
+    padding-right: 38px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px 12px;
+}
+
+/* Prefix & Suffix Elements */
+.bgn-field-input.has-suffix {
+    padding-right: 58px;
+}
+
+.bgn-field-suffix-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bgn-field-suffix-btn:hover {
+    color: #0b2853;
+    background-color: #f1f5f9;
+}
+
+.bgn-field-suffix-text {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: #475569;
+    pointer-events: none;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.bgn-field-input.has-prefix {
+    padding-left: 42px;
+}
+
+.bgn-field-prefix-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    color: #64748b;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bgn-field-input.has-prefix:placeholder-shown:not(:focus) ~ .bgn-field-label {
+    left: 42px;
 }
 
 /* ----------------- Nutrition Label Card ----------------- */
