@@ -476,8 +476,7 @@ body > main {
 }
 
 .desktop-gizi-row {
-    background-color: #fff9ea;
-    border-radius: 0.4cqw;
+    background-color: transparent;
     display: flex;
     align-items: center;
     padding: 0.2cqw 0.8cqw;
@@ -679,8 +678,7 @@ body > main {
 }
 
 .mobile-gizi-row {
-    background-color: #fff9ea;
-    border-radius: 0.6cqw;
+    background-color: transparent;
     display: flex;
     align-items: center;
     padding: 0.15cqw 1.2cqw;
