@@ -246,6 +246,38 @@ test('admin can upload food image converted to webp and stream it without storag
     }
 });
 
+test('admin can upload large PNG image which is automatically compressed and converted to webp', function () {
+    $uploadedPng = UploadedFile::fake()->image('hidangan_besar.png', 1600, 1200);
+
+    $data = [
+        'action' => 'draft',
+        'title' => 'Menu PNG Terkompresi',
+        'menu_date' => Carbon::today()->format('Y-m-d'),
+        'image' => $uploadedPng,
+    ];
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), $data);
+    $response->assertRedirect(route('admin.labels.index'));
+
+    $label = FoodLabel::where('title', 'Menu PNG Terkompresi')->first();
+    expect($label)->not->toBeNull()
+        ->and($label->image)->toEndWith('.webp');
+
+    $savedFilePath = storage_path('uploads/food-labels/'.$label->image);
+    expect(File::exists($savedFilePath))->toBeTrue();
+
+    // Verify it is a valid image with bounded dimensions
+    $info = getimagesize($savedFilePath);
+    expect($info[0])->toBeLessThanOrEqual(1200)
+        ->and($info[1])->toBeLessThanOrEqual(1200)
+        ->and($info['mime'])->toBe('image/webp');
+
+    // Clean up
+    if (File::exists($savedFilePath)) {
+        File::delete($savedFilePath);
+    }
+});
+
 test('admin can replace and delete uploaded food image', function () {
     $fileA = UploadedFile::fake()->image('gambar_pertama.png', 800, 600);
 
