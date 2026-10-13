@@ -96,3 +96,15 @@ test('admin can log out safely', function () {
     $response->assertRedirect(route('admin.login'));
     $this->assertGuest();
 });
+
+test('halaman admin menyertakan elemen responsif sidebar mobile', function () {
+    $user = User::factory()->create(['is_active' => true]);
+
+    $response = $this->actingAs($user)->get(route('admin.dashboard'));
+
+    $response->assertStatus(200);
+    $response->assertSee('id="adminSidebar"', false);
+    $response->assertSee('id="sidebarToggleBtn"', false);
+    $response->assertSee('id="sidebarCloseBtn"', false);
+    $response->assertSee('id="sidebarBackdrop"', false);
+});
