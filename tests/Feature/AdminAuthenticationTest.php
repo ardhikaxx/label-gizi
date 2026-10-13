@@ -46,6 +46,36 @@ test('admin can log in using username', function () {
     $this->assertAuthenticatedAs($user);
 });
 
+test('admin can log in using username with remember me checked as on or 1', function () {
+    $user = User::factory()->create([
+        'username' => 'adminingat',
+        'password' => Hash::make('Secret12345!'),
+        'is_active' => true,
+    ]);
+
+    // Test with browser default checkbox value 'on'
+    $response = $this->post(route('admin.login.submit'), [
+        'login' => 'adminingat',
+        'password' => 'Secret12345!',
+        'remember' => 'on',
+    ]);
+
+    $response->assertRedirect(route('admin.dashboard'));
+    $this->assertAuthenticatedAs($user);
+
+    auth()->logout();
+
+    // Test with HTML value '1'
+    $response2 = $this->post(route('admin.login.submit'), [
+        'login' => 'adminingat',
+        'password' => 'Secret12345!',
+        'remember' => '1',
+    ]);
+
+    $response2->assertRedirect(route('admin.dashboard'));
+    $this->assertAuthenticatedAs($user);
+});
+
 test('admin login fails with wrong password', function () {
     $user = User::factory()->create([
         'email' => 'admin.wrong@labelgizi.test',
