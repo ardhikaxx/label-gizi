@@ -17,8 +17,9 @@
     </div>
 
     <div class="d-flex align-items-center gap-2 flex-shrink-0">
-        <a href="{{ route('public.home') }}" target="_blank" class="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-1 rounded-pill px-3" style="border-color: #dbe6f2; color: #0b2853;">
-            <i class="fa-solid fa-arrow-up-right-from-square small" style="color: #d4a34b;"></i> Halaman Publik
+        <a href="{{ route('public.home') }}" target="_blank" class="btn btn-sm btn-topbar-public d-none d-md-inline-flex align-items-center gap-2 rounded-pill px-3">
+            <i class="fa-solid fa-arrow-up-right-from-square small topbar-public-icon"></i>
+            <span>Halaman Publik</span>
         </a>
 
         <div class="dropdown flex-shrink-0">
