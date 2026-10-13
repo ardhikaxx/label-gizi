@@ -226,7 +226,7 @@
                 </table>
             </div>
 
-            <div class="p-3 border-top d-flex justify-content-between align-items-center">
+            <div class="p-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
                 <small class="text-muted">Total: <strong>{{ $users->total() }}</strong> akun administrator</small>
                 <div>
                     {{ $users->links('pagination::bootstrap-5') }}
