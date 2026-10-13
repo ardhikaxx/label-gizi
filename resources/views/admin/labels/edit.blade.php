@@ -175,17 +175,32 @@
                             @error('image')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
                             @enderror
-                            <div class="form-text small text-muted mt-1">
-                                Format: JPG, JPEG, PNG, WEBP (Maksimal 5 MB). Mengunggah foto baru akan mengganti foto yang lama.
+                            <div class="form-text small text-muted mt-1 d-flex flex-wrap align-items-center gap-2">
+                                <span><i class="fa-solid fa-circle-info text-info me-1"></i>Format: JPG, JPEG, PNG, WEBP (Maksimal 10 MB).</span>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>Auto Compress & Convert to WebP
+                                </span>
                             </div>
                         </div>
 
-                        <!-- Live Preview Area -->
-                        <div id="imagePreviewContainer" class="d-none mt-3 p-3 bg-light rounded-3 border text-center">
-                            <div class="small fw-semibold text-muted mb-2">Pratinjau Foto Baru (Otomatis Dikonversi ke WebP):</div>
-                            <div class="position-relative d-inline-block">
-                                <img id="imagePreview" src="#" alt="Pratinjau Foto Baru" class="img-fluid rounded-3 shadow-sm border" style="max-height: 220px; object-fit: cover;">
-                                <button type="button" id="btnRemovePreview" class="btn btn-sm btn-danger rounded-circle position-absolute top-0 end-0 m-1 shadow-sm" title="Batalkan Pilihan Foto">
+                        <!-- Progress / Loading Indikator Kompresi -->
+                        <div id="imageCompressingIndicator" class="d-none mt-3 p-3 bg-light rounded-3 border text-center">
+                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                            <span class="small fw-semibold text-secondary">Sedang mengompresi dan mengonversi foto ke WebP...</span>
+                        </div>
+
+                        <!-- Live Preview Area dengan Rincian Kompresi -->
+                        <div id="imagePreviewContainer" class="d-none mt-3 p-3 bg-light rounded-3 border">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2 pb-2 border-bottom">
+                                <div class="small fw-bold text-dark d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-bolt text-warning"></i>
+                                    <span>Pratinjau Foto Baru (WebP Siap Unggah):</span>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-1" id="compressionStatsBadges"></div>
+                            </div>
+                            <div class="position-relative text-center">
+                                <img id="imagePreview" src="#" alt="Pratinjau Foto Baru" class="img-fluid rounded-3 shadow-sm border" style="max-height: 240px; object-fit: cover;">
+                                <button type="button" id="btnRemovePreview" class="btn btn-sm btn-danger rounded-circle position-absolute top-0 end-0 m-2 shadow-sm" title="Batalkan Pilihan Foto" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
@@ -735,47 +750,161 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Live Image Preview Handling
+    // Live Image Preview & Client-Side WebP Compression Handling
     const imageInput = document.getElementById('image');
     const previewContainer = document.getElementById('imagePreviewContainer');
+    const compressingIndicator = document.getElementById('imageCompressingIndicator');
+    const compressionStatsBadges = document.getElementById('compressionStatsBadges');
     const previewImg = document.getElementById('imagePreview');
     const btnRemovePreview = document.getElementById('btnRemovePreview');
 
+    // Helper: Client-Side Image Compression and WebP Conversion via HTML5 Canvas
+    function compressImageFileToWebP(file, maxDimension = 1200, quality = 0.82) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    let width = img.naturalWidth || img.width;
+                    let height = img.naturalHeight || img.height;
+
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width >= height) {
+                            height = Math.round((height * maxDimension) / width);
+                            width = maxDimension;
+                        } else {
+                            width = Math.round((width * maxDimension) / height);
+                            height = maxDimension;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            reject(new Error('Gagal mengompresi gambar di kanvas'));
+                            return;
+                        }
+
+                        const baseName = file.name.replace(/\.[^/.]+$/, "");
+                        const isWebp = blob.type === 'image/webp';
+                        const ext = isWebp ? 'webp' : 'jpg';
+                        const finalMime = isWebp ? 'image/webp' : 'image/jpeg';
+                        const compressedFile = new File([blob], `${baseName}.${ext}`, {
+                            type: finalMime,
+                            lastModified: Date.now()
+                        });
+
+                        resolve({
+                            file: compressedFile,
+                            previewUrl: URL.createObjectURL(blob),
+                            originalSize: file.size,
+                            compressedSize: blob.size,
+                            width: width,
+                            height: height,
+                            format: isWebp ? 'WEBP' : 'JPEG'
+                        });
+                    }, 'image/webp', quality);
+                };
+                img.onerror = () => reject(new Error('Gagal memuat gambar'));
+                img.src = e.target.result;
+            };
+            reader.onerror = () => reject(new Error('Gagal membaca file gambar'));
+            reader.readAsDataURL(file);
+        });
+    }
+
     if (imageInput && previewContainer && previewImg) {
-        imageInput.addEventListener('change', function() {
+        imageInput.addEventListener('change', async function() {
             const file = this.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Format Tidak Sesuai',
-                        text: 'Silakan pilih file gambar yang valid (JPG, JPEG, PNG, WEBP).',
-                        confirmButtonColor: '#0b2853'
-                    });
-                    this.value = '';
-                    previewContainer.classList.add('d-none');
-                    return;
-                }
-                if (file.size > 5 * 1024 * 1024) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Ukuran Terlalu Besar',
-                        text: 'Ukuran file gambar maksimal 5 MB.',
-                        confirmButtonColor: '#c48b0f'
-                    });
-                    this.value = '';
-                    previewContainer.classList.add('d-none');
-                    return;
+            if (!file) {
+                previewContainer.classList.add('d-none');
+                if (compressingIndicator) compressingIndicator.classList.add('d-none');
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Format Tidak Sesuai',
+                    text: 'Silakan pilih file gambar yang valid (JPG, JPEG, PNG, WEBP).',
+                    confirmButtonColor: '#0b2853'
+                });
+                this.value = '';
+                previewContainer.classList.add('d-none');
+                if (compressingIndicator) compressingIndicator.classList.add('d-none');
+                return;
+            }
+
+            if (file.size > 15 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ukuran Terlalu Besar',
+                    text: 'Ukuran file gambar asli maksimal 15 MB.',
+                    confirmButtonColor: '#c48b0f'
+                });
+                this.value = '';
+                previewContainer.classList.add('d-none');
+                if (compressingIndicator) compressingIndicator.classList.add('d-none');
+                return;
+            }
+
+            // Uncheck remove_image if user chooses a new image
+            if (removeImageCheckbox && removeImageCheckbox.checked) {
+                removeImageCheckbox.checked = false;
+            }
+
+            if (compressingIndicator) compressingIndicator.classList.remove('d-none');
+            previewContainer.classList.add('d-none');
+
+            try {
+                const result = await compressImageFileToWebP(file, 1200, 0.82);
+
+                if (window.DataTransfer) {
+                    const dt = new DataTransfer();
+                    dt.items.add(result.file);
+                    imageInput.files = dt.files;
                 }
 
+                const origKB = Math.round(result.originalSize / 1024);
+                const compKB = Math.round(result.compressedSize / 1024);
+                const savings = result.originalSize > result.compressedSize
+                    ? Math.round((1 - (result.compressedSize / result.originalSize)) * 100)
+                    : 0;
+
+                if (compressionStatsBadges) {
+                    compressionStatsBadges.innerHTML = `
+                        <span class="badge bg-secondary-subtle text-secondary border small">Asli: ${origKB > 1024 ? (origKB / 1024).toFixed(1) + ' MB' : origKB + ' KB'}</span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle small fw-bold">
+                            <i class="fa-solid fa-arrow-trend-down me-1"></i>WebP: ${compKB} KB ${savings > 0 ? '(-' + savings + '%)' : ''}
+                        </span>
+                        <span class="badge bg-primary-subtle text-primary border small">${result.width}x${result.height} px</span>
+                    `;
+                }
+
+                previewImg.src = result.previewUrl;
+                if (compressingIndicator) compressingIndicator.classList.add('d-none');
+                previewContainer.classList.remove('d-none');
+            } catch (err) {
+                console.warn('Kompresi browser gagal, menggunakan file asli untuk diproses server:', err);
+                if (compressingIndicator) compressingIndicator.classList.add('d-none');
                 const reader = new FileReader();
                 reader.onload = function(evt) {
                     previewImg.src = evt.target.result;
+                    if (compressionStatsBadges) {
+                        compressionStatsBadges.innerHTML = `
+                            <span class="badge bg-info-subtle text-info border small"><i class="fa-solid fa-gear me-1"></i>Akan dikompresi oleh server</span>
+                        `;
+                    }
                     previewContainer.classList.remove('d-none');
                 };
                 reader.readAsDataURL(file);
-            } else {
-                previewContainer.classList.add('d-none');
             }
         });
 
@@ -795,6 +924,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (result.isConfirmed) {
                         imageInput.value = '';
                         previewContainer.classList.add('d-none');
+                        if (compressingIndicator) compressingIndicator.classList.add('d-none');
                         previewImg.src = '#';
                     }
                 });
