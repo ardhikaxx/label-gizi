@@ -54,11 +54,11 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light small text-muted text-uppercase">
                         <tr>
-                            <th class="ps-4">Waktu</th>
-                            <th>Pelaku (Admin)</th>
-                            <th>Aktivitas</th>
-                            <th>Rincian Keterangan</th>
-                            <th class="text-end pe-4">Alamat IP</th>
+                            <th class="ps-4" style="min-width: 180px;">Waktu</th>
+                            <th style="min-width: 170px;">Pelaku (Admin)</th>
+                            <th style="min-width: 140px;">Aktivitas</th>
+                            <th style="min-width: 220px;">Rincian Keterangan</th>
+                            <th class="text-end pe-4" style="min-width: 120px;">Alamat IP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,7 +71,8 @@
                                 <td>
                                     @if($log->user)
                                         <div class="d-flex align-items-center gap-2">
-                                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center text-dark fw-bold small" style="width: 28px; height: 28px;">
+                                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center text-dark fw-bold small flex-shrink-0 shadow-sm"
+                                                 style="width: 28px; height: 28px; min-width: 28px; min-height: 28px; flex-shrink: 0; aspect-ratio: 1 / 1;">
                                                 {{ strtoupper(substr($log->user->name, 0, 1)) }}
                                             </div>
                                             <span class="small fw-semibold text-dark">{{ $log->user->name }}</span>
