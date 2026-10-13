@@ -15,7 +15,7 @@
                     Selamat datang di panel kelola sistem informasi label makanan bergizi SPPG PONOROGO KAUMAN SOMOROTO — Badan Gizi Nasional.
                 </p>
             </div>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
                 <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-4 shadow-sm fw-medium">
                     <i class="fa-solid fa-plus-circle me-1"></i> Tambah Label Baru
                 </a>
@@ -27,9 +27,9 @@
     </div>
 
     <!-- Stat Cards Row (Clickable & Filter-Linked) -->
-    <div class="row g-3 mb-4">
+    <div class="row g-2 g-sm-3 mb-4">
         <!-- Total Labels -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.labels.index') }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Total Label</span>
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Published Labels -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.labels.index', ['status' => 'published']) }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Dipublikasikan</span>
@@ -61,7 +61,7 @@
         </div>
 
         <!-- Draft Labels -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.labels.index', ['status' => 'draft']) }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Draft Menu</span>
@@ -77,7 +77,7 @@
         </div>
 
         <!-- Scheduled Labels -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.labels.index', ['status' => 'scheduled']) }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Terjadwal</span>
@@ -93,7 +93,7 @@
         </div>
 
         <!-- Archived Labels -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.labels.index', ['status' => 'archived']) }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Diarsipkan</span>
@@ -109,7 +109,7 @@
         </div>
 
         <!-- Admin Users -->
-        <div class="col-sm-6 col-xl-2">
+        <div class="col-6 col-sm-6 col-xl-2">
             <a href="{{ route('admin.users.index') }}" class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <span class="text-muted small fw-semibold">Total Admin</span>
@@ -130,7 +130,7 @@
         <!-- Monthly Publications Chart -->
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                     <div>
                         <h6 class="fw-bold mb-0 text-dark">Tren Publikasi Label Makanan (6 Bulan Terakhir)</h6>
                         <small class="text-muted">Jumlah label yang berhasil dipublikasikan setiap bulan</small>
@@ -166,7 +166,7 @@
         <!-- Recent Labels Table -->
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                     <div>
                         <h6 class="fw-bold mb-0 text-dark">Label Makanan Terbaru</h6>
                         <small class="text-muted">Daftar label yang baru dibuat atau dimutakhirkan</small>
@@ -238,7 +238,7 @@
         <!-- Recent Activities -->
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white border-0 py-3 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                     <div>
                         <h6 class="fw-bold mb-0 text-dark">Log Aktivitas Terbaru</h6>
                         <small class="text-muted">Catatan tindakan operasional admin</small>
