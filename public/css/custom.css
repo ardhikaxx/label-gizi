@@ -804,12 +804,100 @@ body.sidebar-open {
 
     .admin-content {
         padding: 1rem 0.85rem;
+        padding-bottom: 5.5rem !important;
     }
 
     .admin-sidebar .sidebar-link {
         padding: 0.8rem 1rem;
         font-size: 0.95rem;
     }
+}
+
+/* ==========================================================================
+   Mobile Floating Bottom Navigation (Floating Capsule Pill)
+   ========================================================================== */
+.bgn-mobile-navbottom {
+    position: fixed;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    padding: 0 12px;
+}
+
+.bgn-mobile-navbottom-pill {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(11, 40, 83, 0.12);
+    border-radius: 9999px;
+    padding: 5px 6px;
+    box-shadow: 0 10px 28px rgba(11, 40, 83, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05);
+    max-width: calc(100vw - 20px);
+}
+
+.bgn-navbottom-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    min-width: 40px;
+    padding: 0 10px;
+    border-radius: 9999px;
+    color: #5b7391;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all 0.22s cubic-bezier(0.2, 0, 0, 1);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bgn-navbottom-item:hover,
+.bgn-navbottom-item:focus {
+    color: #0b2853;
+    background: rgba(11, 40, 83, 0.06);
+}
+
+.bgn-navbottom-item .navbottom-icon {
+    font-size: 1.05rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.bgn-navbottom-item .navbottom-label {
+    display: none;
+    white-space: nowrap;
+    margin-left: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Active State: Expanded capsule with BGN Navy background, gold icon, white text */
+.bgn-navbottom-item.active {
+    background: #0b2853 !important;
+    color: #ffffff !important;
+    padding: 0 14px;
+    box-shadow: 0 4px 12px rgba(11, 40, 83, 0.28);
+}
+
+.bgn-navbottom-item.active .navbottom-icon {
+    color: #d4a34b !important;
+}
+
+.bgn-navbottom-item.active .navbottom-label {
+    display: inline-block;
+    color: #ffffff !important;
 }
 
 /* Mobile Screen Polish (< 576px) */
