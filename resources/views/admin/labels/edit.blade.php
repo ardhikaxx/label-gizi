@@ -6,7 +6,7 @@
 @section('content')
 <div class="container-fluid p-0">
 
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 mb-4">
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb small mb-1">
@@ -15,14 +15,14 @@
                     <li class="breadcrumb-item active text-success fw-semibold">Edit Label</li>
                 </ol>
             </nav>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
                 <h4 class="fw-bold text-dark mb-0">Edit Label Makanan</h4>
                 <span class="badge {{ $label->status_badge_class }} rounded-pill px-2 py-1">
                     {{ $label->status_label }}
                 </span>
             </div>
         </div>
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
             <a href="{{ route('admin.labels.show', $label) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
                 <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Detail
             </a>
