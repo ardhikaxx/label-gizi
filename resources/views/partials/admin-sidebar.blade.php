@@ -34,7 +34,13 @@
             </a>
         </li>
 
-        <li class="sidebar-menu-header">Sistem & Keamanan</li>
+        <li class="sidebar-menu-header">Sistem &amp; Keamanan</li>
+        <li>
+            <a href="{{ route('admin.profile.show') }}" class="sidebar-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Profil Saya</span>
+            </a>
+        </li>
         <li>
             <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-users-gear"></i>
@@ -65,7 +71,7 @@
 
     <div class="p-3 border-top border-secondary border-opacity-25 mt-auto">
         <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
+            <a href="{{ route('admin.profile.show') }}" class="d-flex align-items-center gap-2 overflow-hidden me-2 text-decoration-none" style="min-width: 0;">
                 <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 34px; height: 34px; flex-shrink: 0; background-color: #d4a34b; color: #071c3b;">
                     {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
                 </div>
@@ -73,7 +79,7 @@
                     <div class="text-white small fw-bold text-truncate">{{ Auth::user()->name ?? 'Admin' }}</div>
                     <div class="text-truncate" style="font-size: 0.72rem; color: #87c3e3 !important;">{{ Auth::user()->email ?? '' }}</div>
                 </div>
-            </div>
+            </a>
             <button type="button" class="btn btn-outline-danger btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center btn-logout-trigger" style="width: 32px; height: 32px; flex-shrink: 0;" title="Keluar">
                 <i class="fa-solid fa-right-from-bracket small"></i>
             </button>
