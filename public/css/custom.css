@@ -942,3 +942,92 @@ span.flatpickr-weekday {
     background-color: #eaf2fb !important;
     color: #d4a34b !important;
 }
+
+
+/* =============================================
+   BGN Custom Pagination
+   ============================================= */
+.bgn-pagination-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 4px;
+}
+
+@media (min-width: 576px) {
+    .bgn-pagination-nav {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.bgn-pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bgn-page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.1s ease;
+    color: #0b2853;
+    background-color: #f0f4fa;
+    border: 1px solid #dce6f5;
+    line-height: 1;
+}
+
+.bgn-page-link:hover {
+    background-color: #d4a34b;
+    color: #fff;
+    border-color: #d4a34b;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(212, 163, 75, 0.35);
+}
+
+.bgn-page-item.active .bgn-page-link {
+    background-color: #0b2853;
+    color: #fff;
+    border-color: #0b2853;
+    box-shadow: 0 2px 8px rgba(11, 40, 83, 0.35);
+    cursor: default;
+    pointer-events: none;
+}
+
+.bgn-page-item.disabled .bgn-page-link {
+    color: #b0bcce;
+    background-color: #f8fafc;
+    border-color: #e8eef7;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.bgn-dots {
+    background-color: transparent;
+    border-color: transparent;
+    color: #8898aa;
+    letter-spacing: 1px;
+    min-width: 28px;
+}
+
+.bgn-page-info {
+    font-size: 0.78rem;
+    color: #6b7a99;
+    display: flex;
+    gap: 4px;
+}
