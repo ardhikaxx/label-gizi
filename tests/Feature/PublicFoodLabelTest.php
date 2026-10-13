@@ -4,11 +4,13 @@ use App\Models\FoodLabel;
 use App\Models\FoodLabelMenu;
 use Carbon\Carbon;
 
-test('public visitors can view landing page', function () {
+test('public visitors can view landing page with lightweight webp templates', function () {
     $response = $this->get(route('public.home'));
 
     $response->assertStatus(200);
     $response->assertSee('Sajian Menu Hari Ini');
+    $response->assertSee(asset('images/page-desktop.webp'));
+    $response->assertSee(asset('images/page-mobile.webp'));
 });
 
 test('public visitors can view published labels on homepage', function () {
