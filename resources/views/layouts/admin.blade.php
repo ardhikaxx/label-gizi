@@ -42,6 +42,9 @@
         <!-- Sidebar -->
         @include('partials.admin-sidebar')
 
+        <!-- Mobile Sidebar Backdrop Overlay -->
+        <div class="sidebar-backdrop d-lg-none" id="sidebarBackdrop" aria-hidden="true"></div>
+
         <!-- Main Workspace -->
         <div class="admin-main">
             <!-- Topbar -->
@@ -234,6 +237,81 @@
                 initFlatpickrInstances();
                 document.addEventListener('shown.bs.modal', initFlatpickrInstances);
             }
+        });
+    </script>
+
+    <!-- Mobile Sidebar Drawer Handler -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('adminSidebar');
+            const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const closeBtn = document.getElementById('sidebarCloseBtn');
+            const backdrop = document.getElementById('sidebarBackdrop');
+
+            function openSidebar() {
+                if (!sidebar) return;
+                sidebar.classList.add('show');
+                if (backdrop) backdrop.classList.add('show');
+                document.body.classList.add('sidebar-open');
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeSidebar() {
+                if (!sidebar) return;
+                sidebar.classList.remove('show');
+                if (backdrop) backdrop.classList.remove('show');
+                document.body.classList.remove('sidebar-open');
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (sidebar && sidebar.classList.contains('show')) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    closeSidebar();
+                });
+            }
+
+            if (backdrop) {
+                backdrop.addEventListener('click', function () {
+                    closeSidebar();
+                });
+            }
+
+            // Tutup sidebar saat menekan tombol Escape
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && sidebar && sidebar.classList.contains('show')) {
+                    closeSidebar();
+                }
+            });
+
+            // Tutup sidebar saat tautan navigasi diklik pada layar mobile
+            if (sidebar) {
+                sidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        if (window.innerWidth < 992) {
+                            closeSidebar();
+                        }
+                    });
+                });
+            }
+
+            // Tutup otomatis jika ukuran layar diperbesar kembali ke desktop (>= 992px)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 992 && sidebar && sidebar.classList.contains('show')) {
+                    closeSidebar();
+                }
+            });
         });
     </script>
 
