@@ -30,6 +30,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
                 <li><span class="dropdown-header small text-muted">Akun Administrator</span></li>
+                <li><a class="dropdown-item" href="{{ route('admin.profile.show') }}"><i class="fa-solid fa-circle-user me-2 text-muted"></i> Profil Saya</a></li>
                 <li><a class="dropdown-item" href="{{ route('admin.users.index') }}"><i class="fa-solid fa-user me-2 text-muted"></i> Manajemen Admin</a></li>
                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-sliders me-2 text-muted"></i> Pengaturan Aplikasi</a></li>
                 <li><hr class="dropdown-divider"></li>
