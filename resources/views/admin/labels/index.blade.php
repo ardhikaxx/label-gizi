@@ -7,16 +7,16 @@
 <div class="container-fluid p-0">
 
     <!-- Header Actions -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 mb-4">
         <div>
             <h4 class="fw-bold text-dark mb-1">Daftar Label Makanan</h4>
             <p class="text-muted small mb-0">Kelola informasi menu, status publikasi, dan analisis gizi pangan masyarakat.</p>
         </div>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <a href="{{ route('admin.labels.export', request()->query()) }}" class="btn btn-outline-secondary rounded-pill px-3 shadow-sm btn-sm">
+        <div class="d-flex align-items-center gap-2 flex-wrap flex-shrink-0">
+            <a href="{{ route('admin.labels.export', request()->query()) }}" class="btn btn-outline-secondary rounded-pill px-3 shadow-sm btn-sm text-nowrap">
                 <i class="fa-solid fa-file-csv me-1 text-success"></i> Ekspor CSV
             </a>
-            <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-3 shadow-sm btn-sm fw-medium">
+            <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-3 shadow-sm btn-sm fw-medium text-nowrap">
                 <i class="fa-solid fa-plus-circle me-1"></i> Tambah Label Baru
             </a>
         </div>
@@ -58,14 +58,14 @@
             <form action="{{ route('admin.labels.index') }}" method="GET" class="row g-2 align-items-center">
                 <input type="hidden" name="status" value="{{ $currentStatus }}">
 
-                <div class="col-md-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-solid fa-magnifying-glass"></i></span>
                         <input type="text" name="search" class="form-control border-start-0" placeholder="Cari nama menu, judul..." value="{{ $search }}">
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-12 col-sm-6 col-lg-2">
                     <select name="condition" class="form-select form-select-sm">
                         <option value="">Semua Kondisi</option>
                         @foreach($conditions as $cond)
@@ -74,14 +74,14 @@
                     </select>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light text-muted border-end-0"><i class="fa-regular fa-calendar"></i></span>
                         <input type="text" name="date" class="form-control border-start-0" value="{{ $date }}" data-flatpickr-date placeholder="Pilih Tanggal..." title="Filter Tanggal Spesifik">
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-12 col-sm-6 col-lg-2">
                     <select name="sort_by" class="form-select form-select-sm">
                         <option value="menu_date" {{ $sortBy === 'menu_date' ? 'selected' : '' }}>Urut: Tanggal Menu</option>
                         <option value="created_at" {{ $sortBy === 'created_at' ? 'selected' : '' }}>Urut: Waktu Pembuatan</option>
@@ -90,8 +90,8 @@
                     </select>
                 </div>
 
-                <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-sm btn-success rounded-pill flex-grow-1">
+                <div class="col-12 col-sm-12 col-lg-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-sm btn-success rounded-pill flex-grow-1 text-nowrap">
                         Terapkan
                     </button>
                     @if(!empty($search) || !empty($date) || !empty($currentCondition) || $currentStatus !== 'all')
