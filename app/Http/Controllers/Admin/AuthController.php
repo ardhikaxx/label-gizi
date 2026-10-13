@@ -34,7 +34,7 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'login' => ['required', 'string'],
             'password' => ['required', 'string'],
-            'remember' => ['nullable', 'boolean'],
+            'remember' => ['nullable'],
         ], [
             'login.required' => 'Email atau username administrator wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
