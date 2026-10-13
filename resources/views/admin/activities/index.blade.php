@@ -117,7 +117,7 @@
                 </table>
             </div>
 
-            <div class="p-3 border-top d-flex justify-content-between align-items-center">
+            <div class="p-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
                 <small class="text-muted">Total: <strong>{{ $logs->total() }}</strong> catatan riwayat</small>
                 <div>
                     {{ $logs->links('pagination::bootstrap-5') }}
