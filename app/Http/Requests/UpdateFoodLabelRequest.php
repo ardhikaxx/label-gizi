@@ -56,7 +56,7 @@ class UpdateFoodLabelRequest extends FormRequest
             'menu_date' => ['required', 'date'],
             'food_condition' => ['required', 'string', Rule::in(FoodLabel::CONDITIONS)],
             'description' => ['nullable', 'string', 'max:2000'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'remove_image' => ['nullable', 'boolean'],
         ];
 
@@ -122,7 +122,7 @@ class UpdateFoodLabelRequest extends FormRequest
             'menus.*.filled' => 'Nama item menu makanan tidak boleh hanya berisi spasi.',
             'image.image' => 'File foto makanan harus berupa berkas gambar.',
             'image.mimes' => 'Format foto makanan harus berupa JPG, JPEG, PNG, atau WEBP.',
-            'image.max' => 'Ukuran file foto makanan maksimal 5 MB.',
+            'image.max' => 'Ukuran file foto makanan maksimal 10 MB.',
         ];
     }
 }
