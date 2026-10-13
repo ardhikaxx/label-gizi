@@ -6,8 +6,8 @@
         <a href="{{ route('admin.dashboard') }}" class="sidebar-brand text-decoration-none d-flex align-items-center gap-2 p-0 border-0 bg-transparent flex-grow-1 overflow-hidden">
             <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" style="height: 38px; width: auto; object-fit: contain;" class="flex-shrink-0">
             <div class="d-flex flex-column overflow-hidden">
-                <span class="fw-bold lh-1 text-white text-truncate" style="font-size: 0.82rem; letter-spacing: 0.02em;">SPPG KAUMAN SOMOROTO</span>
-                <span class="small lh-1 mt-1 text-uppercase text-truncate" style="font-size: 0.65rem; color: #d4a34b; font-weight: 700; letter-spacing: 0.04em;">Badan Gizi Nasional</span>
+                <span class="fw-bold lh-1 text-white text-truncate" style="font-size: 0.82rem; letter-spacing: 0.02em;">BADAN GIZI NASIONAL</span>
+                <span class="small lh-1 mt-1 text-uppercase text-truncate" style="font-size: 0.65rem; color: #d4a34b; font-weight: 700; letter-spacing: 0.04em;">SPPG Kauman Somoroto</span>
                 <span class="text-white-50 lh-1 mt-1 text-truncate" style="font-size: 0.58rem; letter-spacing: 0.03em;">Ponorogo &bull; Jawa Timur</span>
             </div>
         </a>
