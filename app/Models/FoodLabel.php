@@ -370,17 +370,29 @@ class FoodLabel extends Model
     }
 
     /**
-     * Publish any scheduled labels whose date has arrived.
+     * Publish any scheduled labels whose date and time have arrived.
      */
     public static function publishDueScheduledLabels(): int
     {
+        $now = Carbon::now();
         $today = Carbon::today();
 
         return static::scheduled()
-            ->whereDate('menu_date', '<=', $today)
+            ->where(function (Builder $query) use ($now, $today) {
+                // Past dates are automatically due
+                $query->whereDate('menu_date', '<', $today)
+                    // For today, publish if scheduled_at time has arrived or was not specified
+                    ->orWhere(function (Builder $sub) use ($now, $today) {
+                        $sub->whereDate('menu_date', '=', $today)
+                            ->where(function (Builder $timeQuery) use ($now) {
+                                $timeQuery->whereNull('scheduled_at')
+                                    ->orWhere('scheduled_at', '<=', $now);
+                            });
+                    });
+            })
             ->update([
                 'status' => 'published',
-                'published_at' => Carbon::now(),
+                'published_at' => $now,
             ]);
     }
 }
