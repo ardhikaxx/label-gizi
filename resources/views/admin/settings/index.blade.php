@@ -123,11 +123,11 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                        <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center justify-content-between gap-3 pt-3 border-top">
                             <span class="text-muted small">
                                 <i class="fa-solid fa-circle-info text-primary me-1"></i> Perubahan langsung aktif di seluruh sistem.
                             </span>
-                            <button type="submit" class="btn btn-bgn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                            <button type="submit" class="btn btn-bgn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm w-100 w-sm-auto text-nowrap">
                                 <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Pengaturan
                             </button>
                         </div>
