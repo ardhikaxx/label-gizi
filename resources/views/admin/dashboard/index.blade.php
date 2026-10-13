@@ -8,18 +8,18 @@
 
     <!-- Welcome & Quick Action Banner -->
     <div class="card border-0 shadow-sm rounded-4 mb-4 bg-brand-soft overflow-hidden" style="border-left: 5px solid #d4a34b !important;">
-        <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-            <div>
+        <div class="card-body p-3 p-sm-4 d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between gap-3">
+            <div class="pe-xl-3">
                 <h4 class="fw-bold text-bgn-navy mb-1">Halo, {{ Auth::user()->name }}! 👋</h4>
                 <p class="text-muted mb-0 small">
                     Selamat datang di panel kelola sistem informasi label makanan bergizi SPPG PONOROGO KAUMAN SOMOROTO — Badan Gizi Nasional.
                 </p>
             </div>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-4 shadow-sm fw-medium">
+            <div class="d-flex align-items-center gap-2 flex-wrap flex-shrink-0">
+                <a href="{{ route('admin.labels.create') }}" class="btn btn-bgn-primary rounded-pill px-3 px-sm-4 shadow-sm fw-medium text-nowrap">
                     <i class="fa-solid fa-plus-circle me-1"></i> Tambah Label Baru
                 </a>
-                <a href="{{ route('admin.labels.index') }}" class="btn btn-bgn-outline rounded-pill px-3 fw-medium">
+                <a href="{{ route('admin.labels.index') }}" class="btn btn-bgn-outline rounded-pill px-3 fw-medium text-nowrap">
                     <i class="fa-solid fa-tags me-1"></i> Kelola Label
                 </a>
             </div>
