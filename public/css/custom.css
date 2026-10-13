@@ -777,6 +777,48 @@ body.sidebar-open {
     }
 }
 
+/* Mobile Screen Polish (< 576px) */
+@media (max-width: 575.98px) {
+    .card-body.p-4 {
+        padding: 1.15rem !important;
+    }
+
+    .card-header.px-4 {
+        padding-left: 1.15rem !important;
+        padding-right: 1.15rem !important;
+    }
+
+    .card-header.pt-4 {
+        padding-top: 1.15rem !important;
+    }
+
+    .stat-card {
+        padding: 0.85rem !important;
+    }
+
+    .stat-card h3 {
+        font-size: 1.35rem !important;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .w-sm-auto {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .w-sm-auto {
+        width: auto !important;
+    }
+}
+
 /* ----------------- SweetAlert2 BGN Branding Customization ----------------- */
 .swal2-popup {
     border-radius: 1.25rem !important;
