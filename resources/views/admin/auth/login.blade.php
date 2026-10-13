@@ -97,7 +97,9 @@
                                         Ingat saya
                                     </label>
                                 </div>
-                                <span class="badge bg-light text-secondary border">Akses Terlindungi</span>
+                                <a href="{{ route('admin.password.request') }}" class="small text-decoration-none fw-semibold" style="color: #0b2853;">
+                                    Lupa kata sandi?
+                                </a>
                             </div>
 
                             <button type="submit" class="btn btn-bgn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2">
