@@ -16,6 +16,9 @@ class DashboardController extends Controller
      */
     public function index(): View
     {
+        // Auto-publish any scheduled labels whose date and time have arrived
+        FoodLabel::publishDueScheduledLabels();
+
         // Real database statistics
         $stats = [
             'total_labels' => FoodLabel::count(),
