@@ -502,10 +502,15 @@ body {
     background: linear-gradient(180deg, #071c38 0%, #0a254a 100%);
     color: var(--admin-sidebar-text);
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-sidebar .sidebar-header {
+    border-bottom: 1px solid rgba(212, 163, 75, 0.2);
+    background: rgba(0, 0, 0, 0.12);
 }
 
 .admin-sidebar .sidebar-brand {
@@ -526,6 +531,25 @@ body {
     padding: 1rem 0.75rem;
     margin: 0;
     flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.admin-sidebar .sidebar-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+.admin-sidebar .sidebar-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-sidebar .sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.admin-sidebar .sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 163, 75, 0.4);
 }
 
 .admin-sidebar .sidebar-menu-header {
@@ -670,17 +694,86 @@ body {
     }
 }
 
-/* Responsive tweaks for mobile admin sidebar */
+/* Sidebar Backdrop Overlay for Mobile */
+.sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(7, 28, 56, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 1045;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.sidebar-open {
+    overflow: hidden;
+}
+
+/* Desktop Sidebar Sticky */
+@media (min-width: 992px) {
+    .admin-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100dvh;
+    }
+}
+
+/* Responsive Offcanvas Sidebar for Mobile & Tablet (< 992px) */
 @media (max-width: 991.98px) {
     .admin-wrapper {
-        flex-direction: column;
-    }
-    .admin-sidebar {
-        width: 100%;
+        display: block;
         position: relative;
+        width: 100%;
+        overflow-x: hidden;
     }
+
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh;
+        height: 100dvh;
+        width: 280px;
+        max-width: 85vw;
+        z-index: 1050;
+        transform: translateX(-100%);
+        box-shadow: none;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .admin-sidebar.show {
+        transform: translateX(0);
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.45);
+    }
+
+    .admin-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+        padding: 0.65rem 1rem;
+    }
+
     .admin-content {
-        padding: 1rem;
+        padding: 1rem 0.85rem;
+    }
+
+    .admin-sidebar .sidebar-link {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
     }
 }
 
