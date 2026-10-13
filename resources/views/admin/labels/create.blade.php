@@ -6,7 +6,7 @@
 @section('content')
 <div class="container-fluid p-0">
 
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 mb-4">
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb small mb-1">
