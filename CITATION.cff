@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Jika Anda merujuk atau menggunakan sistem ini, silakan kutip sesuai format di bawah."
+authors:
+  - family-names: "Ubaidillah"
+    given-names: "Yanuar Ardhika Rahmadhani"
+title: "Label Gizi — Sistem Informasi Label Makanan Bergizi"
+version: "1.0.0"
+date-released: 2026-10-13
+url: "https://github.com/ardhikaxx/label-gizi"
+repository-code: "https://github.com/ardhikaxx/label-gizi"
+license: "Proprietary"
+keywords:
+  - "label-gizi"
+  - "badan-gizi-nasional"
+  - "sppg"
+  - "makanan-bergizi-gratis"
+  - "laravel"
+abstract: "Sistem Informasi Manajemen dan Label Makanan Bergizi SPPG Ponorogo Kauman Somoroto — Badan Gizi Nasional Republik Indonesia."
