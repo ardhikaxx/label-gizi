@@ -12,7 +12,7 @@
             <h4 class="fw-bold text-dark mb-1">Daftar Label Makanan</h4>
             <p class="text-muted small mb-0">Kelola informasi menu, status publikasi, dan analisis gizi pangan masyarakat.</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
             <a href="{{ route('admin.labels.export', request()->query()) }}" class="btn btn-outline-secondary rounded-pill px-3 shadow-sm btn-sm">
                 <i class="fa-solid fa-file-csv me-1 text-success"></i> Ekspor CSV
             </a>
