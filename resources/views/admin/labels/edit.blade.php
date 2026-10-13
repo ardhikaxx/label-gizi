@@ -210,7 +210,7 @@
 
                 <!-- Section: Menu Makanan Dinamis -->
                 <div class="card border-0 shadow-sm rounded-4 mb-4">
-                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2 d-flex justify-content-between align-items-center">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                         <div>
                             <div class="d-flex align-items-center gap-2">
                                 <span class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle" style="width: 32px; height: 32px;">
@@ -220,7 +220,7 @@
                             </div>
                             <p class="text-muted small mt-1 mb-0">Perbarui, tambah, atau kurangi jenis makanan yang disajikan.</p>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3" id="btnAddMenu">
+                        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 text-nowrap flex-shrink-0 align-self-start align-self-sm-center" id="btnAddMenu">
                             <i class="fa-solid fa-plus me-1"></i> Tambah Menu
                         </button>
                     </div>
@@ -259,8 +259,8 @@
                             @endforeach
                         </div>
 
-                        <div class="mt-3 text-end">
-                            <button type="button" class="btn btn-sm btn-light border text-success rounded-pill px-3" id="btnAddMenuBottom">
+                        <div class="mt-3 text-center text-sm-end">
+                            <button type="button" class="btn btn-sm btn-light border text-success rounded-pill px-3 py-2 w-100 w-sm-auto shadow-sm" id="btnAddMenuBottom">
                                 <i class="fa-solid fa-circle-plus me-1"></i> Tambah Baris Menu Baru
                             </button>
                         </div>
@@ -974,6 +974,42 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePublishStatusHint();
     }
 
+    // Intercept in-page navigation links when form is dirty, show SweetAlert2 confirmation
+    document.addEventListener('click', function(e) {
+        if (!isFormDirty) return;
+
+        const anchor = e.target.closest('a');
+        if (!anchor) return;
+
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#' || href.startsWith('javascript:') || anchor.target === '_blank' || anchor.getAttribute('download') !== null) {
+            return;
+        }
+
+        if (href.startsWith('#')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        Swal.fire({
+            title: 'Perubahan Belum Disimpan!',
+            text: 'Perubahan yang Anda lakukan pada formulir ini mungkin tidak disimpan jika Anda berpindah halaman. Apakah Anda yakin ingin meninggalkan halaman ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#0b2853',
+            confirmButtonText: 'Ya, Tinggalkan Halaman',
+            cancelButtonText: 'Tetap di Sini & Lanjutkan',
+            reverseButtons: true
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                isFormDirty = false;
+                window.location.href = anchor.href;
+            }
+        });
+    }, true);
+
+    // Fallback for native browser unload (e.g. closing tab/browser or reload)
     window.addEventListener('beforeunload', function(e) {
         if (isFormDirty) {
             e.preventDefault();
