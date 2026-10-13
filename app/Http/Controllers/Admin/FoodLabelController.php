@@ -112,24 +112,32 @@ class FoodLabelController extends Controller
     }
 
     /**
-     * Process an uploaded image: convert to WebP and resize/compress using PHP GD without storage:link.
+     * Process an uploaded image: compress and convert to WebP using PHP GD without storage:link.
      */
-    private function processImage($image, int $maxWidth = 1000, int $quality = 82): string
+    private function processImage($image, int $maxDimension = 1200, int $quality = 80): string
     {
-        $imageInfo = @getimagesize($image->getPathname());
-        $mime = $imageInfo ? $imageInfo['mime'] : $image->getClientMimeType();
-
-        $source = match ($mime) {
-            'image/jpeg' => @imagecreatefromjpeg($image->getPathname()),
-            'image/png' => @imagecreatefrompng($image->getPathname()),
-            'image/webp' => @imagecreatefromwebp($image->getPathname()),
-            default => null,
-        };
-
         $uploadDir = storage_path('uploads/food-labels');
         if (! File::isDirectory($uploadDir)) {
             File::makeDirectory($uploadDir, 0755, true, true);
         }
+
+        $imagePath = $image->getPathname();
+        $imageInfo = @getimagesize($imagePath);
+        $mime = $imageInfo ? $imageInfo['mime'] : $image->getClientMimeType();
+
+        if (! extension_loaded('gd')) {
+            $imageName = 'label_'.time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move($uploadDir, $imageName);
+
+            return $imageName;
+        }
+
+        $source = match ($mime) {
+            'image/jpeg' => @imagecreatefromjpeg($imagePath),
+            'image/png' => @imagecreatefrompng($imagePath),
+            'image/webp' => @imagecreatefromwebp($imagePath),
+            default => null,
+        };
 
         if (! $source || ! $imageInfo) {
             $imageName = 'label_'.time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
@@ -138,29 +146,60 @@ class FoodLabelController extends Controller
             return $imageName;
         }
 
-        [$origWidth, $origHeight] = $imageInfo;
+        // Handle JPEG EXIF orientation if available
+        if ($mime === 'image/jpeg' && function_exists('exif_read_data') && function_exists('imagerotate')) {
+            $exif = @exif_read_data($imagePath);
+            if (! empty($exif['Orientation'])) {
+                $source = match ((int) $exif['Orientation']) {
+                    3 => imagerotate($source, 180, 0),
+                    6 => imagerotate($source, -90, 0),
+                    8 => imagerotate($source, 90, 0),
+                    default => $source,
+                };
+            }
+        }
 
-        if ($origWidth <= $maxWidth) {
+        $origWidth = imagesx($source);
+        $origHeight = imagesy($source);
+
+        // Bounding box: maintain aspect ratio without exceeding maxDimension
+        if ($origWidth > $maxDimension || $origHeight > $maxDimension) {
+            if ($origWidth >= $origHeight) {
+                $newWidth = $maxDimension;
+                $newHeight = (int) round(($origHeight * $maxDimension) / $origWidth);
+            } else {
+                $newHeight = $maxDimension;
+                $newWidth = (int) round(($origWidth * $maxDimension) / $origHeight);
+            }
+        } else {
             $newWidth = $origWidth;
             $newHeight = $origHeight;
-        } else {
-            $ratio = $maxWidth / $origWidth;
-            $newWidth = $maxWidth;
-            $newHeight = (int) ($origHeight * $ratio);
         }
 
         $resized = imagecreatetruecolor($newWidth, $newHeight);
+
+        // Handle transparency
         imagealphablending($resized, false);
         imagesavealpha($resized, true);
+        $transparent = imagecolorallocatealpha($resized, 255, 255, 255, 127);
+        imagefilledrectangle($resized, 0, 0, $newWidth, $newHeight, $transparent);
+
         imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
 
         $imageName = 'label_'.time().'_'.uniqid().'.webp';
         $destPath = $uploadDir.'/'.$imageName;
 
-        imagewebp($resized, $destPath, $quality);
+        $saved = imagewebp($resized, $destPath, $quality);
 
         imagedestroy($source);
         imagedestroy($resized);
+
+        if (! $saved || ! File::exists($destPath)) {
+            $fallbackName = 'label_'.time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move($uploadDir, $fallbackName);
+
+            return $fallbackName;
+        }
 
         return $imageName;
     }
