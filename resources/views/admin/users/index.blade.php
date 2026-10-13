@@ -45,12 +45,12 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light small text-muted text-uppercase">
                         <tr>
-                            <th class="ps-4">Nama Administrator</th>
-                            <th>Username</th>
-                            <th>Status Akun</th>
-                            <th>Login Terakhir</th>
-                            <th>Waktu Dibuat</th>
-                            <th class="text-end pe-4">Aksi</th>
+                            <th class="ps-4" style="min-width: 230px;">Nama Administrator</th>
+                            <th style="min-width: 140px;">Username</th>
+                            <th style="min-width: 120px;">Status Akun</th>
+                            <th style="min-width: 130px;">Login Terakhir</th>
+                            <th style="min-width: 130px;">Waktu Dibuat</th>
+                            <th class="text-end pe-4" style="min-width: 100px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,17 +58,18 @@
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold flex-shrink-0 shadow-sm"
+                                             style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; flex-shrink: 0; aspect-ratio: 1 / 1;">
                                             {{ strtoupper(substr($user->name, 0, 1)) }}
                                         </div>
-                                        <div>
+                                        <div class="overflow-hidden" style="min-width: 0;">
                                             <span class="fw-bold text-dark d-block">
                                                 {{ $user->name }}
                                                 @if($user->id === Auth::id())
                                                     <span class="badge bg-primary bg-opacity-10 text-primary ms-1" style="font-size: 0.7rem;">Anda</span>
                                                 @endif
                                             </span>
-                                            <small class="text-muted">{{ $user->email }}</small>
+                                            <small class="text-muted d-block">{{ $user->email }}</small>
                                         </div>
                                     </div>
                                 </td>
