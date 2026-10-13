@@ -1,6 +1,6 @@
 # 📚 Format Sitasi Karya (Citation Information)
 
-Jika Anda merujuk, menggunakan, atau mengutip sistem **Label Gizi — Sistem Informasi Label Makanan Bergizi** ini dalam penelitian akademik, jurnal ilmiah, skripsi/tesis, atau studi kasus, silakan gunakan format sitasi berikut:
+Jika Anda merujuk, menggunakan, atau mengutip sistem **Label Gizi — Sistem Informasi Label Makanan Bergizi** ini dalam penelitian akademik, jurnal ilmiah, skripsi/tesis, atau studi kasus, silakan gunakan fitur bawaan **"Cite this repository"** di GitHub (berbasis [`CITATION.cff`](./CITATION.cff)) atau salin salah satu format sitasi berikut:
 
 ---
 
