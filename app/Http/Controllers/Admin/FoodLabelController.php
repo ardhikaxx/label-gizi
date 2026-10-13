@@ -25,6 +25,9 @@ class FoodLabelController extends Controller
      */
     public function index(Request $request): View
     {
+        // Auto-publish any scheduled labels whose date and time have arrived
+        FoodLabel::publishDueScheduledLabels();
+
         $status = $request->query('status', 'all');
         $condition = $request->query('condition');
         $search = $request->query('search');
@@ -274,6 +277,8 @@ class FoodLabelController extends Controller
      */
     public function show(FoodLabel $label): View
     {
+        FoodLabel::publishDueScheduledLabels();
+        $label->refresh();
         $label->load(['menus', 'creator', 'updater']);
 
         return view('admin.labels.show', [
