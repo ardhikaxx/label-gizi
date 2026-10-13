@@ -54,6 +54,9 @@
             <main class="admin-content">
                 @yield('content')
             </main>
+
+            <!-- Floating Mobile Bottom Navigation -->
+            @include('partials.admin-navbottom')
         </div>
     </div>
 
@@ -245,6 +248,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('adminSidebar');
             const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const bottomToggleBtn = document.getElementById('bottomSidebarToggleBtn');
             const closeBtn = document.getElementById('sidebarCloseBtn');
             const backdrop = document.getElementById('sidebarBackdrop');
 
@@ -254,6 +258,7 @@
                 if (backdrop) backdrop.classList.add('show');
                 document.body.classList.add('sidebar-open');
                 if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+                if (bottomToggleBtn) bottomToggleBtn.setAttribute('aria-expanded', 'true');
             }
 
             function closeSidebar() {
@@ -262,10 +267,22 @@
                 if (backdrop) backdrop.classList.remove('show');
                 document.body.classList.remove('sidebar-open');
                 if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                if (bottomToggleBtn) bottomToggleBtn.setAttribute('aria-expanded', 'false');
             }
 
             if (toggleBtn) {
                 toggleBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (sidebar && sidebar.classList.contains('show')) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                });
+            }
+
+            if (bottomToggleBtn) {
+                bottomToggleBtn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     if (sidebar && sidebar.classList.contains('show')) {
                         closeSidebar();
