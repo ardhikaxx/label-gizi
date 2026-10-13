@@ -1,12 +1,12 @@
 <header class="admin-topbar no-print">
-    <div class="d-flex align-items-center gap-3">
-        <button class="btn btn-sm btn-outline-secondary d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#adminSidebarCollapse" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
+    <div class="d-flex align-items-center gap-2 gap-sm-3 overflow-hidden">
+        <button class="btn btn-sm btn-outline-secondary d-lg-none rounded-3 px-2 py-1 shadow-sm sidebar-toggle-btn" type="button" id="sidebarToggleBtn" aria-label="Buka Menu Navigasi" style="color: #0b2853; border-color: #dbe6f2; min-width: 36px; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i class="fa-solid fa-bars fs-6"></i>
         </button>
-        <div>
+        <div class="overflow-hidden">
             <div class="d-flex align-items-center gap-2">
-                <h5 class="mb-0 fw-bold text-dark">@yield('page_title', 'Dashboard')</h5>
-                <span class="badge rounded-pill text-uppercase d-none d-lg-inline-block" style="background: rgba(11, 40, 83, 0.08); color: #0b2853; font-weight: 700; font-size: 0.68rem; letter-spacing: 0.03em;">
+                <h5 class="mb-0 fw-bold text-dark text-truncate" style="font-size: 1rem;">@yield('page_title', 'Dashboard')</h5>
+                <span class="badge rounded-pill text-uppercase d-none d-xl-inline-block" style="background: rgba(11, 40, 83, 0.08); color: #0b2853; font-weight: 700; font-size: 0.68rem; letter-spacing: 0.03em;">
                     <i class="fa-solid fa-building-flag me-1" style="color: #d4a34b;"></i> SPPG KAUMAN SOMOROTO
                 </span>
             </div>
@@ -16,17 +16,18 @@
         </div>
     </div>
 
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2 flex-shrink-0">
         <a href="{{ route('public.home') }}" target="_blank" class="btn btn-outline-secondary btn-sm d-none d-md-inline-flex align-items-center gap-1 rounded-pill px-3" style="border-color: #dbe6f2; color: #0b2853;">
             <i class="fa-solid fa-arrow-up-right-from-square small" style="color: #d4a34b;"></i> Halaman Publik
         </a>
 
-        <div class="dropdown">
-            <button class="btn btn-light btn-sm border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-color: #dbe6f2 !important;">
-                <span class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 24px; height: 24px; background: rgba(11, 40, 83, 0.1); color: #0b2853;">
+        <div class="dropdown flex-shrink-0">
+            <button class="btn btn-light btn-sm border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-2 px-sm-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-color: #dbe6f2 !important;">
+                <span class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 24px; height: 24px; background: rgba(11, 40, 83, 0.1); color: #0b2853; flex-shrink: 0;">
                     <i class="fa-solid fa-shield-halved small"></i>
                 </span>
-                <span class="fw-semibold text-dark">{{ Auth::user()->name ?? 'Administrator' }}</span>
+                <span class="fw-semibold text-dark text-truncate d-none d-sm-inline" style="max-width: 130px;">{{ Auth::user()->name ?? 'Administrator' }}</span>
+                <span class="fw-semibold text-dark text-truncate d-inline d-sm-none" style="max-width: 75px;">{{ \Illuminate\Support\Str::limit(Auth::user()->name ?? 'Admin', 8) }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
                 <li><span class="dropdown-header small text-muted">Akun Administrator</span></li>
