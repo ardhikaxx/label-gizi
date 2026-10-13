@@ -506,3 +506,49 @@ test('scheduled labels can be published via artisan command when due date arrive
     expect($scheduledLabel->fresh()->status)->toBe('published')
         ->and($scheduledLabel->fresh()->published_at)->not->toBeNull();
 });
+
+test('scheduled labels are auto-published on admin index request when scheduled hour arrives', function () {
+    $targetDate = Carbon::today()->format('Y-m-d');
+    $scheduledLabel = FoodLabel::factory()->create([
+        'title' => 'Menu Terjadwal Hari Ini Jam 06',
+        'menu_date' => $targetDate,
+        'scheduled_at' => Carbon::parse($targetDate.' 06:00:00'),
+        'status' => 'scheduled',
+        'published_at' => null,
+    ]);
+
+    // Simulate 07:00 AM on target date
+    Carbon::setTestNow(Carbon::parse($targetDate.' 07:00:00'));
+
+    $this->actingAs($this->admin)
+        ->get(route('admin.labels.index'))
+        ->assertOk();
+
+    expect($scheduledLabel->fresh()->status)->toBe('published')
+        ->and($scheduledLabel->fresh()->published_at)->not->toBeNull();
+
+    Carbon::setTestNow();
+});
+
+test('scheduled labels remain scheduled on admin index request before scheduled hour arrives', function () {
+    $targetDate = Carbon::today()->format('Y-m-d');
+    $scheduledLabel = FoodLabel::factory()->create([
+        'title' => 'Menu Terjadwal Belum Jam 06',
+        'menu_date' => $targetDate,
+        'scheduled_at' => Carbon::parse($targetDate.' 06:00:00'),
+        'status' => 'scheduled',
+        'published_at' => null,
+    ]);
+
+    // Simulate 05:00 AM on target date (before 06:00 AM)
+    Carbon::setTestNow(Carbon::parse($targetDate.' 05:00:00'));
+
+    $this->actingAs($this->admin)
+        ->get(route('admin.labels.index'))
+        ->assertOk();
+
+    expect($scheduledLabel->fresh()->status)->toBe('scheduled')
+        ->and($scheduledLabel->fresh()->published_at)->toBeNull();
+
+    Carbon::setTestNow();
+});
