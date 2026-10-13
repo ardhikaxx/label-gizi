@@ -211,6 +211,9 @@
 @endsection
 
 @push('styles')
+    <!-- Preload background templates in lightweight WebP format for fast initial rendering -->
+    <link rel="preload" as="image" href="{{ asset('images/page-desktop.webp') }}" type="image/webp" media="(min-width: 992px)">
+    <link rel="preload" as="image" href="{{ asset('images/page-mobile.webp') }}" type="image/webp" media="(max-width: 991.98px)">
 <style>
 /* -------------------------------------------------------------
    Page & Full Frame Viewport Styling
@@ -413,7 +416,7 @@ body > main {
     width: 100%;
     height: 100%;
     aspect-ratio: 1920 / 1080;
-    background-image: url('{{ asset('images/page-desktop.png') }}');
+    background-image: url('{{ asset('images/page-desktop.webp') }}');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -546,7 +549,7 @@ body > main {
     text-overflow: ellipsis;
 }
 
-/* Desktop 4: Kotak Kondisi Makanan (Sebelah gambar di page-desktop.png) */
+/* Desktop 4: Kotak Kondisi Makanan (Sebelah gambar di page-desktop.webp) */
 .desktop-condition-box {
     position: absolute;
     left: 75.36%;
@@ -575,7 +578,7 @@ body > main {
     text-overflow: ellipsis;
 }
 
-/* Desktop 5: Circular Food Dish Photo (Pas pada lingkaran di page-desktop.png) */
+/* Desktop 5: Circular Food Dish Photo (Pas pada lingkaran di page-desktop.webp) */
 .desktop-circle-box {
     position: absolute;
     left: 67.37%;
@@ -613,7 +616,7 @@ body > main {
     width: 100%;
     height: 100%;
     aspect-ratio: 1080 / 1920;
-    background-image: url('{{ asset('images/page-mobile.png') }}');
+    background-image: url('{{ asset('images/page-mobile.webp') }}');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -750,7 +753,7 @@ body > main {
     text-overflow: ellipsis;
 }
 
-/* Mobile 4: Kotak Kondisi Makanan (Sebelah gambar di page-mobile.png) */
+/* Mobile 4: Kotak Kondisi Makanan (Sebelah gambar di page-mobile.webp) */
 .mobile-condition-box {
     position: absolute;
     left: 67.96%;
@@ -778,7 +781,7 @@ body > main {
     overflow-wrap: break-word;
 }
 
-/* Mobile 5: Circular Food Dish Photo (Pas pada lingkaran di page-mobile.png) */
+/* Mobile 5: Circular Food Dish Photo (Pas pada lingkaran di page-mobile.webp) */
 .mobile-circle-box {
     position: absolute;
     left: 22.84%;
