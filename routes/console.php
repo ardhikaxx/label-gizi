@@ -15,5 +15,5 @@ Artisan::command('labels:publish-scheduled', function () {
 })->purpose('Menerbitkan label makanan berstatus terjadwal yang tanggal menunya telah tiba');
 
 Schedule::command('labels:publish-scheduled')
-    ->dailyAt('00:01')
+    ->everyFifteenMinutes()
     ->name('publish-due-food-labels');
