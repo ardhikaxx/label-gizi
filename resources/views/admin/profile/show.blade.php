@@ -126,8 +126,8 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end pt-4 border-top mt-3">
-                            <button type="submit" class="btn btn-bgn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                        <div class="d-flex flex-column flex-sm-row justify-content-end pt-4 border-top mt-3">
+                            <button type="submit" class="btn btn-bgn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm w-100 w-sm-auto">
                                 <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Informasi
                             </button>
                         </div>
@@ -205,12 +205,12 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between pt-4 border-top mt-3">
+                        <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center justify-content-between gap-3 pt-4 border-top mt-3">
                             <span class="text-muted small">
                                 <i class="fa-solid fa-circle-info text-primary me-1"></i>
                                 Setelah kata sandi diubah, Anda tetap dalam kondisi login.
                             </span>
-                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-semibold shadow-sm">
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-semibold shadow-sm w-100 w-sm-auto text-nowrap">
                                 <i class="fa-solid fa-key me-1"></i> Ubah Kata Sandi
                             </button>
                         </div>
