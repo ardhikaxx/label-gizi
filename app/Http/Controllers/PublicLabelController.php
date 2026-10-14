@@ -24,16 +24,7 @@ class PublicLabelController extends Controller
         if (! empty($requestedDate) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $requestedDate)) {
             $targetDate = $requestedDate;
         } else {
-            // Check if today has published labels
-            $todayExists = FoodLabel::published()->whereDate('menu_date', $today)->exists();
-
-            if ($todayExists) {
-                $targetDate = $today;
-            } else {
-                // Fallback to latest published label date
-                $latestDate = FoodLabel::published()->max('menu_date');
-                $targetDate = $latestDate ? Carbon::parse($latestDate)->format('Y-m-d') : $today;
-            }
+            $targetDate = $today;
         }
 
         // Fetch all published food labels for target date
@@ -91,31 +82,6 @@ class PublicLabelController extends Controller
             ];
         });
 
-        // Fallback default slide if no labels exist at all
-        if ($slides->isEmpty()) {
-            $defaultDateParsed = Carbon::parse($targetDate);
-            $slides = collect([[
-                'id' => 0,
-                'title' => 'Menu Sajian Sehat Bergizi',
-                'condition' => FoodLabel::CONDITION_PORSI_BESAR,
-                'condition_badge_class' => 'bg-primary text-white',
-                'menuDateFormatted' => 'Menu '.$defaultDateParsed->isoFormat('dddd, D MMMM Y'),
-                'menuItemsFormatted' => 'Nasi, Sop Ayam Sayur, Tumis Tahu, Semangka',
-                'nutrition' => [
-                    'energy' => '301,9',
-                    'protein' => '14,95',
-                    'fat' => '10,29',
-                    'carbohydrate' => '36,97',
-                    'fiber' => '1,8',
-                ],
-                'consumptionNotice' => 'Makanan harap dikonsumsi maksimal 4 jam setelah diterima',
-                'consumptionTimeRange' => 'Pukul : 08.00 – 12.00 WIB',
-                'dishImageUrl' => asset('images/default-menu.jpg'),
-                'hasCustomImage' => false,
-                'raw' => null,
-            ]]);
-        }
-
         $todayLabel = $sortedLabels->first();
         $primarySlide = $slides->first();
 
@@ -125,12 +91,19 @@ class PublicLabelController extends Controller
             'todayLabels' => $sortedLabels,
             'targetDate' => $targetDate,
             'settings' => $settings,
-            'menuDateFormatted' => $primarySlide['menuDateFormatted'],
-            'menuItemsFormatted' => $primarySlide['menuItemsFormatted'],
-            'nutrition' => $primarySlide['nutrition'],
-            'consumptionNotice' => $primarySlide['consumptionNotice'],
-            'consumptionTimeRange' => $primarySlide['consumptionTimeRange'],
-            'dishImageUrl' => $primarySlide['dishImageUrl'],
+            'institutionName' => ApplicationSetting::get('institution_name', 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional'),
+            'menuDateFormatted' => $primarySlide ? $primarySlide['menuDateFormatted'] : 'Menu '.Carbon::parse($targetDate)->isoFormat('dddd, D MMMM Y'),
+            'menuItemsFormatted' => $primarySlide ? $primarySlide['menuItemsFormatted'] : '',
+            'nutrition' => $primarySlide ? $primarySlide['nutrition'] : [
+                'energy' => '-',
+                'protein' => '-',
+                'fat' => '-',
+                'carbohydrate' => '-',
+                'fiber' => '-',
+            ],
+            'consumptionNotice' => $primarySlide ? $primarySlide['consumptionNotice'] : '',
+            'consumptionTimeRange' => $primarySlide ? $primarySlide['consumptionTimeRange'] : '',
+            'dishImageUrl' => $primarySlide ? $primarySlide['dishImageUrl'] : asset('images/default-menu.jpg'),
             'allConditions' => FoodLabel::CONDITIONS,
         ]);
     }

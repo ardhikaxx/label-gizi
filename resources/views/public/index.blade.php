@@ -9,199 +9,225 @@
     <!-- Accessibility & SEO Heading (Hidden Visually, Readable by Screen Readers & Tests) -->
     <h1 class="visually-hidden">Sajian Menu Hari Ini — {{ $todayLabel ? $todayLabel->title : 'Makanan Bergizi Gratis SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional' }}</h1>
 
-    <!-- ======================================================= -->
-    <!-- FLOATING PREV / NEXT NAVIGATION ARROWS                  -->
-    <!-- ======================================================= -->
-    @if($slides->count() > 1)
-        <button type="button" class="carousel-arrow carousel-arrow-prev" id="prevSlideBtn" aria-label="Kondisi Sebelumnya" title="Kondisi Sebelumnya (Geser ke Kiri)">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <button type="button" class="carousel-arrow carousel-arrow-next" id="nextSlideBtn" aria-label="Kondisi Berikutnya" title="Kondisi Berikutnya (Geser ke Kanan)">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
-    @endif
+    @if($slides->isNotEmpty())
+        <!-- ======================================================= -->
+        <!-- FLOATING PREV / NEXT NAVIGATION ARROWS                  -->
+        <!-- ======================================================= -->
+        @if($slides->count() > 1)
+            <button type="button" class="carousel-arrow carousel-arrow-prev" id="prevSlideBtn" aria-label="Kondisi Sebelumnya" title="Kondisi Sebelumnya (Geser ke Kiri)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="carousel-arrow carousel-arrow-next" id="nextSlideBtn" aria-label="Kondisi Berikutnya" title="Kondisi Berikutnya (Geser ke Kanan)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        @endif
 
-    <!-- ======================================================= -->
-    <!-- CAROUSEL VIEWPORT & SLIDES TRACK                        -->
-    <!-- ======================================================= -->
-    <div class="carousel-viewport" id="carouselViewport">
-        <div class="carousel-track" id="carouselTrack">
-            @foreach($slides as $index => $slide)
-                <div class="carousel-slide" data-index="{{ $index }}" data-condition="{{ $slide['condition'] }}">
-
-                    <!-- ========================================== -->
-                    <!-- DESKTOP FRAME (16:9 - 1920x1080 Template)  -->
-                    <!-- ========================================== -->
-                    <div class="frame-container frame-desktop">
-                        <div class="label-template template-desktop" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Desktop) - {{ $slide['condition'] }}">
-
-                            <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
-                            <div class="desktop-menu-box" title="{{ $slide['menuDateFormatted'] }}: {{ $slide['menuItemsFormatted'] }}">
-                                <div class="desktop-menu-title">
-                                    {{ $slide['menuDateFormatted'] }}
-                                </div>
-                                <div class="desktop-menu-items">
-                                    {{ $slide['menuItemsFormatted'] }}
-                                </div>
-                            </div>
-
-                            <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
-                            <div class="desktop-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
-                                <div class="desktop-gizi-row">
-                                    <span class="desktop-gizi-name">Energi</span>
-                                    <span class="desktop-gizi-colon">:</span>
-                                    <span class="desktop-gizi-val">{{ $slide['nutrition']['energy'] }} kkal</span>
-                                </div>
-                                <div class="desktop-gizi-row">
-                                    <span class="desktop-gizi-name">Protein</span>
-                                    <span class="desktop-gizi-colon">:</span>
-                                    <span class="desktop-gizi-val">{{ $slide['nutrition']['protein'] }} gr</span>
-                                </div>
-                                <div class="desktop-gizi-row">
-                                    <span class="desktop-gizi-name">Lemak</span>
-                                    <span class="desktop-gizi-colon">:</span>
-                                    <span class="desktop-gizi-val">{{ $slide['nutrition']['fat'] }} gr</span>
-                                </div>
-                                <div class="desktop-gizi-row">
-                                    <span class="desktop-gizi-name">Karbohidrat</span>
-                                    <span class="desktop-gizi-colon">:</span>
-                                    <span class="desktop-gizi-val">{{ $slide['nutrition']['carbohydrate'] }} gr</span>
-                                </div>
-                                <div class="desktop-gizi-row">
-                                    <span class="desktop-gizi-name">Serat</span>
-                                    <span class="desktop-gizi-colon">:</span>
-                                    <span class="desktop-gizi-val">{{ $slide['nutrition']['fiber'] }} gr</span>
-                                </div>
-                            </div>
-
-                            <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
-                            <div class="desktop-batas-box">
-                                <div class="desktop-batas-desc">
-                                    @if(str_contains($slide['consumptionNotice'], 'maksimal'))
-                                        {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
-                                    @else
-                                        {{ $slide['consumptionNotice'] }}
-                                    @endif
-                                </div>
-                                <div class="desktop-batas-time">
-                                    {{ $slide['consumptionTimeRange'] }}
-                                </div>
-                            </div>
-
-                            <!-- 4. Overlay: Kotak Kondisi Makanan (Sebelah gambar) -->
-                            <div class="desktop-condition-box" title="Kondisi Makanan: {{ $slide['condition'] }}">
-                                <div class="desktop-condition-name">{{ $slide['condition'] }}</div>
-                            </div>
-
-                            <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
-                            <div class="desktop-circle-box">
-                                <img src="{{ $slide['dishImageUrl'] }}"
-                                     alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
-                                     class="desktop-circle-img"
-                                     loading="eager"
-                                     decoding="async">
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- ========================================== -->
-                    <!-- MOBILE FRAME (9:16 - 1080x1920 Template)   -->
-                    <!-- ========================================== -->
-                    <div class="frame-container frame-mobile">
-                        <div class="label-template template-mobile" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Mobile) - {{ $slide['condition'] }}">
-
-                            <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
-                            <div class="mobile-menu-box" title="{{ $slide['menuDateFormatted'] }}: {{ $slide['menuItemsFormatted'] }}">
-                                <div class="mobile-menu-title">
-                                    {{ $slide['menuDateFormatted'] }}
-                                </div>
-                                <div class="mobile-menu-items">
-                                    {{ $slide['menuItemsFormatted'] }}
-                                </div>
-                            </div>
-
-                            <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
-                            <div class="mobile-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
-                                <div class="mobile-gizi-row">
-                                    <span class="mobile-gizi-name">Energi</span>
-                                    <span class="mobile-gizi-colon">:</span>
-                                    <span class="mobile-gizi-val">{{ $slide['nutrition']['energy'] }} kkal</span>
-                                </div>
-                                <div class="mobile-gizi-row">
-                                    <span class="mobile-gizi-name">Protein</span>
-                                    <span class="mobile-gizi-colon">:</span>
-                                    <span class="mobile-gizi-val">{{ $slide['nutrition']['protein'] }} gr</span>
-                                </div>
-                                <div class="mobile-gizi-row">
-                                    <span class="mobile-gizi-name">Lemak</span>
-                                    <span class="mobile-gizi-colon">:</span>
-                                    <span class="mobile-gizi-val">{{ $slide['nutrition']['fat'] }} gr</span>
-                                </div>
-                                <div class="mobile-gizi-row">
-                                    <span class="mobile-gizi-name">Karbohidrat</span>
-                                    <span class="mobile-gizi-colon">:</span>
-                                    <span class="mobile-gizi-val">{{ $slide['nutrition']['carbohydrate'] }} gr</span>
-                                </div>
-                                <div class="mobile-gizi-row">
-                                    <span class="mobile-gizi-name">Serat</span>
-                                    <span class="mobile-gizi-colon">:</span>
-                                    <span class="mobile-gizi-val">{{ $slide['nutrition']['fiber'] }} gr</span>
-                                </div>
-                            </div>
-
-                            <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
-                            <div class="mobile-batas-box">
-                                <div class="mobile-batas-desc">
-                                    @if(str_contains($slide['consumptionNotice'], 'maksimal'))
-                                        {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
-                                    @else
-                                        {{ $slide['consumptionNotice'] }}
-                                    @endif
-                                </div>
-                                <div class="mobile-batas-time">
-                                    {{ $slide['consumptionTimeRange'] }}
-                                </div>
-                            </div>
-
-                            <!-- 4. Overlay: Kotak Kondisi Makanan (Sebelah gambar) -->
-                            <div class="mobile-condition-box" title="Kondisi Makanan: {{ $slide['condition'] }}">
-                                <div class="mobile-condition-name">{{ $slide['condition'] }}</div>
-                            </div>
-
-                            <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
-                            <div class="mobile-circle-box">
-                                <img src="{{ $slide['dishImageUrl'] }}"
-                                     alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
-                                     class="mobile-circle-img"
-                                     loading="eager"
-                                     decoding="async">
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            @endforeach
-        </div>
-    </div>
-
-    <!-- ======================================================= -->
-    <!-- FLOATING BOTTOM BAR (DOT INDICATORS & SWIPE HINT)       -->
-    <!-- ======================================================= -->
-    @if($slides->count() > 1)
-        <div class="carousel-bottom-bar">
-            <div class="carousel-dots-list">
+        <!-- ======================================================= -->
+        <!-- CAROUSEL VIEWPORT & SLIDES TRACK                        -->
+        <!-- ======================================================= -->
+        <div class="carousel-viewport" id="carouselViewport">
+            <div class="carousel-track" id="carouselTrack">
                 @foreach($slides as $index => $slide)
-                    <button type="button"
-                            class="carousel-dot-btn {{ $index === 0 ? 'active' : '' }}"
-                            data-slide-index="{{ $index }}"
-                            aria-label="Kondisi {{ $slide['condition'] }}">
-                    </button>
+                    <div class="carousel-slide" data-index="{{ $index }}" data-condition="{{ $slide['condition'] }}">
+
+                        <!-- ========================================== -->
+                        <!-- DESKTOP FRAME (16:9 - 1920x1080 Template)  -->
+                        <!-- ========================================== -->
+                        <div class="frame-container frame-desktop">
+                            <div class="label-template template-desktop" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Desktop) - {{ $slide['condition'] }}">
+
+                                <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
+                                <div class="desktop-menu-box" title="{{ $slide['menuDateFormatted'] }}: {{ $slide['menuItemsFormatted'] }}">
+                                    <div class="desktop-menu-title">
+                                        {{ $slide['menuDateFormatted'] }}
+                                    </div>
+                                    <div class="desktop-menu-items">
+                                        {{ $slide['menuItemsFormatted'] }}
+                                    </div>
+                                </div>
+
+                                <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
+                                <div class="desktop-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
+                                    <div class="desktop-gizi-row">
+                                        <span class="desktop-gizi-name">Energi</span>
+                                        <span class="desktop-gizi-colon">:</span>
+                                        <span class="desktop-gizi-val">{{ $slide['nutrition']['energy'] }} kkal</span>
+                                    </div>
+                                    <div class="desktop-gizi-row">
+                                        <span class="desktop-gizi-name">Protein</span>
+                                        <span class="desktop-gizi-colon">:</span>
+                                        <span class="desktop-gizi-val">{{ $slide['nutrition']['protein'] }} gr</span>
+                                    </div>
+                                    <div class="desktop-gizi-row">
+                                        <span class="desktop-gizi-name">Lemak</span>
+                                        <span class="desktop-gizi-colon">:</span>
+                                        <span class="desktop-gizi-val">{{ $slide['nutrition']['fat'] }} gr</span>
+                                    </div>
+                                    <div class="desktop-gizi-row">
+                                        <span class="desktop-gizi-name">Karbohidrat</span>
+                                        <span class="desktop-gizi-colon">:</span>
+                                        <span class="desktop-gizi-val">{{ $slide['nutrition']['carbohydrate'] }} gr</span>
+                                    </div>
+                                    <div class="desktop-gizi-row">
+                                        <span class="desktop-gizi-name">Serat</span>
+                                        <span class="desktop-gizi-colon">:</span>
+                                        <span class="desktop-gizi-val">{{ $slide['nutrition']['fiber'] }} gr</span>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
+                                <div class="desktop-batas-box">
+                                    <div class="desktop-batas-desc">
+                                        @if(str_contains($slide['consumptionNotice'], 'maksimal'))
+                                            {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
+                                        @else
+                                            {{ $slide['consumptionNotice'] }}
+                                        @endif
+                                    </div>
+                                    <div class="desktop-batas-time">
+                                        {{ $slide['consumptionTimeRange'] }}
+                                    </div>
+                                </div>
+
+                                <!-- 4. Overlay: Kotak Kondisi Makanan (Sebelah gambar) -->
+                                <div class="desktop-condition-box" title="Kondisi Makanan: {{ $slide['condition'] }}">
+                                    <div class="desktop-condition-name">{{ $slide['condition'] }}</div>
+                                </div>
+
+                                <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
+                                <div class="desktop-circle-box">
+                                    <img src="{{ $slide['dishImageUrl'] }}"
+                                         alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
+                                         class="desktop-circle-img"
+                                         loading="eager"
+                                         decoding="async">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- MOBILE FRAME (9:16 - 1080x1920 Template)   -->
+                        <!-- ========================================== -->
+                        <div class="frame-container frame-mobile">
+                            <div class="label-template template-mobile" role="region" aria-label="Label Gizi Sajian Makanan Bergizi Gratis (Mobile) - {{ $slide['condition'] }}">
+
+                                <!-- 1. Overlay: Menu Text Box (Next to Fork & Spoon Icon) -->
+                                <div class="mobile-menu-box" title="{{ $slide['menuDateFormatted'] }}: {{ $slide['menuItemsFormatted'] }}">
+                                    <div class="mobile-menu-title">
+                                        {{ $slide['menuDateFormatted'] }}
+                                    </div>
+                                    <div class="mobile-menu-items">
+                                        {{ $slide['menuItemsFormatted'] }}
+                                    </div>
+                                </div>
+
+                                <!-- 2. Overlay: Kandungan Gizi Box (5 Macro/Micro Nutrients) -->
+                                <div class="mobile-gizi-box" aria-label="Tabel Kandungan Gizi Makro">
+                                    <div class="mobile-gizi-row">
+                                        <span class="mobile-gizi-name">Energi</span>
+                                        <span class="mobile-gizi-colon">:</span>
+                                        <span class="mobile-gizi-val">{{ $slide['nutrition']['energy'] }} kkal</span>
+                                    </div>
+                                    <div class="mobile-gizi-row">
+                                        <span class="mobile-gizi-name">Protein</span>
+                                        <span class="mobile-gizi-colon">:</span>
+                                        <span class="mobile-gizi-val">{{ $slide['nutrition']['protein'] }} gr</span>
+                                    </div>
+                                    <div class="mobile-gizi-row">
+                                        <span class="mobile-gizi-name">Lemak</span>
+                                        <span class="mobile-gizi-colon">:</span>
+                                        <span class="mobile-gizi-val">{{ $slide['nutrition']['fat'] }} gr</span>
+                                    </div>
+                                    <div class="mobile-gizi-row">
+                                        <span class="mobile-gizi-name">Karbohidrat</span>
+                                        <span class="mobile-gizi-colon">:</span>
+                                        <span class="mobile-gizi-val">{{ $slide['nutrition']['carbohydrate'] }} gr</span>
+                                    </div>
+                                    <div class="mobile-gizi-row">
+                                        <span class="mobile-gizi-name">Serat</span>
+                                        <span class="mobile-gizi-colon">:</span>
+                                        <span class="mobile-gizi-val">{{ $slide['nutrition']['fiber'] }} gr</span>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Overlay: Batas Akhir Konsumsi Box -->
+                                <div class="mobile-batas-box">
+                                    <div class="mobile-batas-desc">
+                                        @if(str_contains($slide['consumptionNotice'], 'maksimal'))
+                                            {!! str_replace('maksimal', '<br>maksimal', e($slide['consumptionNotice'])) !!}
+                                        @else
+                                            {{ $slide['consumptionNotice'] }}
+                                        @endif
+                                    </div>
+                                    <div class="mobile-batas-time">
+                                        {{ $slide['consumptionTimeRange'] }}
+                                    </div>
+                                </div>
+
+                                <!-- 4. Overlay: Kotak Kondisi Makanan (Sebelah gambar) -->
+                                <div class="mobile-condition-box" title="Kondisi Makanan: {{ $slide['condition'] }}">
+                                    <div class="mobile-condition-name">{{ $slide['condition'] }}</div>
+                                </div>
+
+                                <!-- 5. Overlay: Circular Dish Photo (Inside the Circular Illustration) -->
+                                <div class="mobile-circle-box">
+                                    <img src="{{ $slide['dishImageUrl'] }}"
+                                         alt="Foto Sajian Menu {{ $slide['title'] }} — {{ $slide['condition'] }}"
+                                         class="mobile-circle-img"
+                                         loading="eager"
+                                         decoding="async">
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
                 @endforeach
             </div>
-            <div class="carousel-swipe-hint" id="carouselSwipeHint">
-                Swipe / Geser untuk kondisi makanan lainnya
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- FLOATING BOTTOM BAR (DOT INDICATORS & SWIPE HINT)       -->
+        <!-- ======================================================= -->
+        @if($slides->count() > 1)
+            <div class="carousel-bottom-bar">
+                <div class="carousel-dots-list">
+                    @foreach($slides as $index => $slide)
+                        <button type="button"
+                                class="carousel-dot-btn {{ $index === 0 ? 'active' : '' }}"
+                                data-slide-index="{{ $index }}"
+                                aria-label="Kondisi {{ $slide['condition'] }}">
+                        </button>
+                    @endforeach
+                </div>
+                <div class="carousel-swipe-hint" id="carouselSwipeHint">
+                    Swipe / Geser untuk kondisi makanan lainnya
+                </div>
+            </div>
+        @endif
+    @else
+        <!-- ======================================================= -->
+        <!-- EMPTY STATE VIEW (KETERANGAN JIKA BELUM ADA DATA)       -->
+        <!-- ======================================================= -->
+        <div class="empty-state-wrapper text-center px-3">
+            <div class="empty-state-card p-4 p-sm-5 mx-auto">
+                <div class="empty-state-logo-container mb-3">
+                    <img src="{{ asset('images/logo-bgn.png') }}" alt="Logo Badan Gizi Nasional" class="empty-state-logo">
+                </div>
+                <div class="empty-state-badge mb-3">
+                    <i class="fa-regular fa-calendar-days me-1"></i>
+                    {{ Carbon\Carbon::parse($targetDate)->isoFormat('dddd, D MMMM Y') }}
+                </div>
+                <h2 class="empty-state-title mb-2">Belum Ada Sajian Menu</h2>
+                <p class="empty-state-subtitle mb-4">
+                    Saat ini belum ada data label gizi makanan yang dipublikasikan untuk hari ini.<br class="d-none d-sm-inline">
+                    Silakan periksa kembali nanti atau hubungi petugas pengelola SPPG.
+                </p>
+                <div class="empty-state-institution text-muted small">
+                    <i class="fa-solid fa-building-columns me-1"></i>
+                    {{ $institutionName ?? 'SPPG PONOROGO KAUMAN SOMOROTO - Badan Gizi Nasional' }}
+                </div>
             </div>
         </div>
     @endif
@@ -251,6 +277,96 @@ body > main {
     padding: 0;
     position: relative;
     background: radial-gradient(circle at 50% 50%, #b2e2f8 0%, #90ceee 100%);
+}
+
+/* -------------------------------------------------------------
+   Empty State Styling (Saat Belum Ada Data Menu)
+------------------------------------------------------------- */
+.empty-state-wrapper {
+    width: 100%;
+    max-width: 520px;
+    z-index: 10;
+}
+
+.empty-state-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 28px;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 20px 45px rgba(14, 116, 144, 0.16) !important;
+    animation: fadeInEmptyScale 0.4s ease-out;
+}
+
+@keyframes fadeInEmptyScale {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.empty-state-logo-container {
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state-logo {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.empty-state-logo:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 575.98px) {
+    .empty-state-logo {
+        width: 110px;
+        height: 110px;
+    }
+}
+
+.empty-state-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f1f5f9;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+}
+
+.empty-state-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.empty-state-subtitle {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.65;
+}
+
+.empty-state-institution {
+    font-size: 0.825rem;
+    color: #64748b;
+    font-weight: 500;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
 }
 
 /* -------------------------------------------------------------

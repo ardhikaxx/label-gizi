@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ApplicationSetting;
 use App\Models\FoodLabel;
 use App\Models\FoodLabelMenu;
 use Carbon\Carbon;
@@ -112,4 +113,16 @@ test('public visitors can see 5 different food conditions on the same date with 
     $response->assertSee('carousel-track');
     $response->assertSee('carousel-arrow-prev');
     $response->assertSee('carousel-arrow-next');
+});
+
+test('public landing page displays informative empty state notice when no food labels exist', function () {
+    ApplicationSetting::set('institution_name', 'SPPG Ponorogo Kauman Somoroto');
+
+    $response = $this->get(route('public.home'));
+
+    $response->assertStatus(200);
+    $response->assertSee('Belum Ada Sajian Menu');
+    $response->assertSee('Saat ini belum ada data label gizi makanan yang dipublikasikan');
+    $response->assertSee('SPPG Ponorogo Kauman Somoroto');
+    $response->assertDontSee('Menu Sajian Sehat Bergizi');
 });
