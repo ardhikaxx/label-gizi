@@ -36,6 +36,15 @@ class UpdateFoodLabelRequest extends FormRequest
             $mergeData['food_condition'] = FoodLabel::CONDITION_PORSI_BESAR;
         }
 
+        foreach (['energy', 'protein', 'fat', 'carbohydrate', 'fiber'] as $nutrient) {
+            if ($this->has($nutrient) && is_string($this->input($nutrient))) {
+                $val = trim($this->input($nutrient));
+                if ($val !== '') {
+                    $mergeData[$nutrient] = str_replace(',', '.', $val);
+                }
+            }
+        }
+
         if (! empty($mergeData)) {
             $this->merge($mergeData);
         }
@@ -61,20 +70,20 @@ class UpdateFoodLabelRequest extends FormRequest
         ];
 
         if ($isPublishing) {
-            $rules['energy'] = ['required', 'numeric', 'min:0', 'max:10000'];
-            $rules['protein'] = ['required', 'numeric', 'min:0', 'max:1000'];
-            $rules['fat'] = ['required', 'numeric', 'min:0', 'max:1000'];
-            $rules['carbohydrate'] = ['required', 'numeric', 'min:0', 'max:1000'];
-            $rules['fiber'] = ['required', 'numeric', 'min:0', 'max:1000'];
+            $rules['energy'] = ['required', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['protein'] = ['required', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['fat'] = ['required', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['carbohydrate'] = ['required', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['fiber'] = ['required', 'numeric', 'min:0', 'max:999999.99'];
             $rules['consumption_limit_hours'] = ['required', 'numeric', 'min:0.5', 'max:48'];
             $rules['menus'] = ['required', 'array', 'min:1'];
             $rules['menus.*'] = ['required', 'string', 'filled', 'max:255'];
         } else {
-            $rules['energy'] = ['nullable', 'numeric', 'min:0', 'max:10000'];
-            $rules['protein'] = ['nullable', 'numeric', 'min:0', 'max:1000'];
-            $rules['fat'] = ['nullable', 'numeric', 'min:0', 'max:1000'];
-            $rules['carbohydrate'] = ['nullable', 'numeric', 'min:0', 'max:1000'];
-            $rules['fiber'] = ['nullable', 'numeric', 'min:0', 'max:1000'];
+            $rules['energy'] = ['nullable', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['protein'] = ['nullable', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['fat'] = ['nullable', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['carbohydrate'] = ['nullable', 'numeric', 'min:0', 'max:999999.99'];
+            $rules['fiber'] = ['nullable', 'numeric', 'min:0', 'max:999999.99'];
             $rules['consumption_limit_hours'] = ['nullable', 'numeric', 'min:0', 'max:48'];
             $rules['menus'] = ['nullable', 'array'];
             $rules['menus.*'] = ['nullable', 'string', 'max:255'];

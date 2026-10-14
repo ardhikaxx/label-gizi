@@ -584,3 +584,62 @@ test('scheduled labels remain scheduled on admin index request before scheduled 
 
     Carbon::setTestNow();
 });
+
+test('admin can input free decimal nutrients and comma notation in store and update', function () {
+    $today = Carbon::today()->format('Y-m-d');
+
+    // 1. Store with decimal and comma
+    $postData = [
+        'action' => 'publish',
+        'title' => 'Menu Gizi Presisi Desimal',
+        'menu_date' => $today,
+        'energy' => '625,75',
+        'protein' => '14,95',
+        'fat' => '10,29',
+        'carbohydrate' => '36,97',
+        'fiber' => '1,85',
+        'consumption_limit_hours' => 4.0,
+        'menus' => ['Nasi Organik', 'Ayam Panggang'],
+    ];
+
+    $response = $this->actingAs($this->admin)->post(route('admin.labels.store'), $postData);
+    $response->assertRedirect(route('admin.labels.index'));
+
+    $label = FoodLabel::where('title', 'Menu Gizi Presisi Desimal')->first();
+    expect($label)->not->toBeNull()
+        ->and($label->energy)->toBe(625.75)
+        ->and($label->protein)->toBe(14.95)
+        ->and($label->fat)->toBe(10.29)
+        ->and($label->carbohydrate)->toBe(36.97)
+        ->and($label->fiber)->toBe(1.85);
+
+    // 2. Update with another set of decimals
+    $updateData = [
+        'action' => 'publish',
+        'title' => 'Menu Gizi Presisi Desimal Diperbarui',
+        'menu_date' => $today,
+        'energy' => '712.35',
+        'protein' => '28,45',
+        'fat' => '15.6',
+        'carbohydrate' => '80,25',
+        'fiber' => '5.75',
+        'consumption_limit_hours' => 3.5,
+        'menus' => ['Nasi Organik', 'Ayam Panggang'],
+    ];
+
+    $updateResponse = $this->actingAs($this->admin)->put(route('admin.labels.update', $label), $updateData);
+    $updateResponse->assertRedirect(route('admin.labels.show', $label));
+
+    $label->refresh();
+    expect($label->energy)->toBe(712.35)
+        ->and($label->protein)->toBe(28.45)
+        ->and($label->fat)->toBe(15.6)
+        ->and($label->carbohydrate)->toBe(80.25)
+        ->and($label->fiber)->toBe(5.75);
+
+    // 3. Verify public page displays them with correct decimal formatting
+    $publicResponse = $this->get(route('public.home'));
+    $publicResponse->assertOk();
+    $publicResponse->assertSee('28,45');
+    $publicResponse->assertSee('712,35');
+});

@@ -331,9 +331,13 @@ class FoodLabel extends Model
      */
     public function formatNutrient(float $value): string
     {
-        return fmod($value, 1) === 0.0
-            ? number_format($value, 0, ',', '.')
-            : number_format($value, 1, ',', '.');
+        if (fmod($value, 1) === 0.0) {
+            return number_format($value, 0, ',', '.');
+        }
+
+        $formatted = number_format($value, 2, ',', '.');
+
+        return rtrim(rtrim($formatted, '0'), ',');
     }
 
     /**

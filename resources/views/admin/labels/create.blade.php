@@ -254,7 +254,8 @@
                             <!-- Energi -->
                             <div class="bgn-field mb-1">
                                 <input type="number"
-                                       step="0.1"
+                                       step="any"
+                                       inputmode="decimal"
                                        min="0"
                                        class="bgn-field-input has-suffix @error('energy') is-invalid @enderror"
                                        id="energy"
@@ -272,7 +273,8 @@
                             <!-- Protein -->
                             <div class="bgn-field mb-1">
                                 <input type="number"
-                                       step="0.1"
+                                       step="any"
+                                       inputmode="decimal"
                                        min="0"
                                        class="bgn-field-input has-suffix @error('protein') is-invalid @enderror"
                                        id="protein"
@@ -290,7 +292,8 @@
                             <!-- Lemak -->
                             <div class="bgn-field mb-1">
                                 <input type="number"
-                                       step="0.1"
+                                       step="any"
+                                       inputmode="decimal"
                                        min="0"
                                        class="bgn-field-input has-suffix @error('fat') is-invalid @enderror"
                                        id="fat"
@@ -308,7 +311,8 @@
                             <!-- Karbohidrat -->
                             <div class="bgn-field mb-1">
                                 <input type="number"
-                                       step="0.1"
+                                       step="any"
+                                       inputmode="decimal"
                                        min="0"
                                        class="bgn-field-input has-suffix @error('carbohydrate') is-invalid @enderror"
                                        id="carbohydrate"
@@ -326,7 +330,8 @@
                             <!-- Serat -->
                             <div class="bgn-field mb-1">
                                 <input type="number"
-                                       step="0.1"
+                                       step="any"
+                                       inputmode="decimal"
                                        min="0"
                                        class="bgn-field-input has-suffix @error('fiber') is-invalid @enderror"
                                        id="fiber"
